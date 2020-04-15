@@ -1,6 +1,6 @@
 
 (function () {
-var scripts = [{"deps":{"./assets/migration/use_reversed_rotateBy":2,"./assets/JS/js_cardRegion":3,"./assets/JS/js_dataRegion":4,"./assets/JS/js_home":1},"path":"preview-scripts/__qc_index__.js"},{"deps":{"js_dataRegion":4,"js_cardRegion":3},"path":"preview-scripts/assets/JS/js_home.js"},{"deps":{},"path":"preview-scripts/assets/migration/use_reversed_rotateBy.js"},{"deps":{},"path":"preview-scripts/assets/JS/js_cardRegion.js"},{"deps":{},"path":"preview-scripts/assets/JS/js_dataRegion.js"}];
+var scripts = [{"deps":{"./assets/JS/js_httpRequest":6,"./assets/JS/js_cardRegion":4,"./assets/JS/js_dataRegion":2,"./assets/migration/use_reversed_rotateBy":1,"./assets/JS/js_home":3},"path":"preview-scripts/__qc_index__.js"},{"deps":{},"path":"preview-scripts/assets/migration/use_reversed_rotateBy.js"},{"deps":{},"path":"preview-scripts/assets/JS/js_dataRegion.js"},{"deps":{"js_cardRegion":4,"js_dataRegion":2},"path":"preview-scripts/assets/JS/js_home.js"},{"deps":{},"path":"preview-scripts/assets/JS/js_cardRegion.js"},{"deps":{},"path":"preview-scripts/assets/JS/NewScript.js"},{"deps":{},"path":"preview-scripts/assets/JS/js_httpRequest.js"}];
 var entries = ["preview-scripts/__qc_index__.js"];
 var bundleScript = 'preview-scripts/__qc_bundle__.js';
 

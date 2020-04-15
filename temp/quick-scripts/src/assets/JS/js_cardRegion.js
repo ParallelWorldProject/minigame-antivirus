@@ -24,7 +24,7 @@ cc.Class({
     this.home = home; //for infomation box
 
     /*this.infomationBox.ch
-      this.labelBudget.string = msg.budget + '%';
+     this.labelBudget.string = msg.budget + '%';
     this.labelResource.string = msg.resource + '%';
     this.labelHealth.string = msg.health + '%';
     this.labelPopularity.string = msg.popularity + '%';

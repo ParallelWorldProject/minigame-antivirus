@@ -38,7 +38,10 @@ cc.Class({
     }
   },
   onLoad: function onLoad() {
-    //may play animation ？
+    // 发送请求
+    HttpHelper.httpPost('/test', '', function (data) {
+      cc.log('data', data);
+    }); //may play animation ？
     //this.homeAnim.play('？启动动画？');
     //信息
 
@@ -52,7 +55,7 @@ cc.Class({
         name:'myname',
         from:'CN',
         date:'04/14/2020',
-          optionA:{
+         optionA:{
         desc:"this is a A desc",
         imgUrl:'null',
         change:[5, 0, -10, 20]
@@ -63,6 +66,7 @@ cc.Class({
         change:[0, 0, 10, 15]
         }
     }*/
+
     this.dataInfo = {
       budget: 50,
       resource: 50,
@@ -85,7 +89,7 @@ cc.Class({
     }
     ,this
     )
-      //当得到后台的信息输入时  传递信息给子区域
+     //当得到后台的信息输入时  传递信息给子区域
     this.node.on("update",
     function( msg ){
         //通知后台处理

@@ -32,6 +32,11 @@ cc.Class({
     },
 
      onLoad:function () {
+        // 发送请求
+        HttpHelper.httpPost('/test','',data=>{
+            cc.log('data',data)
+        })
+        
          //may play animation ？
          //this.homeAnim.play('？启动动画？');
 

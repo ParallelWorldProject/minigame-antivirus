@@ -1,6 +1,6 @@
 
 (function () {
-var scripts = [{"deps":{"./assets/migration/use_reversed_rotateBy":2,"./assets/JS/js_cardRegion":3,"./assets/JS/js_dataRegion":4,"./assets/JS/js_home":1},"path":"preview-scripts/__qc_index__.js"},{"deps":{"js_dataRegion":4,"js_cardRegion":3},"path":"preview-scripts/assets/JS/js_home.js"},{"deps":{},"path":"preview-scripts/assets/migration/use_reversed_rotateBy.js"},{"deps":{},"path":"preview-scripts/assets/JS/js_cardRegion.js"},{"deps":{},"path":"preview-scripts/assets/JS/js_dataRegion.js"}];
+var scripts = [{"deps":{"./assets/JS/js_dataRegion":1,"./assets/JS/js_dataItemTemplate":9,"./assets/JS/js_home":4,"./assets/JS/js_cardRegion":3,"./assets/migration/use_reversed_rotateBy":2,"./assets/JS/js_dataItemList":8},"path":"preview-scripts/__qc_index__.js"},{"deps":{},"path":"preview-scripts/assets/JS/js_dataRegion.js"},{"deps":{},"path":"preview-scripts/assets/migration/use_reversed_rotateBy.js"},{"deps":{},"path":"preview-scripts/assets/JS/js_cardRegion.js"},{"deps":{"js_cardRegion":3,"js_dataRegion":1},"path":"preview-scripts/assets/JS/js_home.js"},{"deps":{},"path":"preview-scripts/assets/JS/NewScript.js"},{"deps":{},"path":"preview-scripts/assets/JS/dataItem.js"},{"deps":{},"path":"preview-scripts/assets/JS/js_dataItem.js"},{"deps":{},"path":"preview-scripts/assets/JS/js_dataItemList.js"},{"deps":{},"path":"preview-scripts/assets/JS/js_dataItemTemplate.js"}];
 var entries = ["preview-scripts/__qc_index__.js"];
 var bundleScript = 'preview-scripts/__qc_bundle__.js';
 

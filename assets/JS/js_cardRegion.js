@@ -6,42 +6,38 @@ cc.Class({
     properties: {
         infomationBox: {
             default: null,
-            type: cc.node
+            type: cc.Node
         },
         imageBox: {
             default: null,
-            type: cc.node
+            type: cc.Node
         },
         selectBox: {
             default: null,
-            type: cc.node
+            type: cc.Node
         },
     },
 
-    init : function( home ){
+    onload : function(){
+        this.from = this.infomationBox.getChildByName("from").getComponent(cc.Label);
+        this.name = this.infomationBox.getChildByName("name").getComponent(cc.Label);
+        this.date = this.infomationBox.getChildByName("date").getComponent(cc.Label);
+        this.information = this.infomationBox.getChildByName("information").getComponent(cc.Label);
 
-        this.home = home
-        //for infomation box
-        /*this.infomationBox.ch
-
-        this.labelBudget.string = msg.budget + '%';
-        this.labelResource.string = msg.resource + '%';
-        this.labelHealth.string = msg.health + '%';
-        this.labelPopularity.string = msg.popularity + '%';
-        console.log(this.labelBudget.string);*/
     },
 
+    updateInfo : function( infomation ){
+        this.infomation = infomation
+        this.show()
+    },
+
+    show : function( )
+    {
+       this.from = this.infomation.from;
+       this.name = this.infomation.name;
+       this.date = this.infomation.date;
+       this.infomation = this.infomation.information;
+    } 
     
-    acceptCheck : function(  ) {
-
-        this.msg = this.home.dataInfo
-        this.msg.budget += 1;
-        this.msg.resource += 1;
-        this.msg.health += 1;
-        this.msg.popularity += 1;
-
-        this.home.updateInfo(this.msg);
-    }
-
 
 });

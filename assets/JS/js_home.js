@@ -1,10 +1,6 @@
-//home
-//1：接受 后端信息  传递 信息给子区域
-//2：收获 子区域信息 传递 信息给后端
-//3: 加载 页面动画  
+//1: 加载所有游戏部件 与 动画
+//2: 存储信息并进行前后端总体交互
 
-
-//获得两个区域，等下准备给他们传消息
 const CardRegion = require('js_cardRegion');
 const DataRegion = require('js_dataRegion');
 
@@ -32,77 +28,58 @@ cc.Class({
     },
 
      onLoad:function () {
-         //may play animation ？
-         //this.homeAnim.play('？启动动画？');
-
-         //信息
-        /*this.information ={
-            curCardId:0,
-            storyId:0,
-            nextCardId:9,
-            sellected:0,
-            message:'this is a message!this is a message!this is a message!this is a message!',
-            picUrl:'null',
-            name:'myname',
-            from:'CN',
-            date:'04/14/2020',
-
-            optionA:{
-            desc:"this is a A desc",
-            imgUrl:'null',
-            change:[5, 0, -10, 20]
+        //储存游戏需要的信息
+        this.information =
+        {
+            //和后端交互的信息
+            gameInfo : {
+                playerId:0,
+                curCardId:0,
+                storyId:0,
+                sellected:'0',
             },
-            optionB:{
-            desc:"this is a B desc",
-            imgUrl:'null',
-            change:[0, 0, 10, 15]
+            //和数据区交互的信息
+            dataInfo : {
+                budget:0 ,
+                resource:0 ,
+                health: 0,
+                popularity:0
+            },
+            //和卡牌区交互的信息
+            cardInfo : {
+                from:"0" ,
+                name:"0",
+                date:"0/00/0000",
+                information:"000000000",
+                picUrl:'000',
+                optionA:{
+                    change:[0,0,0,0]
+                },
+                optionB:{
+                    change:[0,0,0,0]
+                },
             }
-        }*/
-    
-        this.dataInfo = {
-            budget:50 ,
-            resource:50 ,
-            health: 50,
-            popularity:50
-        }
-        this.cardInfo = {
-            from:"CN" ,
-            name:"Tony",
-            date:"4/14/2014",
-            information:"this is a message!this is a message!this is a message!this is a message!"
-        }
-        //console.log(this.dataInfo.budget);
-        /*
-        //当得到后台的信息输入时  处理信息 并 传递信息给子区域
-        this.node.on("getBackStageInformation",
-        function( msg ){
-            //dataRegion.update(msg);
-            //cardRegion.update(msg);
-        }
-        ,this
-        )
-
-        //当得到后台的信息输入时  传递信息给子区域
-        this.node.on("update",
-        function( msg ){
-            //通知后台处理
-        }
-        ,this
-        )
-        */
+        }  
+        
      },
 
     start:function () {
-        this.dataRegion.init(this.dataInfo);
-        this.cardRegion.init(this);
+        this.dataRegion.updateInfo(this.information.dataInfo);
+        this.cardRegion.updateInfo(this.information.cardInfo);
     },
 
-    updateInfo : function( dataInfo )
-    {
-        this.dataRegion.updateInfo(dataInfo);
-        //this.cardRegion.update(this,this.cardInfo);
-    }
-   
 
+
+    acceptCheck : function(  ) {
+
+        this.information.dataInfo.budget += 1;
+        this.information.dataInfo.resource += 2;
+        this.information.dataInfo.health += 3;
+        this.information.dataInfo.popularity += 4;
+
+       this.dataRegion.updateInfo(this.information.dataInfo);
+    }
+    
+    
 }
 );

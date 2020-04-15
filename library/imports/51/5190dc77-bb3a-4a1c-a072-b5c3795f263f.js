@@ -24,17 +24,16 @@ cc.Class({
       type: cc.Label
     }
   },
-  init: function init(msg) {
-    this.labelBudget.string = msg.budget + '%';
-    this.labelResource.string = msg.resource + '%';
-    this.labelHealth.string = msg.health + '%';
-    this.labelPopularity.string = msg.popularity + '%'; //console.log(this.labelBudget.string);
+  onLoad: function onLoad() {},
+  updateInfo: function updateInfo(infomation) {
+    this.infomation = infomation;
+    this.show();
   },
-  updateInfo: function updateInfo(msg) {
-    this.labelBudget.string = msg.budget + '%';
-    this.labelResource.string = msg.resource + '%';
-    this.labelHealth.string = msg.health + '%';
-    this.labelPopularity.string = msg.popularity + '%';
+  show: function show() {
+    this.labelBudget.string = this.infomation.budget + '%';
+    this.labelResource.string = this.infomation.resource + '%';
+    this.labelHealth.string = this.infomation.health + '%';
+    this.labelPopularity.string = this.infomation.popularity + '%';
   }
 });
 

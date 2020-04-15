@@ -9,12 +9,15 @@ cc.Class({
 
     init : function( data )
     {
-        this.itemName.string = data.itemName;
-        this.itemValue.string = data.itemValue;
+        this.itemName.string = data.itemName ;
+        this.itemValue.string = data.itemValue + "%" ;
+
+        //set font format
+       
     },
 
     updateValue : function( value )
     {
-        this.itemName = value;
+        this.itemValue.string = value + '%';
     }
 });

@@ -18,7 +18,7 @@
                 "children": [
                   "hierarchy"
                 ],
-                "height": 306.25,
+                "height": 307.25,
                 "type": "panel",
                 "width": 310
               },
@@ -27,7 +27,7 @@
                 "children": [
                   "assets"
                 ],
-                "height": 413.3500061035156,
+                "height": 412.3500061035156,
                 "type": "panel",
                 "width": 310
               }
@@ -43,9 +43,9 @@
                 "children": [
                   "scene"
                 ],
-                "height": 433.6000061035156,
+                "height": 433.3625183105469,
                 "type": "panel",
-                "width": 760
+                "width": 776
               },
               {
                 "active": 0,
@@ -55,14 +55,14 @@
                   "node-library",
                   "game-window"
                 ],
-                "height": 286,
+                "height": 286.2375183105469,
                 "type": "panel",
-                "width": 760
+                "width": 776
               }
             ],
             "height": 722.6000366210938,
             "type": "dock-v",
-            "width": 760
+            "width": 776
           },
           {
             "active": 0,
@@ -72,7 +72,7 @@
             ],
             "height": 722.6000366210938,
             "type": "panel",
-            "width": 460
+            "width": 444
           }
         ],
         "type": "dock-h"

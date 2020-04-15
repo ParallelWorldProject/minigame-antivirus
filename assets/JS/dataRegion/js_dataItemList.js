@@ -22,8 +22,9 @@ cc.Class({
         for( var i=0; i<this.dataItems.length; i++ )
         {
             let item = cc.instantiate(this.dataItemPerfab);
+            this.node.addChild(item);  //创建新节点
+
             let data = this.dataItems[i];
-            this.node.addChild(item);
             item.getComponent('js_dataItemTemplate').init(
                 {
                     itemName : data.itemName,
@@ -31,10 +32,14 @@ cc.Class({
                 }
             );
         }
-    }
-    
+    },
 
-    
-
+    updateValue:function( info ){
+        for( let i=0; i<=info.length ;i++ )
+        {
+            let item = this.node.children[i];
+            item.getComponent('js_dataItemTemplate').updateValue(info[i-1]); //奇怪了
+        }
+    },
    
 });

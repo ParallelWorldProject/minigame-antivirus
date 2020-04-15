@@ -525,24 +525,9 @@
     "relativePath": "migration\\use_reversed_rotateBy.js"
   },
   "7d25fcb9-dff0-44a8-b138-5a86e05996e6": {
-    "asset": 1586943376544,
-    "meta": 1586943376572,
+    "asset": 1586957553249,
+    "meta": 1586957553282,
     "relativePath": "demo scene.fire"
-  },
-  "05acc34d-5df7-41ff-a5da-3cb3cd55023e": {
-    "asset": 1586941091120,
-    "meta": 1586941101189,
-    "relativePath": "JS\\js_home.js"
-  },
-  "5190dc77-bb3a-4a1c-a072-b5c3795f263f": {
-    "asset": 1586942888552,
-    "meta": 1586942978662,
-    "relativePath": "JS\\js_dataRegion.js"
-  },
-  "a07cfb1e-9169-4a0f-be23-1b933268ac28": {
-    "asset": 1586943361017,
-    "meta": 1586943361820,
-    "relativePath": "JS\\js_cardRegion.js"
   },
   "16a0a02e-4cfd-4306-aa3c-d6ecb7a7ccfd": {
     "asset": 1586947322186,
@@ -555,18 +540,53 @@
     "relativePath": "Prefab"
   },
   "11ceea23-275c-40e6-8cd4-65d309345bf7": {
-    "asset": 1586952235756,
-    "meta": 1586952247607,
+    "asset": 1586957734000,
+    "meta": 1586957734027,
     "relativePath": "Prefab\\dataItem.prefab"
   },
+  "1a429ffc-f67d-4c03-9ec4-d6f89fa2d683": {
+    "asset": 1586956929452,
+    "meta": 1586956929454,
+    "relativePath": "font"
+  },
+  "c2c46115-2197-466a-b305-60bd85cf6beb": {
+    "asset": 1586956972281,
+    "meta": 1586956972310,
+    "relativePath": "font\\Bradley Hand Bold.ttf"
+  },
+  "3dcfe969-3a6b-4946-8a2d-cae6ff175fe5": {
+    "asset": 1586957146852,
+    "meta": 1586957146879,
+    "relativePath": "font\\AmericanTypewriter.ttf"
+  },
   "1200f7f9-c4d6-41f1-a9fa-c51f19f69d48": {
-    "asset": 1586951933719,
-    "meta": 1586951935261,
-    "relativePath": "JS\\js_dataItemTemplate.js"
+    "asset": 1586959024045,
+    "meta": 1586959346619,
+    "relativePath": "JS\\dataRegion\\js_dataItemTemplate.js"
   },
   "bcec9b50-6c34-415c-bad1-f5fec3b2e413": {
-    "asset": 1586952182756,
-    "meta": 1586952187805,
-    "relativePath": "JS\\js_dataItemList.js"
+    "asset": 1586960006418,
+    "meta": 1586960010410,
+    "relativePath": "JS\\dataRegion\\js_dataItemList.js"
+  },
+  "5190dc77-bb3a-4a1c-a072-b5c3795f263f": {
+    "asset": 1586960052927,
+    "meta": 1586960054263,
+    "relativePath": "JS\\dataRegion\\js_dataRegion.js"
+  },
+  "0dae4926-cebb-4136-9927-08dbb770ff50": {
+    "asset": 1586961168294,
+    "meta": 1586961168295,
+    "relativePath": "JS\\dataRegion"
+  },
+  "05acc34d-5df7-41ff-a5da-3cb3cd55023e": {
+    "asset": 1586962032541,
+    "meta": 1586962034954,
+    "relativePath": "JS\\js_home.js"
+  },
+  "a07cfb1e-9169-4a0f-be23-1b933268ac28": {
+    "asset": 1586962141709,
+    "meta": 1586962144800,
+    "relativePath": "JS\\js_cardRegion.js"
   }
 }

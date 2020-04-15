@@ -40,10 +40,10 @@ cc.Class({
             },
             //和数据区交互的信息
             dataInfo : {
-                budget:0 ,
-                resource:0 ,
-                health: 0,
-                popularity:0
+                budget:4 ,
+                resource:3 ,
+                health: 2,
+                popularity:1
             },
             //和卡牌区交互的信息
             cardInfo : {
@@ -76,6 +76,16 @@ cc.Class({
         this.information.dataInfo.resource += 2;
         this.information.dataInfo.health += 3;
         this.information.dataInfo.popularity += 4;
+
+       this.dataRegion.updateInfo(this.information.dataInfo);
+    },
+
+    declineCheck : function(  ) {
+
+        this.information.dataInfo.budget -= 1;
+        this.information.dataInfo.resource -= 2;
+        this.information.dataInfo.health -= 3;
+        this.information.dataInfo.popularity -= 4;
 
        this.dataRegion.updateInfo(this.information.dataInfo);
     }

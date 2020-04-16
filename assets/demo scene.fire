@@ -81,10 +81,17 @@
     "_active": true,
     "_components": [
       {
+<<<<<<< Updated upstream
         "__id__": 80
       },
       {
         "__id__": 81
+=======
+        "__id__": 53
+      },
+      {
+        "__id__": 54
+>>>>>>> Stashed changes
       }
     ],
     "_prefab": null,
@@ -174,7 +181,11 @@
       "array": [
         0,
         0,
+<<<<<<< Updated upstream
         297.3281823258916,
+=======
+        337.7499074759311,
+>>>>>>> Stashed changes
         0,
         0,
         0,
@@ -375,10 +386,14 @@
     "_active": true,
     "_components": [
       {
+<<<<<<< Updated upstream
         "__id__": 78
       },
       {
         "__id__": 79
+=======
+        "__id__": 52
+>>>>>>> Stashed changes
       }
     ],
     "_prefab": null,
@@ -806,9 +821,27 @@
     "node": {
       "__id__": 10
     },
+<<<<<<< Updated upstream
     "_enabled": true,
     "itemName": {
       "__id__": 12
+=======
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        229.758,
+        -14.339,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+>>>>>>> Stashed changes
     },
     "itemValue": {
       "__id__": 15
@@ -2766,6 +2799,7 @@
     "_id": "a69wC6k8lAy6YMoOblqvwb"
   },
   {
+<<<<<<< Updated upstream
     "__type__": "05accNNXfdB/6XaPLPNVQI+",
     "_name": "",
     "_objFlags": 0,
@@ -2784,6 +2818,8 @@
     "_id": "9fnkxYDbVL9L0z9fQTi357"
   },
   {
+=======
+>>>>>>> Stashed changes
     "__type__": "cc.Canvas",
     "_name": "",
     "_objFlags": 0,

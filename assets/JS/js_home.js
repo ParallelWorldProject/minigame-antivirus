@@ -95,6 +95,6 @@ cc.Class({
         this.cardRegion.getNextCard();
     }
 
-    
+
 }
 );

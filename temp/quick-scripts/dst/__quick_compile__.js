@@ -1,6 +1,10 @@
 
 (function () {
+<<<<<<< Updated upstream
 var scripts = [{"deps":{"./assets/JS/cardRegion/js_cardTemplate":4,"./assets/JS/cardRegion/js_checkButton":10,"./assets/JS/cardRegion/js_cardList":5,"./assets/JS/dataRegion/js_dataRegion":8,"./assets/JS/dataRegion/js_dataTemplate":7,"./assets/JS/dataRegion/js_dataList":6,"./assets/JS/js_home":1,"./assets/migration/use_reversed_rotateBy":3,"./assets/JS/cardRegion/js_cardRegion":2},"path":"preview-scripts/__qc_index__.js"},{"deps":{"js_cardRegion":2,"js_dataRegion":8},"path":"preview-scripts/assets/JS/js_home.js"},{"deps":{},"path":"preview-scripts/assets/JS/cardRegion/js_cardRegion.js"},{"deps":{},"path":"preview-scripts/assets/migration/use_reversed_rotateBy.js"},{"deps":{},"path":"preview-scripts/assets/JS/cardRegion/js_cardTemplate.js"},{"deps":{},"path":"preview-scripts/assets/JS/cardRegion/js_cardList.js"},{"deps":{},"path":"preview-scripts/assets/JS/dataRegion/js_dataList.js"},{"deps":{},"path":"preview-scripts/assets/JS/dataRegion/js_dataTemplate.js"},{"deps":{},"path":"preview-scripts/assets/JS/dataRegion/js_dataRegion.js"},{"deps":{},"path":"preview-scripts/assets/JS/cardRegion/NewScript.js"},{"deps":{},"path":"preview-scripts/assets/JS/cardRegion/js_checkButton.js"},{"deps":{},"path":"preview-scripts/assets/JS/NewScript.js"}];
+=======
+var scripts = [{"deps":{"./assets/JS/js_cardRegion":3,"./assets/JS/js_home":4,"./assets/migration/use_reversed_rotateBy":2,"./assets/JS/js_dataRegion":1},"path":"preview-scripts/__qc_index__.js"},{"deps":{},"path":"preview-scripts/assets/JS/js_dataRegion.js"},{"deps":{},"path":"preview-scripts/assets/migration/use_reversed_rotateBy.js"},{"deps":{},"path":"preview-scripts/assets/JS/js_cardRegion.js"},{"deps":{"js_cardRegion":3,"js_dataRegion":1},"path":"preview-scripts/assets/JS/js_home.js"}];
+>>>>>>> Stashed changes
 var entries = ["preview-scripts/__qc_index__.js"];
 var bundleScript = 'preview-scripts/__qc_bundle__.js';
 

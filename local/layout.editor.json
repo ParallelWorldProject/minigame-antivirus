@@ -18,23 +18,23 @@
                 "children": [
                   "hierarchy"
                 ],
-                "height": 307.25,
+                "height": 310.26251220703125,
                 "type": "panel",
-                "width": 310
+                "width": 258
               },
               {
                 "active": 0,
                 "children": [
                   "assets"
                 ],
-                "height": 412.3500061035156,
+                "height": 409.3374938964844,
                 "type": "panel",
-                "width": 310
+                "width": 258
               }
             ],
             "height": 722.6000366210938,
             "type": "dock-v",
-            "width": 310
+            "width": 258
           },
           {
             "children": [
@@ -43,9 +43,9 @@
                 "children": [
                   "scene"
                 ],
-                "height": 433.3625183105469,
+                "height": 433.6000061035156,
                 "type": "panel",
-                "width": 776
+                "width": 965
               },
               {
                 "active": 0,
@@ -55,14 +55,14 @@
                   "node-library",
                   "game-window"
                 ],
-                "height": 286.2375183105469,
+                "height": 286,
                 "type": "panel",
-                "width": 776
+                "width": 965
               }
             ],
             "height": 722.6000366210938,
             "type": "dock-v",
-            "width": 776
+            "width": 965
           },
           {
             "active": 0,
@@ -72,7 +72,7 @@
             ],
             "height": 722.6000366210938,
             "type": "panel",
-            "width": 444
+            "width": 307
           }
         ],
         "type": "dock-h"
@@ -88,7 +88,8 @@
         "inspector",
         "cocos-services"
       ]
-    }
+    },
+    "worker": {}
   },
   "panels": {
     "preferences": {

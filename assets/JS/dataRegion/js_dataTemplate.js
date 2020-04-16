@@ -11,9 +11,7 @@ cc.Class({
     {
         this.itemName.string = data.itemName ;
         this.itemValue.string = data.itemValue + "%" ;
-
-        //set font format
-       
+        //set font 
     },
 
     updateValue : function( value )

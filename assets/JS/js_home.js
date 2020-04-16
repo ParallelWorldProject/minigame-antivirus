@@ -6,8 +6,6 @@ const DataRegion = require('js_dataRegion');
 
 cc.Class({
     extends: cc.Component,
-
-
     properties: {
         homeAnim: {  //动画
             default: null,
@@ -28,68 +26,75 @@ cc.Class({
     },
 
      onLoad:function () {
-        //储存游戏需要的信息
-        this.information =
-        {
-            //和后端交互的信息
-            gameInfo : {
-                playerId:0,
-                curCardId:0,
-                storyId:0,
-                sellected:'0',
-            },
-            //和数据区交互的信息
+        //请求后端加载
+
+        //。。。
+        //加载完成后得到
+        this.information = {
             dataInfo : {
                 budget:4 ,
                 resource:3 ,
                 health: 2,
-                popularity:1
-            },
-            //和卡牌区交互的信息
-            cardInfo : {
-                from:"0" ,
-                name:"0",
-                date:"0/00/0000",
-                information:"000000000",
-                picUrl:'000',
-                optionA:{
-                    change:[0,0,0,0]
-                },
-                optionB:{
-                    change:[0,0,0,0]
-                },
+                popularity:1,
             }
-        }  
+        }
+
+
         
+
      },
 
     start:function () {
+        //this.dataRegion.updateInfo(this.information.dataInfo);
+        this.dataRegion.init();
+        this.cardRegion.init();
         this.dataRegion.updateInfo(this.information.dataInfo);
-        this.cardRegion.updateInfo(this.information.cardInfo);
+
+        //设置监听事件
+        this.node.on('SelectA', function (  ) {
+            console.log( 'button pressed A and i got it' );  //1：ac 2：de
+            this.updateData(1);//其他参数略 
+            this.updateCard(1);//参数略
+           
+          },this);
+
+        this.node.on('SelectB', function (  ) {
+        console.log( 'button pressed B and i got it' );  //1：ac 2：de
+        this.updateData(0);//其他参数略 
+        this.updateCard(0);//参数略
+        
+        },this);
+        //还不清楚这么用监听事件传递参数，只能这样写
     },
 
 
-
-    acceptCheck : function(  ) {
-
-        this.information.dataInfo.budget += 1;
-        this.information.dataInfo.resource += 2;
-        this.information.dataInfo.health += 3;
-        this.information.dataInfo.popularity += 4;
-
-       this.dataRegion.updateInfo(this.information.dataInfo);
+    updateData : function(select)
+    {
+       if ( select == 1 ) //select 影响计算
+        {
+            this.information.dataInfo.budget += 1;
+            this.information.dataInfo.resource += 2;
+            this.information.dataInfo.health += 3;
+            this.information.dataInfo.popularity += 4;
+        }
+        else if ( select == 0 )
+        {
+            this.information.dataInfo.budget -= 1;
+            this.information.dataInfo.resource -= 2;
+            this.information.dataInfo.health -= 3;
+            this.information.dataInfo.popularity -= 4;
+        }
+            
+       
+       this.dataRegion.updateInfo(this.information.dataInfo);  //计算完后更新数据
     },
 
-    declineCheck : function(  ) {
-
-        this.information.dataInfo.budget -= 1;
-        this.information.dataInfo.resource -= 2;
-        this.information.dataInfo.health -= 3;
-        this.information.dataInfo.popularity -= 4;
-
-       this.dataRegion.updateInfo(this.information.dataInfo);
+    updateCard : function(select)
+    {
+        //现在只实现显示数组中其他卡牌
+        this.cardRegion.getNextCard();
     }
-    
+
     
 }
 );

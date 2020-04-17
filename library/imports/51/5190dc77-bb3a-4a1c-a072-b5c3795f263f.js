@@ -1,40 +1,19 @@
 "use strict";
 cc._RF.push(module, '5190dx3uzpKHKBytcN5XyY/', 'js_dataRegion');
-// JS/js_dataRegion.js
+// JS/dataRegion/js_dataRegion.js
 
 "use strict";
 
 cc.Class({
   "extends": cc.Component,
-  properties: {
-    labelBudget: {
-      "default": null,
-      type: cc.Label
-    },
-    labelResource: {
-      "default": null,
-      type: cc.Label
-    },
-    labelHealth: {
-      "default": null,
-      type: cc.Label
-    },
-    labelPopularity: {
-      "default": null,
-      type: cc.Label
-    }
+  properties: {},
+  onLoad: function onLoad() {},
+  init: function init() {
+    this.node.getComponent('js_dataList').init();
   },
-  init: function init(msg) {
-    this.labelBudget.string = msg.budget + '%';
-    this.labelResource.string = msg.resource + '%';
-    this.labelHealth.string = msg.health + '%';
-    this.labelPopularity.string = msg.popularity + '%'; //console.log(this.labelBudget.string);
-  },
-  updateInfo: function updateInfo(msg) {
-    this.labelBudget.string = msg.budget + '%';
-    this.labelResource.string = msg.resource + '%';
-    this.labelHealth.string = msg.health + '%';
-    this.labelPopularity.string = msg.popularity + '%';
+  updateInfo: function updateInfo(infomation) {
+    info = [infomation.budget, infomation.resource, infomation.health, infomation.popularity];
+    this.node.getComponent('js_dataList').updateValue(info);
   }
 });
 

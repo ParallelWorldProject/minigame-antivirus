@@ -1,0 +1,28 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "jounalist_portrait",
+    "texture": "18710e00-2698-4aba-be35-78276fcb51cf",
+    "atlas": "",
+    "rect": [
+      2,
+      4,
+      538,
+      496
+    ],
+    "offset": [
+      1,
+      -2
+    ],
+    "originalSize": [
+      540,
+      500
+    ],
+    "capInsets": [
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}

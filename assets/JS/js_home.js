@@ -103,20 +103,6 @@ cc.Class({
             console.log( 'button pressed A and i got it');  //1：ac 2：de
             this.updateData(1);//其他参数略 
             this.updateCard(1);//参数略
-
-            // let fromData = event.currentTarget.getChildByName("CardRegion").getComponent('js_cardList').topCard.getChildByName('infomation').getChildByName("from").getComponent(cc.Label).string
-            // cc.log('fromData',fromData)
-            // // 1.克隆卡牌
-            // let currentCard = event.currentTarget.getChildByName("CardRegion").getComponent('js_cardList').topCard
-            let currentCard = event.currentTarget.getChildByName("CardRegion").getChildByName("cardItem")
-            let cloneCard =  this.cloneNode(currentCard)
-            // 2.获取章，选择并盖章
-            let cloneSeal = cloneCard.getChildByName("seal_wrap")
-            this.moveSeal(cloneSeal,-166,-372,1.5)
-            // 3.移走克隆的卡片
-            setTimeout(() => {
-                this.moveCard(cloneCard)
-            }, 1000);
            
         },this);
 
@@ -124,18 +110,6 @@ cc.Class({
             console.log( 'button pressed B and i got it' );  //1：ac 2：de
             this.updateData(0);//其他参数略 
             this.updateCard(0);//参数略
-
-            // 1.克隆卡牌
-            let currentCard = event.currentTarget.getChildByName("CardRegion").getChildByName("cardItem")
-            let cloneCard =  this.cloneNode(currentCard)
-            // 2.获取章，选择并盖章
-            let cloneSeal = cloneCard.getChildByName("seal_wrap")
-            this.moveSeal(cloneSeal,175,-372,1.5)
-            // 3.移走克隆的卡片
-            setTimeout(() => {
-                this.moveCard(cloneCard)
-            }, 1000);
-        
         },this);
 
 
@@ -180,36 +154,9 @@ cc.Class({
     updateCard : function(select)
     {
         //现在只实现显示数组中其他卡牌
-        this.cardRegion.getNextCard();
+        this.cardRegion.getNextCard(select );
     },
 
-    // 克隆卡牌
-    cloneNode(target) {
-        // let scene = cc.director.getScene();
-        let clone = cc.instantiate(target);
-        clone.parent = this.node;
-        clone.setPosition(0,-100.125);
-
-        return clone
-    },
-    // 盖章动画
-    moveSeal(target,positionX,positionY,scale) {
-        cc.log(target,11111)
-        cc.tween(target)
-        .to(1, { position: cc.v2(positionX, positionY),scale})
-        .call(() => {})
-        .start()
-    },
-    // 移牌动画
-    moveCard(target) {
-        cc.tween(target)
-        .to(1, { scale: 1.2 })
-        .to(1, { position: cc.v2(-450, 175), scale: 0.5})
-        .call(() => { 
-            // 销毁节点
-            target.destroy();
-        })
-        .start()
-    },
+   
 }
 );

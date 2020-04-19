@@ -79,20 +79,6 @@ cc.Class({
     },
 
     init:function () {  
-        /*//初始话时会初始化 多 张卡牌
-        //和data区差不多，改变了函数名称  
-        for( var i=0; i<this.cardItems.length; i++ )
-        {
-            let item = cc.instantiate(this.cardPerfab);
-            this.node.addChild(item);  //创建新节点
-
-            let data = this.cardItems[i];
-            let isTopCard = 0;
-            if(i==1) isTopCard = 1; //顶端卡牌才显示
-            item.getComponent('js_cardTemplate').init(data,isTopCard);
-        }*/
-
-
         //创建队列
         this.myCardList = new CardList();
         this.topCard = null;
@@ -118,9 +104,10 @@ cc.Class({
     },
 
 
-    getNextCard : function(){
+    getNextCard : function( select  ){
 
         //这里应该是动画代码
+        this.moveOldCard( select );
         //完成动画后 先pop
         this.myCardList.pop();
         console.log( this.myCardList.getLength() );
@@ -136,28 +123,60 @@ cc.Class({
             this.show();
         }
         
-    }
+    },
 
-    /*getNextCard:function(){
-        for( var i=1; i<=this.cardItems.length; i++ )
-        {
-            let data = this.cardItems[i];  //这里存放的是数据
-            let item = this.node.children[i]; //这里是节点
-            if( item.active == true ) //找到顶端的牌
-            {
-               
-                item.getComponent('js_cardTemplate').moveOff();
-                let nextCard = (i+1)%this.cardItems.length ;
-                if( nextCard == 0 ) nextCard = this.cardItems.length;
-               
-                //console.log("i am in js_cardlist , the top card is:" + i + " \n i will get next card!: " + nextCard );
+    //   移动旧卡牌
+    moveOldCard : function( select ){
+     
+        //let currentCard = event.currentTarget.getChildByName("CardRegion").getChildByName("cardItem")
+        let cloneCard =  this.cloneNode(this.topCard);
+        // 2.获取章，选择并盖章
+        let cloneSeal = cloneCard.getChildByName("seal_wrap")
 
-                nextItem = this.node.children[nextCard];
-                nextItem.getComponent('js_cardTemplate').moveUp();
-
-               break;
-            }
+        let sealPos ; 
+        if( select == 1 ){
+            sealPos = [ -166,-372 ]
         }
-    },*/
+        else {
+            sealPos = [ 175,-372]
+        }
+        this.moveSeal(cloneSeal,sealPos[0],sealPos[1],1.5);
+
+        // 3.移走克隆的卡片
+        setTimeout(() => {
+            this.moveCard(cloneCard)
+        }, 1000);
+
+        return true;
+    },
+
+     // 克隆卡牌
+     cloneNode(target) {
+        // let scene = cc.director.getScene();
+        let clone = cc.instantiate(target);
+        clone.parent = this.node;
+        clone.setPosition(0,0);
+
+        return clone
+    },
+    // 盖章动画
+    moveSeal(target,positionX,positionY,scale) {
+        cc.log(target,11111)
+        cc.tween(target)
+        .to(1, { position: cc.v2(positionX, positionY),scale})
+        .call(() => {})
+        .start()
+    },
+    // 移牌动画
+    moveCard(target) {
+        cc.tween(target)
+        .to(1, { scale: 1.2 })
+        .to(1, { position: cc.v2(-450, 175), scale: 0.5})
+        .call(() => { 
+            // 销毁节点
+            target.destroy();
+        })
+        .start()
+    },
 
 });

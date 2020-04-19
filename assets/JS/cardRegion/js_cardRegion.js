@@ -8,9 +8,9 @@ cc.Class({
         this.node.getComponent('js_cardList').init();
     },
 
-    getNextCard : function( )
+    getNextCard : function( select  )
     {
-        this.node.getComponent('js_cardList').getNextCard();
+        this.node.getComponent('js_cardList').getNextCard( select );
     },
 
     push : function( cardInfo )
@@ -21,7 +21,7 @@ cc.Class({
     show : function( )
     {
         this.node.getComponent('js_cardList').show();
-    }
+    },
     
 
 });

@@ -9,9 +9,8 @@ function CardList(){
         this.next = null;
     }
 
-    var length = 0
-    var top = null 
-    var last= null
+    var length = 0;
+    var top = null ,last= null;
 
     this.push = function( cardInfo ){
         let acard = new aCard(cardInfo);
@@ -106,7 +105,8 @@ cc.Class({
     },
 
      //只有再show的时候才创造新节点并放入topCard中
-    show: function( ) {
+    show: function( )
+    {
         let info = this.myCardList.getCardInfo();
 
         this.topCard = cc.instantiate(this.cardPerfab); //创建新节点

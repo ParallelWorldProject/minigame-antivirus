@@ -6,8 +6,7 @@ cc.Class({
     properties: {
         information : cc.Node,
         image : cc.Node,
-        select :  cc.Node,
-        sealWrap :  cc.Node,
+        select :  cc.Node
     },
 
     init : function( info ){

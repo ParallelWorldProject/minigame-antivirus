@@ -46,7 +46,7 @@ cc.Class({
                 name:"1",
                 date:"11",
                 information:"111",
-                picUrl:'000',
+                picUrl:'cardimg1',
                 optionA:[1,1,1,1],
                 optionB:[-1,-1,-1,-1] 
                 },
@@ -57,7 +57,7 @@ cc.Class({
                 name:"2",
                 date:"22",
                 information:"2222",
-                picUrl:'000',
+                picUrl:'cardimg2',
                 optionA:[2,2,2,2],
                 optionB:[-2,-2,-2,-2] 
                 },
@@ -68,7 +68,7 @@ cc.Class({
                 name:"3",
                 date:"33",
                 information:"3333",
-                picUrl:'000',
+                picUrl:'cardimg3',
                 optionA:[3,3,3,3],
                 optionB:[-3,-3,-3,-3] 
                 },

@@ -105,24 +105,26 @@ cc.Class({
 
 
     getNextCard : function( select  ){
-
         //这里应该是动画代码
-        this.moveOldCard( select );
+        var getmove = this.moveOldCard( select );
         //完成动画后 先pop
-        this.myCardList.pop();
-        console.log( this.myCardList.getLength() );
-        this.topCard.destroy();
-        
-        if( this.myCardList.getLength() == 0 )
+        if( getmove )
         {
-            //空了会要求页面重新提供新卡牌，应该可以使用事件传递机制；
-            this.node.dispatchEvent( new cc.Event.EventCustom('getNewCard',1) );
+            this.myCardList.pop();
+            console.log( this.myCardList.getLength() );
+            this.topCard.destroy();
+            
+            if( this.myCardList.getLength() == 0 )
+            {
+                //空了会要求页面重新提供新卡牌，应该可以使用事件传递机制；
+                this.node.dispatchEvent( new cc.Event.EventCustom('getNewCard',1) );
+            }
+            else{
+                //pop后可以直接show
+                this.show();
+            }
+
         }
-        else{
-            //pop后可以直接show
-            this.show();
-        }
-        
     },
 
     //   移动旧卡牌

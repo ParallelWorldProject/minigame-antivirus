@@ -127,9 +127,10 @@ cc.Class({
 
     //   移动旧卡牌
     moveOldCard : function( select ){
-     
+
         //let currentCard = event.currentTarget.getChildByName("CardRegion").getChildByName("cardItem")
         let cloneCard =  this.cloneNode(this.topCard);
+        cloneCard.zIndex = 9
         // 2.获取章，选择并盖章
         let cloneSeal = cloneCard.getChildByName("seal_wrap")
 
@@ -151,7 +152,7 @@ cc.Class({
     },
 
      // 克隆卡牌
-     cloneNode(target) {
+    cloneNode(target) {
         // let scene = cc.director.getScene();
         let clone = cc.instantiate(target);
         clone.parent = this.node;
@@ -161,7 +162,6 @@ cc.Class({
     },
     // 盖章动画
     moveSeal(target,positionX,positionY,scale) {
-        cc.log(target,11111)
         cc.tween(target)
         .to(1, { position: cc.v2(positionX, positionY),scale})
         .call(() => {})

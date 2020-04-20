@@ -32,7 +32,7 @@
                 "width": 281.9125061035156
               }
             ],
-            "height": 708.2000122070312,
+            "height": 800.5,
             "type": "dock-v",
             "width": 281.9125061035156
           },
@@ -54,12 +54,12 @@
                   "timeline",
                   "game-window"
                 ],
-                "height": 266,
+                "height": 401.25,
                 "type": "panel",
                 "width": 930.4874877929688
               }
             ],
-            "height": 708.2000122070312,
+            "height": 800.5,
             "type": "dock-v",
             "width": 930.4874877929688
           },

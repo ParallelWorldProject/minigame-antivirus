@@ -4,6 +4,10 @@ var GameManager = {
     // 微信登录
     wxlogin() {
         cc.log('模拟登录')
+        HttpHelper.httpPost('/test','', (data) =>  {
+           cc.log('data',data)
+           localStorage.setItem("oppenId","123456")
+        })
         
         if (cc.sys.platform === cc.sys.WECHAT_GAME){
             wx.login({
@@ -34,6 +38,7 @@ var GameManager = {
         // cc.game.end();
     },
  
-};
+}
+
 //导出类
-module.exports = GameManager;
+module.exports = GameManager

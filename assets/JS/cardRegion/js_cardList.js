@@ -129,26 +129,29 @@ cc.Class({
 
     //   移动旧卡牌
     moveOldCard : function( select ){
-
-        //let currentCard = event.currentTarget.getChildByName("CardRegion").getChildByName("cardItem")
+        // 1.克隆第一张
         let cloneCard =  this.cloneNode(this.topCard);
         cloneCard.zIndex = 9
-        // 2.获取章，选择并盖章
-        let cloneSeal = cloneCard.getChildByName("seal_wrap")
+        // 2.获取章、戳，选择并盖章
+        let seal = cloneCard.getChildByName("seal_wrap")
+        let sealBox = cloneCard.getChildByName("seal_box")
 
-        let sealPos ; 
+        let sealBoxPos ; 
         if( select == 1 ){
-            sealPos = [ -166,-372 ]
+            sealBox.x = -165
+            sealBoxPos = [ -165,-310 ]
         }
         else {
-            sealPos = [ 175,-372]
+            sealBox.x = 165
+            sealBoxPos = [ 150,-310]
         }
-        this.moveSeal(cloneSeal,sealPos[0],sealPos[1],1.5);
+        sealBox.active = true
+        this.moveSeal(sealBox,seal,sealBoxPos[0],sealBoxPos[1]);
 
         // 3.移走克隆的卡片
         setTimeout(() => {
             this.moveCard(cloneCard)
-        }, 1000);
+        }, 1500);
 
         return true;
     },
@@ -162,20 +165,29 @@ cc.Class({
 
         return clone
     },
-    // 盖章动画
-    moveSeal(target,positionX,positionY,scale) {
-        cc.tween(target)
-        .to(1, { position: cc.v2(positionX, positionY),scale})
-        .call(() => {})
+    // 向下盖章动画
+    moveSeal(sealBox,seal,positionX,positionY) {
+        cc.tween(sealBox)
+        .to(1, { position: cc.v2(positionX, positionY)})
+        .call(() => {
+            // 显示印章
+            seal.setPosition(positionX,positionY-60)
+            seal.active = true
+            cc.tween(sealBox)
+            .to(0.5, { position: cc.v2(positionX, -280)})
+            .call(() => {
+                sealBox.active = false
+            })
+            .start()
+        })
         .start()
     },
     // 移牌动画
     moveCard(target) {
         cc.tween(target)
-        .to(1, { scale: 1.2 })
+        .to(1, { scale: 1.1 })
         .to(1, { position: cc.v2(-450, 175), scale: 0.5})
-        .call(() => { 
-            // 销毁节点
+        .call(() => {
             target.destroy();
         })
         .start()

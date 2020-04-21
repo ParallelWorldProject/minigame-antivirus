@@ -168,7 +168,7 @@ cc.Class({
     // 向下盖章动画
     moveSeal(sealBox,seal,positionX,positionY) {
         cc.tween(sealBox)
-        .to(1, { position: cc.v2(positionX, positionY)})
+        .to(0.5, { position: cc.v2(positionX, positionY)})
         .call(() => {
             // 显示印章
             seal.setPosition(positionX,positionY-60)
@@ -185,8 +185,8 @@ cc.Class({
     // 移牌动画
     moveCard(target) {
         cc.tween(target)
-        .to(1, { scale: 1.1 })
-        .to(1, { position: cc.v2(-450, 175), scale: 0.5})
+        .to(0.5, { scale: 1.1 })
+        .to(0.5, { position: cc.v2(-450, 175), scale: 0.5})
         .call(() => {
             target.destroy();
         })

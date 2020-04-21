@@ -20,10 +20,18 @@ cc.Class({
     onClickBtn(target,data) {
         cc.log(data)
 
-        if (data === 'start') {
-            GameManager.startGame()
-        } else if( data === 'about') {
-            
+        switch (data) {
+            case 'start':
+                GameManager.startGame('gameScene')
+                break;
+
+            case 'about':
+                
+                break;
+                
+            default:
+                break;
         }
     },
+    
 });

@@ -28,9 +28,9 @@ var GameManager = {
         }
     },
  
-    //进入游戏场景
-    startGame() {
-        cc.director.loadScene("gameScene");
+    //切换游戏场景
+    startGame(scence) {
+        cc.director.loadScene(scence);
     },
  
     //退出游戏 

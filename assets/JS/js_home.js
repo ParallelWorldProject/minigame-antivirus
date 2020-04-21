@@ -25,10 +25,17 @@ cc.Class({
             default: null,
             type: cc.Node
         },
+        loadingPre: cc.Prefab
     },
 
      onLoad:function () {
+        // 首次加载loading动画
+        this.showMask()
+
         //请求后端加载
+        this.scheduleOnce(function() {
+            cc.log('计时器模拟请求时间')
+        }, 2);
 
         //。。。
         //加载完成后得到  初始化的后台信息 和 初始化的3张卡牌 这里把3张卡片先都写出来，等后端接口完成再实现依次调用
@@ -82,7 +89,6 @@ cc.Class({
         this.dataRegion.init();
         this.cardRegion.init();
 
-
         //使用数据更新数据区域
         this.dataRegion.updateInfo(this.information.dataInfo);
 
@@ -99,18 +105,52 @@ cc.Class({
 
         
         //设置按键监听事件 //还不清楚这么用监听事件传递参数，只能这样写
-        this.node.on('SelectA', function (event) {
-            console.log( 'button pressed A and i got it');  //1：ac 2：de
-            this.updateData(1);//其他参数略 
-            this.updateCard(1);//参数略
+        // this.node.on('SelectA', function (event) {
+        //     console.log( 'button pressed A and i got it',event);  //1：ac 2：de
+        //     this.updateData(1);//其他参数略 
+        //     this.updateCard(1);//参数略
            
+        // },this);
+
+        // this.node.on('SelectB', function () {
+        //     console.log( 'button pressed B and i got it' );  //1：ac 2：de
+        //     this.updateData(0);//其他参数略 
+        //     this.updateCard(0);//参数略
+        // },this);
+
+        
+        // 监听双击、按住松开事件
+        this.node.on('DoubleClick', function (event) {
+            // cc.log( 'DoubleClick', event);
+
+            // 双击选择卡牌
+            if (event.SelectBtn === 'AC_DoubleClick') {
+                cc.log('click Accept')
+                this.updateData(1)
+                this.updateCard(1)
+
+            } else if (event.SelectBtn === 'DE_DoubleClick') {
+                cc.log('click Decline')
+                this.updateData(0)
+                this.updateCard(0)
+            }
+
         },this);
 
-        this.node.on('SelectB', function (event) {
-            console.log( 'button pressed B and i got it' );  //1：ac 2：de
-            this.updateData(0);//其他参数略 
-            this.updateCard(0);//参数略
+        this.node.on('HoldStart', function (event) {
+            cc.log( 'HoldStart');
+            // 触摸 计算变量 提示数值可能的变化
+            // ....
+
         },this);
+
+        this.node.on('HoldEnd', function (event) {
+            cc.log( 'HoldEnd');
+            // 松手 关掉提示
+            // ....
+
+        },this);
+
 
 
         //获得新卡牌
@@ -121,7 +161,7 @@ cc.Class({
             this.cardRegion.push(this.information.card_1);
             this.cardRegion.push(this.information.card_2);
             this.cardRegion.push(this.information.card_3);
-            console.log( 'so now i  get new card' );  
+            console.log( 'so now i  get new card' );
             
             this.cardRegion.show();
 
@@ -157,6 +197,22 @@ cc.Class({
         this.cardRegion.getNextCard(select );
     },
 
+
+    showMask() {
+        if(this.loadingMask == null) {
+            this.loadingMask = cc.instantiate(this.loadingPre)
+            this.node.parent.addChild(this.loadingMask)
+            let loadingBar = this.loadingMask.getChildByName("bar").getComponent(cc.Sprite)
+
+            cc.tween(loadingBar)
+            .to(2, { fillRange: 1})
+            .call(() => {
+                this.loadingMask.getComponent(cc.Animation).play('scaleHide')
+                // this.loadingMask.active = false
+            })
+            .start()
+        }
+    }
    
 }
 );

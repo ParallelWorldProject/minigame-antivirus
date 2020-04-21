@@ -18,7 +18,7 @@
                 "children": [
                   "hierarchy"
                 ],
-                "height": 434.90625,
+                "height": 436.2708435058594,
                 "type": "panel",
                 "width": 204
               },
@@ -27,12 +27,12 @@
                 "children": [
                   "assets"
                 ],
-                "height": 363.9270935058594,
+                "height": 365.0625,
                 "type": "panel",
                 "width": 204
               }
             ],
-            "height": 801.8333740234375,
+            "height": 804.3333740234375,
             "type": "dock-v",
             "width": 204
           },
@@ -42,9 +42,9 @@
               "inspector",
               "cocos-services"
             ],
-            "height": 801.8333740234375,
+            "height": 804.3333740234375,
             "type": "panel",
-            "width": 304
+            "width": 392
           },
           {
             "children": [
@@ -53,25 +53,25 @@
                 "children": [
                   "scene"
                 ],
-                "height": 532.8333740234375,
+                "height": 534.5521240234375,
                 "type": "panel",
-                "width": 912
+                "width": 824
               },
               {
-                "active": 0,
+                "active": 1,
                 "children": [
                   "console",
                   "timeline",
                   "game-window"
                 ],
-                "height": 266,
+                "height": 266.78125,
                 "type": "panel",
-                "width": 912
+                "width": 824
               }
             ],
-            "height": 801.8333740234375,
+            "height": 804.3333740234375,
             "type": "dock-v",
-            "width": 912
+            "width": 824
           }
         ],
         "type": "dock-h"
@@ -86,7 +86,8 @@
         "timeline",
         "game-window"
       ]
-    }
+    },
+    "worker": {}
   },
   "panels": {
     "preferences": {

@@ -7,10 +7,12 @@ cc.Class({
         cardPerfab: cc.Prefab
     },
 
-    init:function () {  
+    init:function (info) {  
         //创建队列
         //this.myCardList = new CardList();
         this.topCard = null;
+
+        this.showTopCard( info );
     },
 
     showTopCard : function( info )  //更新卡牌是创建新节点
@@ -42,11 +44,11 @@ cc.Class({
         let sealBox = cloneCard.getChildByName("seal_box")
 
         let sealBoxPos ; 
-        if( select == 1 ){
+        if( select == 'A' ){
             sealBox.x = -165
             sealBoxPos = [-165,-310]
         }
-        else {
+        else if( select=='B') {
             sealBox.x = 165
             sealBoxPos = [ 150,-310]
         }

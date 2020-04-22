@@ -1,11 +1,36 @@
 function gameInformationList(){
 
+    //游戏常量不用从后台获得 ？？
+    this.maxInfected=1000000; //失败感染人数
+    this.initialInfected=100;  //起始感染人数
+    this.minQuarantineRate=0.15;    //最小隔离率
+    this.maxQuarantineRate=0.6;     //最大隔离率
+    this.quarantineRateParameter=0.05; //隔离率系数
+
+    //this.logMaxInfected=Math.Log(maxInfected); 
+    //this.logInitialInfected=Math.log(initialInfected);
+
+    this.dayCount=0; //当前天数
+    this.infectedCount=100; //当前感染人数 
+    this.infectionRate=0.3; //感染率
+    this.dailyInfection=0;  //日感染人数
+    this.recoveryRate=0.2;  //治愈率
+    this.dailyRecovery=0;   //日治愈人数
+    this.quarantineCapacity=500;    //隔离区容量
+    this.quarantineRate=0;  //隔离率
+    this.quarantineCount=0; //隔离人数
+    this.resourceDailyChange=0; //资源日增减
+    this.budgetDailyChange=0;   //财政日增减
+    this.approvalDailyChange=0; //支持率日增减
+    this.shutdown=0;    //封城 是1否0
+
+   
    //数组区相关信息
     this.dataInfo = {
+        health : 100,
         budget : 50 ,
         resource : 50 ,
-        health : 100,
-        popularity : 50,
+        approval : 50,
     }
     this.setDataInfo = function( d_info ){
         for(  porp in d_info )
@@ -68,8 +93,6 @@ function gameInformationList(){
             return front.info;
         },
     
-       
-    
         this.clear = function()
         {
             while( this.length > 0 )
@@ -111,6 +134,27 @@ function gameInformationList(){
         return this.cardInfoList.getLength();
     }
 
+
+    //计算呢这里
+    this.calculateAndUpdataData = function( select ){
+          
+        
+        let it = 0;
+        for( prop in this.getDataInfo()  )
+        {
+            console.log("prop:"+prop+"===datainfo:"+ this.dataInfo[prop]);
+            console.log("select:"+select+"===it:"+it+"====op:"+this.getTopCardInfo().option[select][it]);
+            this.dataInfo[prop] += this.getTopCardInfo().option[select][it];
+            it++;
+        }
+           
+        /*for( prop in this.gameInformation. )
+        {
+            console.log( prop + " : " + this.gameInformation.dataInfo[prop] );
+        }  */      
+        
+        //this.setDataInfo( )
+    }
 };
 
 
@@ -143,12 +187,6 @@ cc.Class({
 
         //模拟从后台获得的数据
         this.information = {
-            dataInfo : {
-                budget:4 ,
-                resource:3 ,
-                health: 2,
-                popularity:1,
-            },
             cards:[{
                 id : 1,
                 from:"1" ,
@@ -156,8 +194,10 @@ cc.Class({
                 date:"11",
                 information:"111",
                 picUrl:'cardimg1',
-                optionA:[1,1,1,1],
-                optionB:[-1,-1,-1,-1] 
+                option:{
+                    A:[1,1,1,1],
+                    B:[-1,-1,-1,-1]
+                }
                 },{
                     id : 2,
                     from:"2" ,
@@ -165,8 +205,10 @@ cc.Class({
                     date:"22",
                     information:"2222",
                     picUrl:'cardimg2',
-                    optionA:[2,2,2,2],
-                    optionB:[-2,-2,-2,-2] 
+                    option:{
+                        A:[2,2,2,2],
+                        B:[-2,-2,-2,-2]
+                     }
                 }, {
                 id : 3,
                 from:"3" ,
@@ -174,47 +216,47 @@ cc.Class({
                 date:"33",
                 information:"3333",
                 picUrl:'cardimg3',
-                optionA:[3,3,3,3],
-                optionB:[-3,-3,-3,-3] 
+                option:{
+                    A:[3,3,3,3],
+                    B:[-3,-3,-3,-3]
+                }
+               
                 },
             ]
         }
 
         
+
+
         this.gameInformation = new gameInformationList();
-        //将后台数据存入
-        this.gameInformation.setDataInfo(this.information.dataInfo);
+        //this.gameInformation.setDataInfo(); datainfo固定为50 50 50 100
         this.gameInformation.setManyNewCardsInfo(this.information.cards)
         
 
-        /*console.log("前台存放数据:" + this.gameInformation.dataInfo)
-        for( prop in this.gameInformation.dataInfo )
+        console.log("前台存放数据:" + this.gameInformation.dataInfo)
+        for( prop in this.gameInformation.getDataInfo() )
         {
             console.log( prop + " : " + this.gameInformation.dataInfo[prop] );
-        }*/
+        }
      },
 
     start:function () {
         //初始化两个区域
-        this.dataRegion.init();
-        this.cardRegion.init();
-
-        //使用数据更新数据区域
-        this.dataRegion.showData(this.gameInformation.getDataInfo());
-        this.cardRegion.showTopCard(this.gameInformation.getTopCardInfo());
+        this.dataRegion.init(this.gameInformation.getDataInfo());
+        this.cardRegion.init(this.gameInformation.getTopCardInfo());
 
         // 监听双击、按住松开事件
         this.node.on('DoubleClick', function (event) {
             // 双击选择卡牌
             if (event.SelectBtn === 'AC_DoubleClick') {
                 cc.log('click Accept')
-                this.updateData(1)
-                this.updateCard(1)
+                this.updateData('A')
+                this.updateCard('A')
 
             } else if (event.SelectBtn === 'DE_DoubleClick') {
                 cc.log('click Decline')
-                this.updateData(0)
-                this.updateCard(0)
+                this.updateData('B')
+                this.updateCard('B')
             }
         },this);
 
@@ -232,8 +274,6 @@ cc.Class({
 
         },this);
 
-
-
         //获得新卡牌
         this.node.on('getNewCard', function (  ) {
             this.gameInformation.setManyNewCardsInfo(this.information.cards)
@@ -244,29 +284,13 @@ cc.Class({
 
     updateData : function(select)
     {
-        var d_info = {
-        budget:0 ,
-        resource:0 ,
-        health: 0,
-        popularity:0,
-        };
-       if ( select == 1 ) //select 影响计算
-        {
-            d_info.budget = 1
-            d_info.resource = 2
-            d_info.health =3
-            d_info.popularity = 4
-        }
-        else if ( select == 0 )
-        {
-            d_info.budget = -1
-            d_info.resource = -2
-            d_info.health =-3
-            d_info.popularity = -4
-        }
-        this.gameInformation.updateDataInfo(d_info);
-       
-        this.dataRegion.showData(this.gameInformation.dataInfo);  //计算完后更新数据
+        /*d_info.health=100-(Math.Log(infectedCount)-logInitialInfected)/logMaxInfected;
+        d_info.resource=resource + resourceDailyChange;
+        d_info.budget=budget + budgetDailyChange;
+        d_info.approval=approval + approvalDailyChange;*/
+        this.gameInformation.calculateAndUpdataData(select);
+        //this.gameInformation.updateDataInfo(d_info);
+        this.dataRegion.show(this.gameInformation.dataInfo);  //计算完后更新数据
     },
 
 

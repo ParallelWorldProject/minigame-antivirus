@@ -1,25 +1,31 @@
 
+
 cc.Class({
     extends: cc.Component,
 
     properties: {
-       
+        dataItemPerfab : cc.Prefab
     },
 
-    init:function(){
-        this.node.getComponent('js_dataList').init();
+    init:function( info ){
+
+        for( p in info ) //set 属性名
+        {
+            let item = cc.instantiate(this.dataItemPerfab);
+            this.node.addChild(item);  //创建新节点
+            item.getComponent('js_dataTemplate').init(p);
+        }
+        this.show(info);
     },
 
-    showData:function ( infomation ){
-        
-        info = [ 
-             infomation.budget , infomation.resource ,
-             infomation.health , infomation.popularity ];
-
-        this.node.getComponent('js_dataList').updateValue(info);
-            
-
+    show:function( info ){
+        let it = 1;
+        for( p in info )
+        {
+            let item = this.node.children[it];
+            item.getComponent('js_dataTemplate').updateValue(info[p]); 
+            it++;
+        }
     },
-
-
+   
 });

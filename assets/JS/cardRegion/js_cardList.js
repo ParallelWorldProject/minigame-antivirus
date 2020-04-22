@@ -7,7 +7,7 @@ function CardList(){
     }
 
     var length = 0
-    var top = null 
+    //var top = null 
     var last= null
 
     this.push = function( cardInfo ){

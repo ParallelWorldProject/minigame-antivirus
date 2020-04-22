@@ -1,3 +1,32 @@
+function gameInformationList(){
+
+   //数组区相关信息
+    this.dataInfo = {
+        budget : 50 ,
+        resource : 50 ,
+        health : 100,
+        popularity : 50,
+    }
+    this.setDataInfo = function( d_info ){
+        for(  porp in d_info )
+        {
+             this.dataInfo[porp] = d_info[porp]
+        }
+    }
+    this.updateDataInfo = function( d_info ){
+        for(  porp in d_info )
+        {
+            this.dataInfo[porp] += d_info[porp]
+        }
+    }
+
+    //卡牌区相关信息
+    
+
+    
+};
+
+
 //1: 加载所有游戏部件 与 动画
 //2: 存储信息并进行前后端总体交互
 
@@ -26,8 +55,7 @@ cc.Class({
             cc.log('计时器模拟请求时间')
         }, 2);
 
-        //。。。
-        //加载完成后得到  初始化的后台信息 和 初始化的3张卡牌 这里把3张卡片先都写出来，等后端接口完成再实现依次调用
+        //模拟从后台获得的数据
         this.information = {
             dataInfo : {
                 budget:4 ,
@@ -65,8 +93,21 @@ cc.Class({
                 },
             ]
         }
-        
 
+        
+        this.gameInformation = new gameInformationList();
+        this.gameInformation.setDataInfo(this.information.dataInfo);
+        /*console.log("前台存放数据:" +this.information.dataInfo)
+        for( prop in this.information.dataInfo )
+        {
+            console.log( this.information.dataInfo[prop]  )
+        }*/
+
+        console.log("前台存放数据:" + this.gameInformation.dataInfo)
+        for( prop in this.gameInformation.dataInfo )
+        {
+            console.log( prop + " : " + this.gameInformation.dataInfo[prop] );
+        }
      },
 
     start:function () {
@@ -75,7 +116,7 @@ cc.Class({
         this.cardRegion.init();
 
         //使用数据更新数据区域
-        this.dataRegion.updateInfo(this.information.dataInfo);
+        this.dataRegion.updateInfo(this.gameInformation.dataInfo);
 
         //往卡牌区域依次加入（一张）卡牌
         for( let i=0; i<this.information.cards.length;i++)
@@ -134,23 +175,37 @@ cc.Class({
 
     updateData : function(select)
     {
+        
+
+        var d_info = {
+        budget:0 ,
+        resource:0 ,
+        health: 0,
+        popularity:0,
+        };
        if ( select == 1 ) //select 影响计算
         {
-            this.information.dataInfo.budget += 1;
-            this.information.dataInfo.resource += 2;
-            this.information.dataInfo.health += 3;
-            this.information.dataInfo.popularity += 4;
+            d_info.budget = 1
+            d_info.resource = 2
+            d_info.health =3
+            d_info.popularity = 4
         }
         else if ( select == 0 )
         {
-            this.information.dataInfo.budget -= 1;
-            this.information.dataInfo.resource -= 2;
-            this.information.dataInfo.health -= 3;
-            this.information.dataInfo.popularity -= 4;
+            d_info.budget = -1
+            d_info.resource = -2
+            d_info.health =-3
+            d_info.popularity = -4
         }
-            
+        this.gameInformation.updateDataInfo(d_info);
        
-       this.dataRegion.updateInfo(this.information.dataInfo);  //计算完后更新数据
+        console.log("前台存放数据:" + this.gameInformation.dataInfo)
+        for( prop in this.gameInformation.dataInfo )
+        {
+            console.log( prop + " : " + this.gameInformation.dataInfo[prop] );
+        }
+
+        this.dataRegion.updateInfo(this.gameInformation.dataInfo);  //计算完后更新数据
     },
 
 

@@ -6,10 +6,6 @@ cc.Class({
        
     },
 
-    onLoad:function(){
-   
-    },
-
     init:function(){
         this.node.getComponent('js_dataList').init();
     },

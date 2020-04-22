@@ -35,7 +35,7 @@ cc.Class({
     },
 
     updateValue:function( info ){
-        console.log("i am updateValue in js_datalist" + info);
+        console.log("i am updateValue in js_datalist " + info);
         for( let i=0; i<=info.length ;i++ )
         {
             let item = this.node.children[i];

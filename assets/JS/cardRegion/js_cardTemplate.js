@@ -22,15 +22,13 @@ cc.Class({
         this.date = this.information.getChildByName("date").getComponent(cc.Label);
         this.information = this.information.getChildByName("information").getComponent(cc.Label);
 
-
-
         this.from.string = info.from;
         this.name.string  = info.name;
         this.date.string  = info.date;
         this.information.string  = info.information;
 
+  
         //修改img区域
-
         //本地加载
         var picUrl = "cardimg/" + info.picUrl;
         let self = this.image;
@@ -38,19 +36,10 @@ cc.Class({
             self.getComponent(cc.Sprite).spriteFrame = spriteFrame;
         });
 
-
         //远程加载  
         //this.loadImg( this.image.getComponent(cc.Sprite) ,"resources/img/cardimg_2" )
-
-            
-
-
-
-        //修改Select区域 ??
-        
-    },
-
-
+    },     
+       
     moveOff : function()
     {
         this.node.active = false;
@@ -60,7 +49,7 @@ cc.Class({
     {
         this.node.active = true;
     },
-
+  
 
     //远程加载  
     loadImg: function(container,url){

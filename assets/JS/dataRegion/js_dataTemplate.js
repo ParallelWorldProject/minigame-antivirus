@@ -7,15 +7,13 @@ cc.Class({
         itemValue : cc.Label,
     },
 
-    init : function( data )
+    init : function( name)
     {
-        this.itemName.string = data.itemName ;
-        this.itemValue.string = data.itemValue + "%" ;
-        //set font 
+        this.itemName.string = name ;
     },
 
     updateValue : function( value )
     {
-        this.itemValue.string = value + '%';
+        this.itemValue.string = Math.round(value) + '%';
     }
 });

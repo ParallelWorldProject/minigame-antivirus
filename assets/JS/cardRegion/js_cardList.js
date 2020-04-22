@@ -1,6 +1,3 @@
-
-
-
 function CardList(){
   
     //定义一张卡牌 ， 内部储存信息
@@ -29,8 +26,8 @@ function CardList(){
     },
 
     this.pop = function(){
-        let temp ; //临时指针
-        temp = front;
+        //let temp ; //临时指针
+        //temp = front;
         front = front.next;
         length--;
         //delete temp;
@@ -61,7 +58,7 @@ function CardList(){
 
     this.clear = function()
     {
-        while( this.isEmpty() == false )
+        while( length > 0 )
         {
             this.pop();
         }
@@ -88,7 +85,7 @@ cc.Class({
     push:function( cardInfo )
     {
         this.myCardList.push( cardInfo );
-        console.log( this.myCardList.getLength() );
+        //console.log( this.myCardList.getLength() );
     },
 
      //只有再show的时候才创造新节点并放入topCard中
@@ -98,7 +95,7 @@ cc.Class({
         this.topCard = cc.instantiate(this.cardPerfab); //创建新节点
         this.node.addChild(this.topCard);    //加入到子节点下
 
-        console.log(info);
+        console.log("card info: " + info);
 
         this.topCard.getComponent('js_cardTemplate').init(info);
     },
@@ -111,7 +108,7 @@ cc.Class({
         if( getmove )
         {
             this.myCardList.pop();
-            console.log( this.myCardList.getLength() );
+            //console.log( this.myCardList.getLength() );
             this.topCard.destroy();
             
             if( this.myCardList.getLength() == 0 )
@@ -139,7 +136,7 @@ cc.Class({
         let sealBoxPos ; 
         if( select == 1 ){
             sealBox.x = -165
-            sealBoxPos = [ -165,-310 ]
+            sealBoxPos = [-165,-310]
         }
         else {
             sealBox.x = 165

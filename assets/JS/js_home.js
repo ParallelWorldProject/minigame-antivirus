@@ -1,8 +1,6 @@
 //1: 加载所有游戏部件 与 动画
 //2: 存储信息并进行前后端总体交互
 
-
-
 const CardRegion = require('js_cardRegion');
 const DataRegion = require('js_dataRegion');
 
@@ -35,6 +33,7 @@ cc.Class({
         //请求后端加载
         this.scheduleOnce(function() {
             cc.log('计时器模拟请求时间')
+            
         }, 2);
 
         //。。。
@@ -155,13 +154,11 @@ cc.Class({
 
         //获得新卡牌
         this.node.on('getNewCard', function (  ) {
-            
-            
             //模拟获得新卡片后 push再次
             this.cardRegion.push(this.information.card_1);
             this.cardRegion.push(this.information.card_2);
             this.cardRegion.push(this.information.card_3);
-            console.log( 'so now i  get new card' );
+            console.log( 'so now i  get  3 new cards' );
             
             this.cardRegion.show();
 
@@ -191,13 +188,15 @@ cc.Class({
        this.dataRegion.updateInfo(this.information.dataInfo);  //计算完后更新数据
     },
 
+
     updateCard : function(select)
     {
         //现在只实现显示数组中其他卡牌
-        this.cardRegion.getNextCard(select );
+        this.cardRegion.getNextCard( select );
     },
 
 
+    //必需在showmask后面才能行动
     showMask() {
         if(this.loadingMask == null) {
             this.loadingMask = cc.instantiate(this.loadingPre)

@@ -141,15 +141,6 @@ function gameInformationList(){
 {    //计算呢这里
     this.calculateAndUpdataData = function( select ){
           
-        /*let it = 0;
-        for( prop in this.getDataInfo()  )
-        {
-            console.log("prop:"+prop+"===datainfo:"+ this.dataInfo[prop]);
-            console.log("select:"+select+"===it:"+it+"====op:"+this.getTopCardInfo().option[select][it]);
-            this.dataInfo[prop] += this.getTopCardInfo().option[select][it];
-            it++;
-        }*/
-
         //先计算卡牌改变的暗变量 
         console.log( "!!!!!!I am in Calculate And UpdataData !!!!!!")
         let theCard = this.getTopCardInfo();
@@ -168,9 +159,6 @@ function gameInformationList(){
             {
                 this.darkVar[v]=valChanged[v][1];
             }
-            /*console.log( "V is:" +v);
-            console.log( "valChanged[v][0]:"+valChanged[v][0] );
-            console.log( "this.darkVar[v]:"+this.darkVar[v]);*/
         }
 
        
@@ -239,11 +227,11 @@ cc.Class({
 
      onLoad:function () {
         // 首次加载loading动画
-        /*this.showMask();
+        this.showMask();
         //请求后端加载
         this.scheduleOnce(function() {
             cc.log('计时器模拟请求时间')
-        }, 2);*/
+        }, 2);
 
         //模拟从后台获得的数据
         this.information = {
@@ -360,12 +348,12 @@ cc.Class({
             ]
         }
 
-        
-
-
         this.gameInformation = new gameInformationList();
         //this.gameInformation.setDataInfo(); datainfo固定为50 50 50 100
         this.gameInformation.setManyNewCardsInfo(this.information.cards)
+
+        //this.gameInformation.setNewCardInfo(cardinfo); 将card信息导入
+        //你要做的就是把获得类似上面的格式的cardinfo
         
 
         console.log("前台存放数据:" + this.gameInformation.dataInfo)
@@ -419,12 +407,7 @@ cc.Class({
 
     updateData : function(select)
     {
-        /*d_info.health=100-(Math.Log(infectedCount)-logInitialInfected)/logMaxInfected;
-        d_info.resource=resource + resourceDailyChange;
-        d_info.budget=budget + budgetDailyChange;
-        d_info.approval=approval + approvalDailyChange;*/
         this.gameInformation.calculateAndUpdataData(select);
-        //this.gameInformation.updateDataInfo(d_info);
         this.dataRegion.show(this.gameInformation.dataInfo);  //计算完后更新数据
     },
 

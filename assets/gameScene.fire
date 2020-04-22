@@ -81,10 +81,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 35
+        "__id__": 29
       },
       {
-        "__id__": 36
+        "__id__": 30
       }
     ],
     "_prefab": null,
@@ -174,7 +174,7 @@
       "array": [
         0,
         0,
-        350.1990226553324,
+        351.60631393648214,
         0,
         0,
         0,
@@ -369,16 +369,16 @@
         "__id__": 9
       },
       {
-        "__id__": 29
+        "__id__": 24
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 33
+        "__id__": 27
       },
       {
-        "__id__": 34
+        "__id__": 28
       }
     ],
     "_prefab": null,
@@ -454,9 +454,6 @@
       },
       {
         "__id__": 23
-      },
-      {
-        "__id__": 28
       }
     ],
     "_prefab": null,
@@ -952,54 +949,10 @@
       "__id__": 9
     },
     "_enabled": true,
-    "dataItems": [
-      {
-        "__id__": 24
-      },
-      {
-        "__id__": 25
-      },
-      {
-        "__id__": 26
-      },
-      {
-        "__id__": 27
-      }
-    ],
     "dataItemPerfab": {
       "__uuid__": "11ceea23-275c-40e6-8cd4-65d309345bf7"
     },
     "_id": "7db3MCTXxFFZGMV/IueZOs"
-  },
-  {
-    "__type__": "dataItem",
-    "itemName": "Budget",
-    "itemValue": 50
-  },
-  {
-    "__type__": "dataItem",
-    "itemName": "Resourse",
-    "itemValue": 50
-  },
-  {
-    "__type__": "dataItem",
-    "itemName": "Health",
-    "itemValue": 50
-  },
-  {
-    "__type__": "dataItem",
-    "itemName": "Popularity",
-    "itemValue": 50
-  },
-  {
-    "__type__": "5190dx3uzpKHKBytcN5XyY/",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 9
-    },
-    "_enabled": true,
-    "_id": "b0vRfKfOVFyYWLtBwa0Szr"
   },
   {
     "__type__": "cc.Node",
@@ -1012,13 +965,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 30
+        "__id__": 25
       },
       {
-        "__id__": 31
-      },
-      {
-        "__id__": 32
+        "__id__": 26
       }
     ],
     "_prefab": null,
@@ -1074,7 +1024,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 29
+      "__id__": 24
     },
     "_enabled": true,
     "alignMode": 1,
@@ -1097,21 +1047,11 @@
     "_id": "18zL5eOVJBepRjAA3HXCmA"
   },
   {
-    "__type__": "a07cfsekWlKD74jG5MyaKwo",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 29
-    },
-    "_enabled": true,
-    "_id": "89CwKgflZFJ5TqCCiEZJF5"
-  },
-  {
     "__type__": "23db2Z8ELpDlosv9uchR3Ft",
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 29
+      "__id__": 24
     },
     "_enabled": true,
     "cardPerfab": {
@@ -1154,14 +1094,12 @@
       "__id__": 8
     },
     "_enabled": true,
-    "homeAnim": null,
     "cardRegion": {
-      "__id__": 31
+      "__id__": 26
     },
     "dataRegion": {
-      "__id__": 28
+      "__id__": 23
     },
-    "backStage": null,
     "loadingPre": {
       "__uuid__": "39479b4b-d25c-43b9-a059-2d8f12f182da"
     },

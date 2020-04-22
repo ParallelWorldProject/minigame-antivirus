@@ -7,8 +7,8 @@
       "windowType": "dockable",
       "x": 0,
       "y": 0,
-      "width": 1536,
-      "height": 824,
+      "width": 1440,
+      "height": 920,
       "layout": {
         "children": [
           {
@@ -48,7 +48,7 @@
                 "width": 929.6625366210938
               },
               {
-                "active": 0,
+                "active": 1,
                 "children": [
                   "console",
                   "timeline",
@@ -79,14 +79,15 @@
       "panels": [
         "hierarchy",
         "assets",
+        "inspector",
+        "cocos-services",
         "scene",
         "console",
         "timeline",
-        "game-window",
-        "inspector",
-        "cocos-services"
+        "game-window"
       ]
-    }
+    },
+    "worker": {}
   },
   "panels": {
     "preferences": {

@@ -78,10 +78,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 29
+        "__id__": 25
       },
       {
-        "__id__": 30
+        "__id__": 26
       }
     ],
     "_prefab": null,
@@ -171,7 +171,7 @@
       "array": [
         0,
         0,
-        423.4864224505905,
+        422.9158300965209,
         0,
         0,
         0,
@@ -251,7 +251,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 28
+        "__id__": 24
       }
     ],
     "_prefab": null,
@@ -800,9 +800,6 @@
     "_components": [
       {
         "__id__": 22
-      },
-      {
-        "__id__": 23
       }
     ],
     "_prefab": null,
@@ -1091,7 +1088,11 @@
     "_grayMaterial": null,
     "duration": 0.1,
     "zoomScale": 1.2,
-    "clickEvents": [],
+    "clickEvents": [
+      {
+        "__id__": 23
+      }
+    ],
     "_N$interactable": true,
     "_N$enableAutoGrayEffect": false,
     "_N$transition": 2,
@@ -1162,67 +1163,14 @@
     "_id": "5axT3xzjFJo7Nu+NdgOhdZ"
   },
   {
-    "__type__": "6ea4coA/cJG3ZmqJEPhnPM3",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 16
-    },
-    "_enabled": true,
-    "longTouchTime": 2000,
-    "longTouchEvent": {
-      "__id__": 24
-    },
-    "isDoubleClick": true,
-    "doubleClickTime": 500,
-    "doubleClickEvent": {
-      "__id__": 25
-    },
-    "isHold": false,
-    "holdStartTime": 600,
-    "holdStartEvent": {
-      "__id__": 26
-    },
-    "holdEndEvent": {
-      "__id__": 27
-    },
-    "_id": "47xQed2adJ3IFKO2A0L8lZ"
-  },
-  {
     "__type__": "cc.ClickEvent",
     "target": {
       "__id__": 5
     },
     "component": "",
     "_componentId": "f1b4fIL0BtC2LDbIRfaRXzG",
-    "handler": "LongTouchCallBack",
-    "customEventData": "long"
-  },
-  {
-    "__type__": "cc.ClickEvent",
-    "target": {
-      "__id__": 5
-    },
-    "component": "",
-    "_componentId": "f1b4fIL0BtC2LDbIRfaRXzG",
-    "handler": "DoubleClickCallBack",
-    "customEventData": "double"
-  },
-  {
-    "__type__": "cc.ClickEvent",
-    "target": null,
-    "component": "",
-    "_componentId": "",
-    "handler": "",
-    "customEventData": ""
-  },
-  {
-    "__type__": "cc.ClickEvent",
-    "target": null,
-    "component": "",
-    "_componentId": "",
-    "handler": "",
-    "customEventData": ""
+    "handler": "onClickBtn",
+    "customEventData": "about"
   },
   {
     "__type__": "f1b4fIL0BtC2LDbIRfaRXzG",

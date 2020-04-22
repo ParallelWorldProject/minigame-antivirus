@@ -18,7 +18,7 @@
                 "children": [
                   "hierarchy"
                 ],
-                "height": 434.90625,
+                "height": 434.82293701171875,
                 "type": "panel",
                 "width": 204
               },
@@ -27,7 +27,7 @@
                 "children": [
                   "assets"
                 ],
-                "height": 363.9270935058594,
+                "height": 364.01043701171875,
                 "type": "panel",
                 "width": 204
               }
@@ -58,7 +58,7 @@
                 "width": 912
               },
               {
-                "active": 1,
+                "active": 0,
                 "children": [
                   "console",
                   "timeline",
@@ -87,7 +87,8 @@
         "game-window"
       ]
     },
-    "worker": {}
+    "worker": {},
+    "window-1587566498049": {}
   },
   "panels": {
     "preferences": {
@@ -131,12 +132,20 @@
       "y": 320,
       "width": 516,
       "height": 540
+    },
+    "builder": {
+      "x": 236,
+      "y": 96,
+      "width": 517,
+      "height": 739
     }
   },
   "panelLabelWidth": {
     "inspector": null,
-    "preferences": null
+    "preferences": null,
+    "builder": null
   },
   "panelLabelWidth.inspector": null,
-  "panelLabelWidth.preferences": null
+  "panelLabelWidth.preferences": null,
+  "panelLabelWidth.builder": null
 }

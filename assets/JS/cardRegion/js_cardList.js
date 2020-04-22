@@ -66,8 +66,6 @@ function CardList(){
 
 };
 
-//var CardList = require("Queue");
-
 cc.Class({
     extends: cc.Component,
 
@@ -79,13 +77,10 @@ cc.Class({
         //创建队列
         this.myCardList = new CardList();
         this.topCard = null;
-
     },
 
-    push:function( cardInfo )
-    {
+    push:function( cardInfo ){
         this.myCardList.push( cardInfo );
-        //console.log( this.myCardList.getLength() );
     },
 
      //只有再show的时候才创造新节点并放入topCard中
@@ -102,29 +97,19 @@ cc.Class({
 
 
     getNextCard : function( select  ){
-        //这里应该是动画代码
-        var getmove = this.moveOldCard( select );
-        //完成动画后 先pop
-        if( getmove )
-        {
-            this.myCardList.pop();
-            //console.log( this.myCardList.getLength() );
-            this.topCard.destroy();
-            
-            if( this.myCardList.getLength() == 0 )
-            {
-                //空了会要求页面重新提供新卡牌，应该可以使用事件传递机制；
-                this.node.dispatchEvent( new cc.Event.EventCustom('getNewCard',1) );
-            }
-            else{
-                //pop后可以直接show
-                this.show();
-            }
 
+        this.moveOldCard( select );
+        this.myCardList.pop();
+        this.topCard.destroy();
+        
+        if( this.myCardList.getLength() == 0 ){//空了会要求页面重新提供新卡牌
+            this.node.dispatchEvent( new cc.Event.EventCustom('getNewCard',1) );
         }
+        
+        this.show();
     },
 
-    //   移动旧卡牌
+    //移动旧卡牌
     moveOldCard : function( select ){
         // 1.克隆第一张
         let cloneCard =  this.cloneNode(this.topCard);
@@ -189,5 +174,10 @@ cc.Class({
         })
         .start()
     },
+
+
+    getCardInfo : function(){
+        return this.myCardList.getCardInfo();
+    }
 
 });

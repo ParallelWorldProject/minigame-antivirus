@@ -1,16 +1,12 @@
 //1: 加载所有游戏部件 与 动画
 //2: 存储信息并进行前后端总体交互
 
-const CardRegion = require('js_cardRegion');
+const CardRegion = require('js_cardList');
 const DataRegion = require('js_dataRegion');
 
 cc.Class({
     extends: cc.Component,
     properties: {
-        homeAnim: {  //动画
-            default: null,
-            type: cc.Animation
-        },
         cardRegion: {  //卡片区域
             default: null,
             type: CardRegion
@@ -19,21 +15,15 @@ cc.Class({
             default: null,
             type: DataRegion
         },
-        backStage: { //后端
-            default: null,
-            type: cc.Node
-        },
         loadingPre: cc.Prefab
     },
 
      onLoad:function () {
         // 首次加载loading动画
-        this.showMask()
-
+        this.showMask();
         //请求后端加载
         this.scheduleOnce(function() {
             cc.log('计时器模拟请求时间')
-            
         }, 2);
 
         //。。。
@@ -45,8 +35,7 @@ cc.Class({
                 health: 2,
                 popularity:1,
             },
-            card_1:
-                {
+            cards:[{
                 id : 1,
                 from:"1" ,
                 name:"1",
@@ -55,20 +44,16 @@ cc.Class({
                 picUrl:'cardimg1',
                 optionA:[1,1,1,1],
                 optionB:[-1,-1,-1,-1] 
-                },
-            card_2:
-            {
-                id : 2,
-                from:"2" ,
-                name:"2",
-                date:"22",
-                information:"2222",
-                picUrl:'cardimg2',
-                optionA:[2,2,2,2],
-                optionB:[-2,-2,-2,-2] 
-                },
-            card_3:
-            {
+                },{
+                    id : 2,
+                    from:"2" ,
+                    name:"2",
+                    date:"22",
+                    information:"2222",
+                    picUrl:'cardimg2',
+                    optionA:[2,2,2,2],
+                    optionB:[-2,-2,-2,-2] 
+                }, {
                 id : 3,
                 from:"3" ,
                 name:"3",
@@ -78,6 +63,7 @@ cc.Class({
                 optionA:[3,3,3,3],
                 optionB:[-3,-3,-3,-3] 
                 },
+            ]
         }
         
 
@@ -92,35 +78,17 @@ cc.Class({
         this.dataRegion.updateInfo(this.information.dataInfo);
 
         //往卡牌区域依次加入（一张）卡牌
-        this.cardRegion.push(this.information.card_1);
-        this.cardRegion.push(this.information.card_2);
-        this.cardRegion.push(this.information.card_3);
+        for( let i=0; i<this.information.cards.length;i++)
+        this.cardRegion.push(this.information.cards[i]);
+
 
         
         //显示数据和卡牌
-        //this.dataRegion.show();
         this.cardRegion.show();
 
-
-        
-        //设置按键监听事件 //还不清楚这么用监听事件传递参数，只能这样写
-        // this.node.on('SelectA', function (event) {
-        //     console.log( 'button pressed A and i got it',event);  //1：ac 2：de
-        //     this.updateData(1);//其他参数略 
-        //     this.updateCard(1);//参数略
-           
-        // },this);
-
-        // this.node.on('SelectB', function () {
-        //     console.log( 'button pressed B and i got it' );  //1：ac 2：de
-        //     this.updateData(0);//其他参数略 
-        //     this.updateCard(0);//参数略
-        // },this);
-
-        
         // 监听双击、按住松开事件
         this.node.on('DoubleClick', function (event) {
-            // cc.log( 'DoubleClick', event);
+            
 
             // 双击选择卡牌
             if (event.SelectBtn === 'AC_DoubleClick') {
@@ -154,14 +122,11 @@ cc.Class({
 
         //获得新卡牌
         this.node.on('getNewCard', function (  ) {
-            //模拟获得新卡片后 push再次
-            this.cardRegion.push(this.information.card_1);
-            this.cardRegion.push(this.information.card_2);
-            this.cardRegion.push(this.information.card_3);
-            console.log( 'so now i  get  3 new cards' );
-            
-            this.cardRegion.show();
+            //模拟获得新卡片后 再次push
+            for( let i=0; i<this.information.cards.length;i++)
+            this.cardRegion.push(this.information.cards[i]);
 
+            console.log( 'so now i get ' + this.information.cards.length+ ' new cards' );
         },this);
         
     },

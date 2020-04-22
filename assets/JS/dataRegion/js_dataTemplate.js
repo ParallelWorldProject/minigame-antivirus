@@ -14,6 +14,6 @@ cc.Class({
 
     updateValue : function( value )
     {
-        this.itemValue.string = value + '%';
+        this.itemValue.string = Math.round(value) + '%';
     }
 });

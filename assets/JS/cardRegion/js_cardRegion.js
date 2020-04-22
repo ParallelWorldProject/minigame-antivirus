@@ -19,9 +19,6 @@ cc.Class({
     {
         this.topCard = cc.instantiate(this.cardPerfab); //创建新节点
         this.node.addChild(this.topCard);    //加入到子节点下
-
-        console.log("card info: " + info);
-
         this.topCard.getComponent('js_cardTemplate').init(info);
     },
 

@@ -1,31 +1,34 @@
 function gameInformationList(){
 
-    //游戏常量不用从后台获得 ？？
+{  //游戏常量不用从后台获得 ？？
     this.maxInfected=1000000; //失败感染人数
     this.initialInfected=100;  //起始感染人数
     this.minQuarantineRate=0.15;    //最小隔离率
     this.maxQuarantineRate=0.6;     //最大隔离率
     this.quarantineRateParameter=0.05; //隔离率系数
 
-    //this.logMaxInfected=Math.Log(maxInfected); 
-    //this.logInitialInfected=Math.log(initialInfected);
-
-    this.dayCount=0; //当前天数
-    this.infectedCount=100; //当前感染人数 
-    this.infectionRate=0.3; //感染率
-    this.dailyInfection=0;  //日感染人数
-    this.recoveryRate=0.2;  //治愈率
-    this.dailyRecovery=0;   //日治愈人数
-    this.quarantineCapacity=500;    //隔离区容量
-    this.quarantineRate=0;  //隔离率
-    this.quarantineCount=0; //隔离人数
-    this.resourceDailyChange=0; //资源日增减
-    this.budgetDailyChange=0;   //财政日增减
-    this.approvalDailyChange=0; //支持率日增减
-    this.shutdown=0;    //封城 是1否0
-
-   
-   //数组区相关信息
+    this.logMaxInfected=Math.log(1000000); //maxInfected
+    this.logInitialInfected=Math.log(100); // initialInfected
+}
+{ //暗变量
+    this.darkVar = {
+    dayCount:0, //当前天数
+    infectedCount:100, //当前感染人数 
+    infectionRate:0.3, //感染率
+    dailyInfection:0,  //日感染人数
+    recoveryRate:0.2,  //治愈率
+    dailyRecovery:0,   //日治愈人数
+    quarantineCapacity:500,    //隔离区容量
+    quarantineRate:0,  //隔离率
+    quarantineCount:0, //隔离人数
+    resourceDailyChange:0, //资源日增减
+    budgetDailyChange:0,   //财政日增减
+    approvalDailyChange:0,//支持率日增减
+    shutdown:0,    //封城 是1否0
+    }
+    
+} 
+{   //数组区相关信息 或者说 明变量
     this.dataInfo = {
         health : 100,
         budget : 50 ,
@@ -47,8 +50,8 @@ function gameInformationList(){
     this.getDataInfo = function(){
         return this.dataInfo;
     }
-
-    //卡牌区相关信息
+}
+{    //卡牌区相关信息
     function CardInfoList(){
   
         //定义一张卡牌 ， 内部储存信息
@@ -134,27 +137,84 @@ function gameInformationList(){
         return this.cardInfoList.getLength();
     }
 
-
-    //计算呢这里
+}
+{    //计算呢这里
     this.calculateAndUpdataData = function( select ){
           
-        
-        let it = 0;
+        /*let it = 0;
         for( prop in this.getDataInfo()  )
         {
             console.log("prop:"+prop+"===datainfo:"+ this.dataInfo[prop]);
             console.log("select:"+select+"===it:"+it+"====op:"+this.getTopCardInfo().option[select][it]);
             this.dataInfo[prop] += this.getTopCardInfo().option[select][it];
             it++;
-        }
-           
-        /*for( prop in this.gameInformation. )
+        }*/
+
+        //先计算卡牌改变的暗变量 
+        console.log( "!!!!!!I am in Calculate And UpdataData !!!!!!")
+        let theCard = this.getTopCardInfo();
+        let valChanged = theCard.option[select].valChanged ;  //根据select获取卡牌中的暗变量
+        for( v in valChanged )
         {
-            console.log( prop + " : " + this.gameInformation.dataInfo[prop] );
-        }  */      
+            if( this.darkVar[v] == null ) {
+                console.log("不存在这样的变量");
+            }
+
+            if( valChanged[v][0] != 0 ) //如果第一个数0，说明是加减改变
+            {
+                this.darkVar[v]+=valChanged[v][0];
+            }
+            else //否则做赋值改变
+            {
+                this.darkVar[v]=valChanged[v][1];
+            }
+            /*console.log( "V is:" +v);
+            console.log( "valChanged[v][0]:"+valChanged[v][0] );
+            console.log( "this.darkVar[v]:"+this.darkVar[v]);*/
+        }
+
+       
+        //在改变其他暗变量 
+        this.darkVar.dayCount= this.darkVar.dayCount + theCard.durtion;
+
+        this.darkVar.dailyRecovery=Math.ceil(this.darkVar.infectedCount * 
+            Math.pow(this.darkVar.recoveryRate,theCard.durtion));
+
+        this.darkVar.dailyInfection=(this.darkVar.infectedCount - 
+            this.darkVar.quarantineCount) * Math.pow(this.darkVar.infectionRate,theCard.durtion);
+
+        this.darkVar.infectedCount=this.darkVar.infectedCount - this.darkVar.dailyRecovery + this.darkVar.dailyInfection;
+
+        this.darkVar.quarantineRate=Math.min(this.maxQuarantineRate,this.minQuarantineRate + 
+            (100 - this.dataInfo.health) * this.quarantineRateParameter);
+
+        this.darkVar.quarantineCount=Math.min(this.darkVar.quarantineCapacity,this.darkVar.infectedCount * 
+            this.darkVar.quarantineRate);
         
-        //this.setDataInfo( )
-    }
+        
+        //再改变主变量
+        this.dataInfo.health=100-(Math.log(this.darkVar.infectedCount)-this.logInitialInfected)/this.logMaxInfected;
+        this.dataInfo.resource=this.dataInfo.resource + this.darkVar.resourceDailyChange;
+        this.dataInfo.budget=this.dataInfo.budget + this.darkVar.budgetDailyChange;
+        this.dataInfo.approval=this.dataInfo.approval + this.darkVar.approvalDailyChange;
+
+
+        console.log( "durtion: " + theCard.durtion );    
+        for( prop in this.darkVar )
+        {
+            console.log( prop + " : " + this.darkVar[prop] );
+        }
+        for( prop in this.dataInfo )
+        {
+            console.log( prop + " : " + this.dataInfo[prop] );
+        }
+
+        console.log( "------!!!!!OVER!!!!!!--------")
+        
+    }           
+        
+}
+
 };
 
 
@@ -179,49 +239,124 @@ cc.Class({
 
      onLoad:function () {
         // 首次加载loading动画
-        this.showMask();
+        /*this.showMask();
         //请求后端加载
         this.scheduleOnce(function() {
             cc.log('计时器模拟请求时间')
-        }, 2);
+        }, 2);*/
 
         //模拟从后台获得的数据
         this.information = {
-            cards:[{
+            cards:
+            [   
+                {//卡1
+                errorcode:0,
+                message:"游戏开始",
+                
                 id : 1,
                 from:"1" ,
                 name:"1",
-                date:"11",
-                information:"111",
+                date:"11", //?
+                durtion : 1,
+                weight : 1000 ,
+                information:"1111", //?
                 picUrl:'cardimg1',
+
                 option:{
-                    A:[1,1,1,1],
-                    B:[-1,-1,-1,-1]
-                }
-                },{
+                    A:{
+                       desc : "ok",
+                       valChanged :{
+                        "infectedCount" : [5,0],
+                        "dailyRecovery" : [0,5]
+                       } ,
+                       weigthChanged: null,
+                       nextCard: 0,
+
+                    },
+                    B:{
+                        desc : "ok",
+                        valChanged :{
+                         "infectedCount" : [5,0],
+                         "dailyRecovery" : [0,5]
+                        } ,
+                        weigthChanged: null,
+                        nextCard: 0,
+
+                     },
+                    },
+                },
+                {//卡2
+                    errorcode:0,
+                    message:"游戏开始",
+                    
                     id : 2,
                     from:"2" ,
                     name:"2",
-                    date:"22",
-                    information:"2222",
+                    date:"22", //?
+                    durtion : 2,
+                    weight : 1000 ,
+                    information:"2222", //?
                     picUrl:'cardimg2',
+
                     option:{
-                        A:[2,2,2,2],
-                        B:[-2,-2,-2,-2]
-                     }
-                }, {
-                id : 3,
-                from:"3" ,
-                name:"3",
-                date:"33",
-                information:"3333",
-                picUrl:'cardimg3',
-                option:{
-                    A:[3,3,3,3],
-                    B:[-3,-3,-3,-3]
-                }
-               
+                        A:{
+                           desc : "ok",
+                           valChanged :{
+                            "infectedCount" : [5,0],
+                            "dailyRecovery" : [0,5]
+                           } ,
+                           weigthChanged: null,
+                           nextCard: 0,
+
+                        },
+                        B:{
+                            desc : "ok",
+                            valChanged :{
+                             "infectedCount" : [-5,0],
+                             "dailyRecovery" : [0,-5]
+                            } ,
+                            weigthChanged: null,
+                            nextCard: 0,
+ 
+                         },
+                    }
                 },
+                {///卡3
+                    errorcode:0,
+                    message:"游戏开始",
+                    
+                    id : 3,
+                    from:"3" ,
+                    name:"3",
+                    date:"33", //?
+                    durtion : 3,
+                    weight : 1000 ,
+                    information:"3333", //?
+                    picUrl:'cardimg3',
+    
+                    option:{
+                        A:{
+                           desc : "ok",
+                           valChanged :{
+                            "infectedCount" : [5,0],
+                            "dailyRecovery" : [0,5]
+                           } ,
+                           weigthChanged: null,
+                           nextCard: 0,
+    
+                        },
+                        B:{
+                            desc : "ok",
+                            valChanged :{
+                             "infectedCount" : [-5,0],
+                             "dailyRecovery" : [0,-5]
+                            } ,
+                            weigthChanged: null,
+                            nextCard: 0,
+    
+                         },
+                        },
+                 },
             ]
         }
 

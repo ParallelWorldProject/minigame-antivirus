@@ -1,70 +1,4 @@
-function CardList(){
-  
-    //定义一张卡牌 ， 内部储存信息
-    var aCard = function( cardInfo ){
-        this.info = cardInfo;
-        this.next = null;
-    }
 
-    var length = 0
-    //var top = null 
-    var last= null
-
-    this.push = function( cardInfo ){
-        let acard = new aCard(cardInfo);
-        
-
-        if( length == 0 ){ //第一次
-            front = acard ;
-        }else{
-            last.next = acard;
-        }
-
-        last = acard;
-        length++;
-        return true;
-    },
-
-    this.pop = function(){
-        //let temp ; //临时指针
-        //temp = front;
-        front = front.next;
-        length--;
-        //delete temp;
-    },
-
-    this.getLength = function()
-    {
-        return length;
-    },
-
-    this.getTop = function(){
-        return front;
-    },
-
-    this.getLast = function(){
-        return last;
-    },
-
-    this.getCardInfo = function()
-    {
-        return front.info;
-    },
-
-    /*this.isEmpty = function(){
-        if( this.getLength()  ) return false;
-        else return true;
-    },*/
-
-    this.clear = function()
-    {
-        while( length > 0 )
-        {
-            this.pop();
-        }
-    }
-
-};
 
 cc.Class({
     extends: cc.Component,
@@ -75,18 +9,12 @@ cc.Class({
 
     init:function () {  
         //创建队列
-        this.myCardList = new CardList();
+        //this.myCardList = new CardList();
         this.topCard = null;
     },
 
-    push:function( cardInfo ){
-        this.myCardList.push( cardInfo );
-    },
-
-     //只有再show的时候才创造新节点并放入topCard中
-    show: function( ) {
-        let info = this.myCardList.getCardInfo();
-
+    showTopCard : function( info )  //更新卡牌是创建新节点
+    {
         this.topCard = cc.instantiate(this.cardPerfab); //创建新节点
         this.node.addChild(this.topCard);    //加入到子节点下
 
@@ -95,18 +23,13 @@ cc.Class({
         this.topCard.getComponent('js_cardTemplate').init(info);
     },
 
-
-    getNextCard : function( select  ){
+    getNextCard : function( select,info ){
 
         this.moveOldCard( select );
-        this.myCardList.pop();
+
         this.topCard.destroy();
         
-        if( this.myCardList.getLength() == 0 ){//空了会要求页面重新提供新卡牌
-            this.node.dispatchEvent( new cc.Event.EventCustom('getNewCard',1) );
-        }
-        
-        this.show();
+        this.showTopCard(info);
     },
 
     //移动旧卡牌
@@ -176,8 +99,6 @@ cc.Class({
     },
 
 
-    getCardInfo : function(){
-        return this.myCardList.getCardInfo();
-    }
+    
 
 });

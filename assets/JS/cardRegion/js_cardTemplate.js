@@ -38,9 +38,8 @@ cc.Class({
 
         //远程加载  
         //this.loadImg( this.image.getComponent(cc.Sprite) ,"resources/img/cardimg_2" )
-    },
-
-
+    },     
+       
     moveOff : function()
     {
         this.node.active = false;
@@ -50,7 +49,7 @@ cc.Class({
     {
         this.node.active = true;
     },
-
+  
 
     //远程加载  
     loadImg: function(container,url){

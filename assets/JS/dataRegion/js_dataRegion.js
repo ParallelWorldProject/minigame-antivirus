@@ -10,7 +10,7 @@ cc.Class({
         this.node.getComponent('js_dataList').init();
     },
 
-    updateInfo:function ( infomation ){
+    showData:function ( infomation ){
         
         info = [ 
              infomation.budget , infomation.resource ,

@@ -79,14 +79,15 @@
       "panels": [
         "hierarchy",
         "assets",
+        "inspector",
+        "cocos-services",
         "scene",
         "console",
         "timeline",
-        "game-window",
-        "inspector",
-        "cocos-services"
+        "game-window"
       ]
-    }
+    },
+    "worker": {}
   },
   "panels": {
     "preferences": {
@@ -130,12 +131,20 @@
       "y": 320,
       "width": 516,
       "height": 540
+    },
+    "builder": {
+      "x": 236,
+      "y": 96,
+      "width": 517,
+      "height": 739
     }
   },
   "panelLabelWidth": {
     "inspector": null,
-    "preferences": null
+    "preferences": null,
+    "builder": null
   },
   "panelLabelWidth.inspector": null,
-  "panelLabelWidth.preferences": null
+  "panelLabelWidth.preferences": null,
+  "panelLabelWidth.builder": null
 }

@@ -33,10 +33,18 @@ const HttpHelper = cc.Class({
         xhr.open('POST', posturl, true);
         
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        // if(oppenId)  xhr.setRequestHeader('openid', oppenId);
-    
+        xhr.setRequestHeader('userid', 3);
+
         xhr.timeout = 8000;
-        xhr.send(params);
+
+        // 解析对象传参
+        let sendData = '';
+        for (const key in params) {
+            sendData += '&' + key + '=' + params[key];
+        }
+        sendData = sendData.slice(1);
+
+        xhr.send(sendData);
     },
  
     

@@ -11,6 +11,7 @@ cc.Class({
 
     onLoad () {
         GameManager.wxlogin()
+        GameManager.initgame()
     },
 
     start () {
@@ -26,9 +27,8 @@ cc.Class({
                 break;
 
             case 'about':
-                
                 break;
-                
+
             default:
                 break;
         }

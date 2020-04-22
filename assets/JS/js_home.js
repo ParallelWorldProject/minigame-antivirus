@@ -232,6 +232,9 @@ cc.Class({
         this.scheduleOnce(function() {
             cc.log('计时器模拟请求时间')
         }, 2);
+        // this.showMask();
+        //请求后端加载
+        this.getcardData()
 
         //模拟从后台获得的数据
         this.information = {
@@ -439,7 +442,52 @@ cc.Class({
             })
             .start()
         }
-    }
+    },
+    getcardData() {
+        let storyid = localStorage.getItem('storyid')
+        let params = {
+            storyid,
+            day: 1
+        }
+        HttpHelper.httpPost('/getnextcard',params, (data) =>  {
+            if(data.errorcode === 0) {
+                let cardInfo =  new CardInfo(data.content)
+
+                cc.log('cardInfo',cardInfo)
+            }
+            
+        })
+    },
+    
    
+});
+
+class CardInfo {
+    constructor(data) {
+        this.errorcode = 0
+        this.id = data.cardid;
+        this.cfrom= data.cfrom ;
+        this.cname= data.cname;
+        // this.date= data;
+        this.durtion = data.durtion;
+        this.weight = data.weight ;
+        this.information= data.message;
+        this.picUrl=data.imgurl;
+
+        this.option = {
+            A: {
+                desc: data.optionOneDesc,
+                valChanged: JSON.parse(data.optionOneValueChange) ,
+                weigthChanged: data.optionOneWeightChange ,
+                nextCard: data.optionOneNextCard
+            },
+            B: {
+                desc: data.optionTwoDesc,
+                valChanged: JSON.parse(data.optionTwoValueChange),
+                weigthChanged: data.optionTwoWeightChange,
+                nextCard: data.optionTwoNextCard
+            }
+        }
+    }
 }
-);
+

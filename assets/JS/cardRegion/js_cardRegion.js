@@ -24,15 +24,13 @@ cc.Class({
 
     getNextCard : function( select,info ){
 
-        this.moveOldCard( select );
-
         this.topCard.destroy();
         
         this.showTopCard(info);
     },
 
     //移动旧卡牌
-    moveOldCard : function( select ){
+    sealAnimation : function( select ){
         // 1.克隆第一张
         let cloneCard =  this.cloneNode(this.topCard);
         cloneCard.zIndex = 9
@@ -53,12 +51,7 @@ cc.Class({
         sealBox.active = true
         this.moveSeal(sealBox,seal,sealBoxPos[0],sealBoxPos[1]);
 
-        // 3.移走克隆的卡片
-        setTimeout(() => {
-            this.moveCard(cloneCard)
-        }, 1500);
-
-        return true;
+        return cloneCard;
     },
 
      // 克隆卡牌

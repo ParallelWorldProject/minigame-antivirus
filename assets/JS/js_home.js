@@ -15,7 +15,8 @@ cc.Class({
             default: null,
             type: DataRegion
         },
-        loadingPre: cc.Prefab
+        loadingPre: cc.Prefab,
+        maskLayer: cc.Node
     },
 
      onLoad:function () {
@@ -139,11 +140,10 @@ cc.Class({
         
         this.gameInformation = new GameInfo.gameInformationList();
 
-        // 从后端 获取卡牌
-        var storyid = localStorage.getItem('storyid')
+        // 从后端 获取第一张卡牌
         let params = {
-            handcardid: 1,  //当前卡id
-            storyid,
+            handcardid: 1,  //第一张传1
+            storyid: localStorage.getItem('storyid'),
             day: 1
         }
 
@@ -182,9 +182,6 @@ cc.Class({
             }
             cc.log('click ' + select)
             this.updateHome(select)
-
-            // event.stopPropagation();
-            // event.bubbles = false
         },this);
 
         /*
@@ -210,9 +207,40 @@ cc.Class({
         //按照选项就行计算
         this.gameInformation.calculateAndUpdataData(select);
 
-        //传递数据给后台
 
-        //依照具体情况获取新卡牌
+
+        // 盖章动画
+        let cloneCard = this.cardRegion.sealAnimation( select );
+        // this.scheduleOnce(()=>{
+        //     this.maskLayer.active = true
+        // },1)
+
+
+        //传递数据给后台
+        //依照具体情况获取新卡牌，参数根据实际情况，这里暂时写死
+        let params = {
+            handcardid: 1,  // 当前卡id
+            storyid: localStorage.getItem('storyid'),
+            day: 1
+            // ...
+        }
+        HttpHelper.httpPost('/getnextcard',params, (data) =>  {
+            if(data.errorcode === 0) {
+
+                let cardInfo =  new CardInfo(data.content)
+                cc.log('请求成功',cardInfo)
+
+                //这里更新卡牌信息
+                // ...
+
+
+                // 移走卡牌
+                this.scheduleOnce(()=>{
+                    this.maskLayer.active = false
+                    this.cardRegion.moveCard(cloneCard)
+                },1)
+            }
+        })
         
 
         if( this.gameInformation.getCardListLength() <= 1) //如果只剩一张牌了，记得添加
@@ -221,8 +249,8 @@ cc.Class({
         }
 
         //获取完后更新区域
-        this.dataRegion.show(this.gameInformation.dataInfo);  //计算完后更新数据
-        this.cardRegion.getNextCard( select , this.gameInformation.getAndPopTopCard() );
+        // this.dataRegion.show(this.gameInformation.dataInfo);  //计算完后更新数据
+        // this.cardRegion.getNextCard( select , this.gameInformation.getAndPopTopCard() );
 
         
     },

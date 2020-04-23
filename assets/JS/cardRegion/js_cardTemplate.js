@@ -40,17 +40,6 @@ cc.Class({
         this.loadImg( this.image.getComponent(cc.Sprite) ,info.picUrl )
     },     
        
-    moveOff : function()
-    {
-        this.node.active = false;
-    },
-
-    moveUp : function()
-    {
-        this.node.active = true;
-    },
-  
-
     //远程加载  
     loadImg: function(container,url){
         cc.loader.load(url, function (err, texture) {

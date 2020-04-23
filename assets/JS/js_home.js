@@ -27,7 +27,6 @@ cc.Class({
         }, 2);
         
         //请求后端加载
-        this.getcardData()
 
         //模拟从后台获得的数据
         this.information = {
@@ -144,15 +143,38 @@ cc.Class({
             ]
         }
 
-        this.gameInformation = new GameInfo.gameInformationList();
-        //this.gameInformation.setDataInfo(); datainfo固定为50 50 50 100
-        this.gameInformation.setManyNewCardsInfo(this.information.cards)
+        // 后端 获取卡牌
+        let storyid = localStorage.getItem('storyid')
+        let params = {
+            handcardid: 1,  //当前卡id
+            storyid,
+            day: 1
+        }
+        HttpHelper.httpPost('/getnextcard',params, (data) =>  {
+            if(data.errorcode === 0) {
+
+                let cardInfo =  new CardInfo(data.content)
+                cc.log('cardInfo',cardInfo)
+
+                this.gameInformation = new gameInformationList();
+                //this.gameInformation.setDataInfo(); datainfo固定为50 50 50 100
+                this.gameInformation.setNewCardInfo(cardinfo);
+        
+                console.log("前台存放数据:" , this.gameInformation.dataInfo)
+                for( prop in this.gameInformation.getDataInfo() ) {
+                    console.log( prop + " : " + this.gameInformation.dataInfo[prop] );
+                }
+
+                //初始化两个区域
+                this.dataRegion.init(this.gameInformation.getDataInfo());
+                this.cardRegion.init(this.gameInformation.getTopCardInfo());
+            }
+        })
+
+
      },
 
     start:function () {
-        //初始化两个区域
-        this.dataRegion.init(this.gameInformation.getDataInfo());
-        this.cardRegion.init(this.gameInformation.getTopCardInfo());
 
         // 监听双击、按住松开事件
         this.node.on('DoubleClick', function (event) {
@@ -227,6 +249,7 @@ cc.Class({
     getcardData() {
         let storyid = localStorage.getItem('storyid')
         let params = {
+            handcardid: 1,  //当前卡id
             storyid,
             day: 1
         }
@@ -246,10 +269,11 @@ cc.Class({
 class CardInfo {
     constructor(data) {
         this.errorcode = 0
+        this.message= data.message;
         this.id = data.cardid;
-        this.cfrom= data.cfrom ;
-        this.cname= data.cname;
-        // this.date= data;
+        this.from= data.cfrom ;
+        this.name= data.cname;
+        this.date= data.durtion;
         this.durtion = data.durtion;
         this.weight = data.weight ;
         this.information= data.message;
@@ -258,13 +282,13 @@ class CardInfo {
         this.option = {
             A: {
                 desc: data.optionOneDesc,
-                valChanged: JSON.parse(data.optionOneValueChange) ,
+                valChanged: data.optionOneValueChange ? JSON.parse(data.optionOneValueChange) : data.optionOneValueChange ,
                 weigthChanged: data.optionOneWeightChange ,
                 nextCard: data.optionOneNextCard
             },
             B: {
                 desc: data.optionTwoDesc,
-                valChanged: JSON.parse(data.optionTwoValueChange),
+                valChanged: data.optionTwoValueChange ? JSON.parse(data.optionTwoValueChange): data.optionTwoValueChange,
                 weigthChanged: data.optionTwoWeightChange,
                 nextCard: data.optionTwoNextCard
             }

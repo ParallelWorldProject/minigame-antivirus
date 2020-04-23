@@ -22,7 +22,7 @@ cc.Class({
         this.topCard.getComponent('js_cardTemplate').init(info);
     },
 
-    getNextCard : function( select,info ){
+    getNextCard : function( info ){
 
         this.topCard.destroy();
         

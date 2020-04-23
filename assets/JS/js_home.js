@@ -146,22 +146,16 @@ cc.Class({
             storyid   : localStorage.getItem('storyid'),
             day: 1
         }
-
+        
         HttpHelper.httpPost('/getnextcard',params, (data) =>  {
             if(data.errorcode === 0) {
 
                 let cardInfo =  new CardInfo(data.content)
                 cc.log('cardInfo',cardInfo)
 
-                
                 this.gameInformation.setNewCardInfo(cardInfo);
-                //this.gameInformation.setParamsInfo( params );  //这个必需要在Cardinfo加入后执行
+                this.gameInformation.setsUserInfo( params );  //这个必需要在Cardinfo加入后执行 //请求到数据后先存放到这里
         
-                console.log("前台存放数据:" , this.gameInformation.dataInfo)
-                for( prop in this.gameInformation.getDataInfo() ) {
-                    console.log( prop + " : " + this.gameInformation.dataInfo[prop] );
-                }
-
                 //初始化两个区域
                 this.dataRegion.init(this.gameInformation.getDataInfo());
                 this.cardRegion.init(this.gameInformation.getTopCardInfo());
@@ -217,14 +211,15 @@ cc.Class({
         // },1)
 
 
-        //传递数据给后台
-        //依照具体情况获取新卡牌，参数根据实际情况，这里暂时写死
-        let params = {
-            handcardid: 1,  // 当前卡id
-            storyid: localStorage.getItem('storyid'),
-            day: 1
-            // ...
-        }
+       
+        
+        
+        //后台的数据
+        let params = this.gameInformation.getUserInfo(select);  //传递数据给后台
+        
+        
+
+       
         HttpHelper.httpPost('/getnextcard',params, (data) =>  {
             if(data.errorcode === 0) {
 
@@ -232,27 +227,23 @@ cc.Class({
                 cc.log('请求成功',cardInfo)
 
                 //这里更新卡牌信息
-                // ...
+                this.gameInformation.setNewCardInfo(cardInfo);
+                this.gameInformation.setsUserInfo(   params   ); //请求到新数据后先存放到这里
 
-
+                
                 // 移走卡牌
                 this.scheduleOnce(()=>{
                     this.maskLayer.active = false
                     this.cardRegion.moveCard(cloneCard)
                 },1)
+
+
+                this.dataRegion.updateData(this.gameInformation.getDataInfo());
+                this.cardRegion.getNextCard(this.gameInformation.getTopCardInfo());
+
+               
             }
         })
-        
-
-        if( this.gameInformation.getCardListLength() <= 1) //如果只剩一张牌了，记得添加
-        {
-            this.gameInformation.setManyNewCardsInfo(this.information.cards)
-        }
-
-        //获取完后更新区域
-        // this.dataRegion.show(this.gameInformation.dataInfo);  //计算完后更新数据
-        // this.cardRegion.getNextCard( select , this.gameInformation.getAndPopTopCard() );
-
         
     },
 

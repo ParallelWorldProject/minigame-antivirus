@@ -15,10 +15,10 @@ cc.Class({
             this.node.addChild(item);  //创建新节点
             item.getComponent('js_dataTemplate').init(p);
         }
-        this.show(info);
+        this.updateData(info);
     },
 
-    show:function( info ){
+    updateData:function( info ){
         let it = 1;
         for( p in info )
         {

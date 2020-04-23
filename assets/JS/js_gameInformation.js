@@ -30,6 +30,10 @@ module.exports =
         approvalDailyChange:0,//支持率日增减
         shutdown:0,    //封城 是1否0
         }
+
+        this.getDarkVar = function(){
+            return this.darkVar;
+        }
         
     } 
     {   //数组区相关信息 或者说 明变量
@@ -152,7 +156,7 @@ module.exports =
         this.calculateAndUpdataData = function( select ){
               
             //先计算卡牌改变的暗变量 
-            console.log( "!!!!!!I am in Calculate And UpdataData !!!!!!")
+            console.log( "--------- Calculate And UpdataData -----------")
             let theCard = this.getTopCardInfo();
             let valChanged = theCard.option[select].valChanged ;  //根据select获取卡牌中的暗变量
             for( v in valChanged )
@@ -207,43 +211,67 @@ module.exports =
                 console.log( prop + " : " + this.dataInfo[prop] );
             }
     
-            console.log( "------!!!!!OVER!!!!!!--------")
+            console.log( "------Calculate And UpdataData OVER--------")
             
         }           
             
     }
     {   //后台需要传递的信息
-        this.paramsInfo ={
-            userid: 0,
-           // storyid,
+        this.userInfo ={
+            storyid : 0,
             handcardid: 0,      // 当前卡id
             curcardoption: 0,   // 1或2
-            cardinhand: [2, 3],     //[id, id] 当前手中的卡片id列表（不包含当前处理的卡）
             mainpara:'{}',        // 明变量json串
             assistpara: '{}',     // 暗变量json串
             day: 1
         }
 
-        this.setParamsInfo = function( p_info ) {
-            /*p_info 格式如下
+       this.updateUserInfo= function(select)
+       {
+        this.userInfo.mainpara = this.getDataInfo();
+        this.userInfo.assistpara = this.getDarkVar();
+        this.userInfo.day = this.userInfo.assistpara.dayCount;
+        this.userInfo.curcardoption = select=='A'?1:2;
+       }
+
+        this.setsUserInfo = function( u_info ) {
+             /* handcardid: 1,  //当前卡id
+                storyid   : localStorage.getItem('storyid'),
+                day: 1*/
+                
+                
+            for(  porp in u_info )
             {
-                handcardid: 1,  //当前卡id
-                storyid, //storyid = localStorage.getItem('storyid')
-                day: 1
-            }
-            */
-            for(  porp in p_info )
-            {
-                //if( porp == 'storyid')
-
-                 this.paramsInfo[porp] = p_info[porp]
+                 this.userInfo[porp] = u_info[porp]
             }
 
-
+            this.updateUserInfo(0);
         },
 
-        this.getParamsInfo = function(){// 每次获取是需要更新呢
-            return this.paramsInfo;
+        this.getUserInfo = function( select ){
+            /*
+            curcardoption: 0,   // 1或2
+            mainpara:'{}',        // 明变量json串
+            assistpara: '{}',     // 暗变量json串
+            */
+
+            // 每次获取是需要更新呢
+           this.updateUserInfo(select);
+            this.showUserInfo();
+          
+            return this.userInfo ;
+        }
+
+
+        this.showUserInfo=function()
+        {
+            console.log("-----Here is UserInfo:-----");
+            for(  porp in this.userInfo )
+            {
+                console.log(porp + " : " + this.userInfo[porp]  );
+            }
+            console.log("-----UserInfo-------");
+
         }
     }
     }

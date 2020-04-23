@@ -40,7 +40,6 @@ cc.Class({
         //this.loadImg( this.image.getComponent(cc.Sprite) ,"resources/img/cardimg_2" )
     },     
        
-    
     //远程加载  
     loadImg: function(container,url){
         cc.loader.load(url, function (err, texture) {

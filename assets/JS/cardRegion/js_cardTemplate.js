@@ -30,14 +30,14 @@ cc.Class({
   
         //修改img区域
         //本地加载
-        var picUrl = "cardimg/" + info.picUrl;
-        let self = this.image;
-        cc.loader.loadRes(picUrl, cc.SpriteFrame, function (err, spriteFrame) {
-            self.getComponent(cc.Sprite).spriteFrame = spriteFrame;
-        });
+        // var picUrl = "cardimg/" + info.picUrl;
+        // let self = this.image;
+        // cc.loader.loadRes(picUrl, cc.SpriteFrame, function (err, spriteFrame) {
+        //     self.getComponent(cc.Sprite).spriteFrame = spriteFrame;
+        // });
 
         //远程加载  
-        //this.loadImg( this.image.getComponent(cc.Sprite) ,"resources/img/cardimg_2" )
+        this.loadImg( this.image.getComponent(cc.Sprite) ,info.picUrl )
     },     
        
     moveOff : function()

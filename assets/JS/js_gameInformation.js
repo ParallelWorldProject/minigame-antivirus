@@ -60,95 +60,50 @@ module.exports =
         }
     }
     {    //卡牌区相关信息
-        function CardInfoList(){
-      
-            //定义一张卡牌 ， 内部储存信息
-            var aCard = function( cardInfo ){
-                this.info = cardInfo;
-                this.next = null;
-            }
         
-            this.length = 0;
-            front = null;
-            last = null;
-            //var top = null 
-            //var last= null
-        
-            this.push = function( cardInfo ){
-                let acard = new aCard(cardInfo);
-                
-        
-                if( this.length == 0 ){ //第一次
-                    front = acard ;
-                }else{
-                    last.next = acard;
-                }
-        
-                last = acard;
-                this.length++;
-                return true;
-            },
-        
-            this.pop = function(){
-                front = front.next;
-                this.length--;
-            },
-        
-            this.getLength = function()
-            {
-                return this.length;
-            },
-           
-            this.getCardInfo = function()
-            {
-                return front.info;
-            },
-        
-            this.clear = function()
-            {
-                while( this.length > 0 )
-                {
-                    this.pop();
-                }
-            }
-        
-        };
-    
-        this.cardInfoList = new CardInfoList();
+        this.cardInfo = {
+            errorcode:0,
+                message:"游戏开始",
+                id : 1,
+                from:"1" ,
+                name:"1",
+                date:"11", //?
+                durtion : 1,
+                weight : 1000 ,
+                information:"1111", //?
+                picUrl:'cardimg1',
+                option:{
+                    A:{
+                       desc : "ok",
+                       valChanged :{
+                        "infectedCount" : [5,0],
+                        "dailyRecovery" : [0,5]
+                       } ,
+                       weigthChanged: null,
+                       nextCard: 0,
+                    },
+                    B:{
+                        desc : "ok",
+                        valChanged :{
+                         "infectedCount" : [5,0],
+                         "dailyRecovery" : [0,5]
+                        } ,
+                        weigthChanged: null,
+                        nextCard: 0,
+                     },
+                    },
+                 };
         this.setNewCardInfo = function( c_info ) //设置新卡片信息
         {
-            this.cardInfoList.push(c_info);
+           for( p in c_info )
+           {
+               this.cardInfo[p] = c_info[p];
+           }
         }
     
         this.getTopCardInfo= function ( ) //得到头部卡牌信息
         {
-            if( this.getCardListLength() >= 1 )
-            return this.cardInfoList.getCardInfo();
-            else
-            {
-                console.log("没牌了，请添加");
-                return false;
-            }
-        }
-    
-        this.popTopCard= function( )  //弹出卡牌
-        {
-            this.cardInfoList.pop();
-        }
-    
-        this.setManyNewCardsInfo = function( c_infos ){ //函数实现一次性设置多张卡牌 
-            for( i in c_infos )
-            this.setNewCardInfo(c_infos[i]);
-        }
-    
-        this.getAndPopTopCard = function()  //一次性实现弹出和获得下一张卡信息
-        {
-            this.popTopCard();
-            return this.getTopCardInfo();
-        }
-    
-        this.getCardListLength = function(){
-            return this.cardInfoList.getLength();
+            return this.cardInfo;
         }
     
     }

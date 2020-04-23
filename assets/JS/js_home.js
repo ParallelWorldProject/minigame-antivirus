@@ -23,124 +23,6 @@ cc.Class({
 
         this.gameInformation = new GameInfo.gameInformationList();
 
-        // 首次加载loading动画
-        // this.showMask();
-       
-        //模拟从后台获得的数据
-        this.information = {
-            cards:
-            [   
-                {//卡1
-                errorcode:0,
-                message:"游戏开始",
-                
-                id : 1,
-                from:"1" ,
-                name:"1",
-                date:"11", //?
-                durtion : 1,
-                weight : 1000 ,
-                information:"1111", //?
-                picUrl:'cardimg1',
-
-                option:{
-                    A:{
-                       desc : "ok",
-                       valChanged :{
-                        "infectedCount" : [5,0],
-                        "dailyRecovery" : [0,5]
-                       } ,
-                       weigthChanged: null,
-                       nextCard: 0,
-
-                    },
-                    B:{
-                        desc : "ok",
-                        valChanged :{
-                         "infectedCount" : [5,0],
-                         "dailyRecovery" : [0,5]
-                        } ,
-                        weigthChanged: null,
-                        nextCard: 0,
-
-                     },
-                    },
-                },
-                {//卡2
-                    errorcode:0,
-                    message:"游戏开始",
-                    
-                    id : 2,
-                    from:"2" ,
-                    name:"2",
-                    date:"22", //?
-                    durtion : 2,
-                    weight : 1000 ,
-                    information:"2222", //?
-                    picUrl:'cardimg2',
-
-                    option:{
-                        A:{
-                           desc : "ok",
-                           valChanged :{
-                            "infectedCount" : [5,0],
-                            "dailyRecovery" : [0,5]
-                           } ,
-                           weigthChanged: null,
-                           nextCard: 0,
-
-                        },
-                        B:{
-                            desc : "ok",
-                            valChanged :{
-                             "infectedCount" : [-5,0],
-                             "dailyRecovery" : [0,-5]
-                            } ,
-                            weigthChanged: null,
-                            nextCard: 0,
- 
-                         },
-                    }
-                },
-                {///卡3
-                    errorcode:0,
-                    message:"游戏开始",
-                    
-                    id : 3,
-                    from:"3" ,
-                    name:"3",
-                    date:"33", //?
-                    durtion : 3,
-                    weight : 1000 ,
-                    information:"3333", //?
-                    picUrl:'cardimg3',
-    
-                    option:{
-                        A:{
-                           desc : "ok",
-                           valChanged :{
-                            "infectedCount" : [5,0],
-                            "dailyRecovery" : [0,5]
-                           } ,
-                           weigthChanged: null,
-                           nextCard: 0,
-    
-                        },
-                        B:{
-                            desc : "ok",
-                            valChanged :{
-                             "infectedCount" : [-5,0],
-                             "dailyRecovery" : [0,-5]
-                            } ,
-                            weigthChanged: null,
-                            nextCard: 0,
-    
-                         },
-                        },
-                 },
-            ]
-        }
-       
         let params = {
             handcardid: 1,  //当前卡id
             storyid   : localStorage.getItem('storyid'),
@@ -202,25 +84,16 @@ cc.Class({
         //按照选项就行计算
         this.gameInformation.calculateAndUpdataData(select);
 
-
-
         // 盖章动画
         let cloneCard = this.cardRegion.sealAnimation( select );
         // this.scheduleOnce(()=>{
         //     this.maskLayer.active = true
         // },1)
 
-
-       
+        //获取新params请求
+        let params = this.gameInformation.getUserInfo(select);  
         
-        
-        //后台的数据
-        let params = this.gameInformation.getUserInfo(select);  //传递数据给后台
-        
-        
-
-       
-        HttpHelper.httpPost('/getnextcard',params, (data) =>  {
+        HttpHelper.httpPost('/getnextcard',params, (data) =>  {  //根据新params请求
             if(data.errorcode === 0) {
 
                 let cardInfo =  new CardInfo(data.content)
@@ -237,11 +110,8 @@ cc.Class({
                     this.cardRegion.moveCard(cloneCard)
                 },1)
 
-
                 this.dataRegion.updateData(this.gameInformation.getDataInfo());
                 this.cardRegion.getNextCard(this.gameInformation.getTopCardInfo());
-
-               
             }
         })
         

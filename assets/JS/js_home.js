@@ -20,6 +20,7 @@ cc.Class({
     },
 
      onLoad:function () {
+         this.showMask()
 
         this.gameInformation = new GameInfo.gameInformationList();
 

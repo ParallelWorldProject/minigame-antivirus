@@ -372,7 +372,7 @@ cc.Class({
 
                 this.gameInformation = new gameInformationList();
                 //this.gameInformation.setDataInfo(); datainfo固定为50 50 50 100
-                this.gameInformation.setNewCardInfo(cardinfo);
+                this.gameInformation.setNewCardInfo(cardInfo);
         
                 console.log("前台存放数据:" , this.gameInformation.dataInfo)
                 for( prop in this.gameInformation.getDataInfo() ) {

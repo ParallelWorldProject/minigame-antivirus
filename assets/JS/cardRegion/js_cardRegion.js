@@ -36,6 +36,7 @@ cc.Class({
         // 1.克隆第一张
         let cloneCard =  this.cloneNode(this.topCard);
         cloneCard.zIndex = 9
+        cloneCard.getComponent('js_checkButton').destroy()
         // 2.获取章戳，选择并盖章
         let seal = cloneCard.getChildByName("seal_wrap")
         let sealBox = cloneCard.getChildByName("seal_box")

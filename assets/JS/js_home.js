@@ -20,10 +20,8 @@ cc.Class({
 
      onLoad:function () {
         // 首次加载loading动画
-        this.showMask();
-        this.scheduleOnce(function() {
-            cc.log('计时器模拟请求时间')
-        }, 2);
+        // this.showMask();
+       
         //模拟从后台获得的数据
         this.information = {
             cards:
@@ -139,8 +137,10 @@ cc.Class({
             ]
         }
         
-        // 后端 获取卡牌
-        let storyid = localStorage.getItem('storyid')
+        this.gameInformation = new GameInfo.gameInformationList();
+
+        // 从后端 获取卡牌
+        var storyid = localStorage.getItem('storyid')
         let params = {
             handcardid: 1,  //当前卡id
             storyid,
@@ -153,7 +153,6 @@ cc.Class({
                 let cardInfo =  new CardInfo(data.content)
                 cc.log('cardInfo',cardInfo)
 
-                this.gameInformation = new GameInfo.gameInformationList();
                 //this.gameInformation.setDataInfo(); datainfo固定为50 50 50 100
                 this.gameInformation.setNewCardInfo(cardInfo);
         
@@ -182,7 +181,10 @@ cc.Class({
                 select = 'B';
             }
             cc.log('click ' + select)
-            this.updateHome(select)  
+            this.updateHome(select)
+
+            // event.stopPropagation();
+            // event.bubbles = false
         },this);
 
         /*
@@ -209,7 +211,6 @@ cc.Class({
         this.gameInformation.calculateAndUpdataData(select);
 
         //传递数据给后台
-
 
         //依照具体情况获取新卡牌
         
@@ -243,24 +244,7 @@ cc.Class({
             .start()
         }
     },
-    getcardData() {
-        let storyid = localStorage.getItem('storyid')
-        let params = {
-            handcardid: 1,  //当前卡id
-            storyid,
-            day: 1
-        }
-        HttpHelper.httpPost('/getnextcard',params, (data) =>  {
-            if(data.errorcode === 0) {
-                let cardInfo =  new CardInfo(data.content)
-
-                cc.log('cardInfo',cardInfo)
-            }
-            
-        })
-    },
     
-   
 });
 
 class CardInfo {

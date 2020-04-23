@@ -27,6 +27,7 @@ const HttpHelper = cc.Class({
      */
     httpPost(url, params, callback) {
         let oppenId = localStorage.getItem('oppenId')
+
         let xhr = cc.loader.getXMLHttpRequest();
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && (xhr.status >= 200 && xhr.status < 300)) {
@@ -41,6 +42,7 @@ const HttpHelper = cc.Class({
         xhr.open('POST', posturl, true);
         
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        // xhr.setRequestHeader('oppenId', '666666');
         xhr.setRequestHeader('userid', 3);
 
         xhr.timeout = 8000;

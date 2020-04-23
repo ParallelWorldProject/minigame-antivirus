@@ -16,7 +16,7 @@ var GameManager = {
                         //         code: res.code
                         //     }
                         // })
-                        HttpHelper.httpPost('/login','code='+res.code, (data) =>  {
+                        HttpHelper.httpPost('/login',{code:res.code}, (data) =>  {
                            console.log('logindata',data)
                            localStorage.setItem("token",data.token)
                         })
@@ -50,15 +50,14 @@ var GameManager = {
     },
     // 游戏结束
     gameover() {
-        let storyid = localStorage.getItem('storyid')
         let params = {
-            storyid,
+            storyid:localStorage.getItem('storyid'),
             day: 1 //hard code，后面要修改
         }
         HttpHelper.httpPost('/closegame',params, (data) =>  {
             console.log('closegame',data)
             
-            if(data.errorcode==0) localStorage.setItem('storyid',data.content.storyid)
+            if(data.errorcode==0) localStorage.clear()
         })
     }
  

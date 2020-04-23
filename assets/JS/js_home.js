@@ -19,6 +19,9 @@ cc.Class({
     },
 
      onLoad:function () {
+
+        this.gameInformation = new GameInfo.gameInformationList();
+
         // 首次加载loading动画
         this.showMask();
         this.scheduleOnce(function() {
@@ -138,12 +141,10 @@ cc.Class({
                  },
             ]
         }
-        
-        // 后端 获取卡牌
-        let storyid = localStorage.getItem('storyid')
+       
         let params = {
             handcardid: 1,  //当前卡id
-            storyid,
+            storyid   : localStorage.getItem('storyid'),
             day: 1
         }
 
@@ -153,9 +154,9 @@ cc.Class({
                 let cardInfo =  new CardInfo(data.content)
                 cc.log('cardInfo',cardInfo)
 
-                this.gameInformation = new GameInfo.gameInformationList();
-                //this.gameInformation.setDataInfo(); datainfo固定为50 50 50 100
+                
                 this.gameInformation.setNewCardInfo(cardInfo);
+                //this.gameInformation.setParamsInfo( params );  //这个必需要在Cardinfo加入后执行
         
                 console.log("前台存放数据:" , this.gameInformation.dataInfo)
                 for( prop in this.gameInformation.getDataInfo() ) {

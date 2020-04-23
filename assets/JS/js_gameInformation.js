@@ -3,6 +3,7 @@ module.exports =
 { 
     gameInformationList : function (){
 
+    
     {  //游戏常量不用从后台获得 ？？
         this.maxInfected=1000000; //失败感染人数
         this.initialInfected=100;  //起始感染人数
@@ -211,7 +212,40 @@ module.exports =
         }           
             
     }
-    
+    {   //后台需要传递的信息
+        this.paramsInfo ={
+            userid: 0,
+           // storyid,
+            handcardid: 0,      // 当前卡id
+            curcardoption: 0,   // 1或2
+            cardinhand: [2, 3],     //[id, id] 当前手中的卡片id列表（不包含当前处理的卡）
+            mainpara:'{}',        // 明变量json串
+            assistpara: '{}',     // 暗变量json串
+            day: 1
+        }
+
+        this.setParamsInfo = function( p_info ) {
+            /*p_info 格式如下
+            {
+                handcardid: 1,  //当前卡id
+                storyid, //storyid = localStorage.getItem('storyid')
+                day: 1
+            }
+            */
+            for(  porp in p_info )
+            {
+                //if( porp == 'storyid')
+
+                 this.paramsInfo[porp] = p_info[porp]
+            }
+
+
+        },
+
+        this.getParamsInfo = function(){// 每次获取是需要更新呢
+            return this.paramsInfo;
+        }
+    }
     }
 }
-    //module.exports = gameInformationList;
+    

@@ -21,13 +21,9 @@ cc.Class({
      onLoad:function () {
         // 首次加载loading动画
         this.showMask();
-        //请求后端加载
         this.scheduleOnce(function() {
             cc.log('计时器模拟请求时间')
         }, 2);
-        
-        //请求后端加载
-
         //模拟从后台获得的数据
         this.information = {
             cards:
@@ -142,7 +138,7 @@ cc.Class({
                  },
             ]
         }
-
+        
         // 后端 获取卡牌
         let storyid = localStorage.getItem('storyid')
         let params = {
@@ -150,15 +146,16 @@ cc.Class({
             storyid,
             day: 1
         }
+
         HttpHelper.httpPost('/getnextcard',params, (data) =>  {
             if(data.errorcode === 0) {
 
                 let cardInfo =  new CardInfo(data.content)
                 cc.log('cardInfo',cardInfo)
 
-                this.gameInformation = new gameInformationList();
+                this.gameInformation = new GameInfo.gameInformationList();
                 //this.gameInformation.setDataInfo(); datainfo固定为50 50 50 100
-                this.gameInformation.setNewCardInfo(cardinfo);
+                this.gameInformation.setNewCardInfo(cardInfo);
         
                 console.log("前台存放数据:" , this.gameInformation.dataInfo)
                 for( prop in this.gameInformation.getDataInfo() ) {
@@ -170,7 +167,7 @@ cc.Class({
                 this.cardRegion.init(this.gameInformation.getTopCardInfo());
             }
         })
-
+       
 
      },
 

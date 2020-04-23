@@ -113,8 +113,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 60,
-      "height": 60
+      "width": 65,
+      "height": 65
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -125,7 +125,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -190.036,
+        -238.92,
         0,
         0,
         0,
@@ -220,7 +220,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 378.67,
+      "width": 478.91,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -273,11 +273,13 @@
     "_useOriginalSize": false,
     "_string": "正在去市长办公室的路上...",
     "_N$string": "正在去市长办公室的路上...",
-    "_fontSize": 32,
+    "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
-    "_N$file": null,
-    "_isSystemFontUsed": true,
+    "_N$file": {
+      "__uuid__": "5567c20c-18d9-46ae-a031-ee14be199125"
+    },
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_batchAsBitmap": false,
     "_styleFlags": 0,
@@ -316,7 +318,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "9bbda31e-ad49-43c9-aaf2-f7d9896bac69"
+      "__uuid__": "7d642a1e-016b-4159-a0a6-599902437ec9"
     },
     "_type": 1,
     "_sizeMode": 0,

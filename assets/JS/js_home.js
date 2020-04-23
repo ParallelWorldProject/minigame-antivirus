@@ -15,7 +15,8 @@ cc.Class({
             default: null,
             type: DataRegion
         },
-        loadingPre: cc.Prefab
+        loadingPre: cc.Prefab,
+        maskLayer: cc.Node
     },
 
      onLoad:function () {
@@ -23,10 +24,8 @@ cc.Class({
         this.gameInformation = new GameInfo.gameInformationList();
 
         // 首次加载loading动画
-        this.showMask();
-        this.scheduleOnce(function() {
-            cc.log('计时器模拟请求时间')
-        }, 2);
+        // this.showMask();
+       
         //模拟从后台获得的数据
         this.information = {
             cards:
@@ -183,7 +182,7 @@ cc.Class({
                 select = 'B';
             }
             cc.log('click ' + select)
-            this.updateHome(select)  
+            this.updateHome(select)
         },this);
 
         /*
@@ -209,10 +208,40 @@ cc.Class({
         //按照选项就行计算
         this.gameInformation.calculateAndUpdataData(select);
 
+
+
+        // 盖章动画
+        let cloneCard = this.cardRegion.sealAnimation( select );
+        // this.scheduleOnce(()=>{
+        //     this.maskLayer.active = true
+        // },1)
+
+
         //传递数据给后台
+        //依照具体情况获取新卡牌，参数根据实际情况，这里暂时写死
+        let params = {
+            handcardid: 1,  // 当前卡id
+            storyid: localStorage.getItem('storyid'),
+            day: 1
+            // ...
+        }
+        HttpHelper.httpPost('/getnextcard',params, (data) =>  {
+            if(data.errorcode === 0) {
+
+                let cardInfo =  new CardInfo(data.content)
+                cc.log('请求成功',cardInfo)
+
+                //这里更新卡牌信息
+                // ...
 
 
-        //依照具体情况获取新卡牌
+                // 移走卡牌
+                this.scheduleOnce(()=>{
+                    this.maskLayer.active = false
+                    this.cardRegion.moveCard(cloneCard)
+                },1)
+            }
+        })
         
 
         if( this.gameInformation.getCardListLength() <= 1) //如果只剩一张牌了，记得添加
@@ -221,8 +250,8 @@ cc.Class({
         }
 
         //获取完后更新区域
-        this.dataRegion.show(this.gameInformation.dataInfo);  //计算完后更新数据
-        this.cardRegion.getNextCard( select , this.gameInformation.getAndPopTopCard() );
+        // this.dataRegion.show(this.gameInformation.dataInfo);  //计算完后更新数据
+        // this.cardRegion.getNextCard( select , this.gameInformation.getAndPopTopCard() );
 
         
     },
@@ -244,24 +273,7 @@ cc.Class({
             .start()
         }
     },
-    getcardData() {
-        let storyid = localStorage.getItem('storyid')
-        let params = {
-            handcardid: 1,  //当前卡id
-            storyid,
-            day: 1
-        }
-        HttpHelper.httpPost('/getnextcard',params, (data) =>  {
-            if(data.errorcode === 0) {
-                let cardInfo =  new CardInfo(data.content)
-
-                cc.log('cardInfo',cardInfo)
-            }
-            
-        })
-    },
     
-   
 });
 
 class CardInfo {

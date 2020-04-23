@@ -129,7 +129,7 @@ cc.Class({
 
             //判断是不是双击
             if(this.isDoubleClick) {
-                cc.log('isDoubleClick',this.isDoubleClick,this.doubleClickState,this.doubleOffTime)
+                // cc.log('isDoubleClick',this.isDoubleClick,this.doubleClickState,this.doubleOffTime)
 
                 if(this.doubleClickState) {
 

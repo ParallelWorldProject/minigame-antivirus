@@ -201,7 +201,7 @@ module.exports =
         this.userInfo.curcardoption = select=='A'?1:2;
         this.userInfo.mainpara = this.getDataInfo();
         this.userInfo.assistpara = this.getDarkVar();
-        this.userInfo.day = this.userInfo.assistpara.dayCount;
+        this.userInfo.day = this.userInfo.assistpara.dayCount+1;
        }
 
         this.getUserInfo = function( select ){

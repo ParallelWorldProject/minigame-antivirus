@@ -11,7 +11,6 @@ cc.Class({
 
     onLoad () {
         GameManager.wxlogin()
-        GameManager.initgame()
     },
 
     start () {
@@ -23,6 +22,7 @@ cc.Class({
 
         switch (data) {
             case 'start':
+                GameManager.initgame()
                 GameManager.startGame('gameScene')
                 break;
 

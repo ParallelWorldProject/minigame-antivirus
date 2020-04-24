@@ -535,8 +535,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 571.05,
-      "height": 31.5
+      "width": 534.6,
+      "height": 107.634375
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -548,7 +548,7 @@
       "ctor": "Float64Array",
       "array": [
         6.074999999999989,
-        -40.05000000000001,
+        -41.3015625,
         0,
         0,
         0,
@@ -586,9 +586,9 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "information",
-    "_N$string": "information",
-    "_fontSize": 25,
+    "_string": "这里是中文，中文中文，中文中这里是中是你号你爱你字和",
+    "_N$string": "这里是中文，中文中文，中文中这里是中是你号你爱你字和",
+    "_fontSize": 20,
     "_lineHeight": 25,
     "_enableWrapText": true,
     "_N$file": {
@@ -599,10 +599,10 @@
     "_batchAsBitmap": false,
     "_styleFlags": 0,
     "_underlineHeight": 0,
-    "_N$horizontalAlign": 1,
+    "_N$horizontalAlign": 0,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
-    "_N$overflow": 3,
+    "_N$overflow": 2,
     "_N$cacheMode": 0,
     "_id": ""
   },
@@ -617,10 +617,10 @@
     "alignMode": 1,
     "_target": null,
     "_alignFlags": 45,
-    "_left": 0.04,
-    "_right": 0.02,
-    "_top": 0.5970786516853933,
-    "_bottom": 0.2770786516853932,
+    "_left": 0.07,
+    "_right": 0.05,
+    "_top": 0.45,
+    "_bottom": 0.12,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
     "_isAbsLeft": false,
@@ -2001,7 +2001,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "d4cbc088-f37b-4c7b-9619-52c78245e54d"
+      "__uuid__": "79c43f80-ece8-49fa-a617-9ce330154ca8"
     },
     "_type": 0,
     "_sizeMode": 0,

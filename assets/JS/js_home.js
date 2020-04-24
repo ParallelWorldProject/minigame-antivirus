@@ -107,7 +107,7 @@ cc.Class({
                 this.scheduleOnce(()=>{
                     this.maskLayer.active = false
                     this.cardRegion.moveCard(cloneCard)
-                },1)
+                },1.7)
 
                 this.dataRegion.updateData(this.gameInformation.getDataInfo());
                 this.cardRegion.getNextCard(this.gameInformation.getTopCardInfo());

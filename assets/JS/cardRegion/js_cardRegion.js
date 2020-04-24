@@ -56,7 +56,6 @@ cc.Class({
 
      // 克隆卡牌
     cloneNode(target) {
-        // let scene = cc.director.getScene();
         let clone = cc.instantiate(target);
         clone.parent = this.node;
         clone.setPosition(0,0);
@@ -73,12 +72,12 @@ cc.Class({
 
             this.scheduleOnce(()=>{
                 cc.tween(sealBox)
-                .to(0.5, { position: cc.v2(positionX, -280)})
+                .to(0.8, { position: cc.v2(positionX, -280)})
                 .call(() => {
                     sealBox.active = false
                 })
                 .start()
-            },0.5)
+            },0.2)
         })
         .start()
     },

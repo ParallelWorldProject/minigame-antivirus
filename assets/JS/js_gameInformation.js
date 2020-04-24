@@ -106,6 +106,8 @@ module.exports =
                this.cardInfo[p] = c_info[p];
            }
            this.cardInfo.day = this.darkVar.dayCount;
+
+           //cc.log('storgt：cardInfo',this.cardInfo);
         }
     
         this.getTopCardInfo= function ( ) //得到头部卡牌信息
@@ -194,7 +196,7 @@ module.exports =
 
        this.updateUserInfo= function(select)
        {
-        this.userInfo.storyid = 1; //这里是什么？
+        this.userInfo.storyid = localStorage.getItem('storyid'); 
         this.userInfo.handcardid = this.getTopCardInfo().id;
         this.userInfo.curcardoption = select=='A'?1:2;
         this.userInfo.mainpara = this.getDataInfo();

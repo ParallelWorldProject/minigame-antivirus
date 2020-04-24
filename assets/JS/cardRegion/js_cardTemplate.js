@@ -8,6 +8,7 @@ cc.Class({
             type: cc.Node
         },
         image : cc.Node,
+        select: cc.Node
     },
 
     init : function( info ){
@@ -40,6 +41,13 @@ cc.Class({
 
         //远程加载  
         this.loadImg( this.image.getComponent(cc.Sprite) ,info.picUrl )
+
+
+        this.ac_btn = this.select.getChildByName("ac_btn").getComponent(cc.Label);
+        this.de_btn = this.select.getChildByName("de_btn").getComponent(cc.Label);
+
+        this.ac_btn.string = info.option.A.desc;
+        this.de_btn.string = info.option.B.desc;
     },     
     
 

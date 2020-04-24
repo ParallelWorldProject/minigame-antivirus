@@ -45,7 +45,10 @@ var GameManager = {
             
             if(data.errorcode==0) {
                 cc.sys.localStorage.setItem('storyid',data.content.storyid)
-                cc.sys.localStorage.setItem('firstday', data.content.firstday.split("-").reverse().join('/'))
+                
+                let firstdayArr = data.content.firstday.split("-")
+                var firstday = firstdayArr[1]+'/'+firstdayArr[2]+'/'+firstdayArr[0]
+                cc.sys.localStorage.setItem('firstday', firstday)
             }
         })
     },

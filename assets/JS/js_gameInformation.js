@@ -1,6 +1,10 @@
 
 module.exports =
 { 
+
+
+
+
     gameInformationList : function (){
 
     
@@ -17,6 +21,7 @@ module.exports =
     { //暗变量
         this.darkVar = {
         dayCount:0, //当前天数
+        hoursCount:0,
         infectedCount:100, //当前感染人数 
         infectionRate:0.3, //感染率
         dailyInfection:0,  //日感染人数
@@ -92,13 +97,15 @@ module.exports =
                         nextCard: 0,
                      },
                     },
-                 };
+                day:0,
+        };
         this.setNewCardInfo = function( c_info ) //设置新卡片信息
         {
            for( p in c_info )
            {
                this.cardInfo[p] = c_info[p];
            }
+           this.cardInfo.day = this.darkVar.dayCount;
         }
     
         this.getTopCardInfo= function ( ) //得到头部卡牌信息
@@ -114,6 +121,7 @@ module.exports =
             console.log( "--------- Calculate And UpdataData -----------")
             let theCard = this.getTopCardInfo();
             let valChanged = theCard.option[select].valChanged ;  //根据select获取卡牌中的暗变量
+            
             for( v in valChanged )
             {
                 if( this.darkVar[v] == null ) {
@@ -132,7 +140,10 @@ module.exports =
     
            
             //在改变其他暗变量 
-            this.darkVar.dayCount= this.darkVar.dayCount + theCard.durtion;
+            if( this.darkVar.hoursCount==null ) this.darkVar.hoursCount=0;
+            this.darkVar.hoursCount = this.darkVar.hoursCount + theCard.durtion
+            this.darkVar.dayCount = Math.floor(this.darkVar.hoursCount / 24) ;
+            
     
             this.darkVar.dailyRecovery=Math.ceil(this.darkVar.infectedCount * 
                 Math.pow(this.darkVar.recoveryRate,theCard.durtion));
@@ -225,6 +236,7 @@ module.exports =
             {
                 console.log(porp + " : " + this.userInfo[porp]  );
             }
+            console.log("PastHours:"+this.darkVar.hoursCount + "//这个参数是不传的");
             console.log("-----UserInfo-------");
 
         }

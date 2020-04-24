@@ -171,7 +171,7 @@
       "array": [
         0,
         0,
-        423.4864224505905,
+        421.75437164302167,
         0,
         0,
         0,
@@ -612,10 +612,8 @@
     "_fontSize": 36,
     "_lineHeight": 40,
     "_enableWrapText": false,
-    "_N$file": {
-      "__uuid__": "5567c20c-18d9-46ae-a031-ee14be199125"
-    },
-    "_isSystemFontUsed": false,
+    "_N$file": null,
+    "_isSystemFontUsed": true,
     "_spacingX": 0,
     "_batchAsBitmap": false,
     "_styleFlags": 0,
@@ -1000,10 +998,8 @@
     "_fontSize": 36,
     "_lineHeight": 40,
     "_enableWrapText": false,
-    "_N$file": {
-      "__uuid__": "5567c20c-18d9-46ae-a031-ee14be199125"
-    },
-    "_isSystemFontUsed": false,
+    "_N$file": null,
+    "_isSystemFontUsed": true,
     "_spacingX": 0,
     "_batchAsBitmap": false,
     "_styleFlags": 0,

@@ -49,13 +49,13 @@ module.exports =
             approval : 50,
         }
         this.setDataInfo = function( d_info ){
-            for(  porp in d_info )
+            for( var porp in d_info )
             {
                  this.dataInfo[porp] = d_info[porp]
             }
         }
         this.updateDataInfo = function( d_info ){
-            for(  porp in d_info )
+            for( var porp in d_info )
             {
                 this.dataInfo[porp] += d_info[porp]
             }
@@ -101,7 +101,7 @@ module.exports =
         };
         this.setNewCardInfo = function( c_info ) //设置新卡片信息
         {
-           for( p in c_info )
+           for( var p in c_info )
            {
                this.cardInfo[p] = c_info[p];
            }
@@ -122,7 +122,7 @@ module.exports =
             let theCard = this.getTopCardInfo();
             let valChanged = theCard.option[select].valChanged ;  //根据select获取卡牌中的暗变量
             
-            for( v in valChanged )
+            for( var v in valChanged )
             {
                 if( this.darkVar[v] == null ) {
                     console.log("不存在这样的变量");
@@ -168,11 +168,11 @@ module.exports =
     
     
             console.log( "durtion: " + theCard.durtion );    
-            for( prop in this.darkVar )
+            for( var prop in this.darkVar )
             {
                 console.log( prop + " : " + this.darkVar[prop] );
             }
-            for( prop in this.dataInfo )
+            for( var prop in this.dataInfo )
             {
                 console.log( prop + " : " + this.dataInfo[prop] );
             }
@@ -216,7 +216,7 @@ module.exports =
         this.showUserInfo=function()
         {
             console.log("-----Here is UserInfo:-----");
-            for(  porp in this.userInfo )
+            for( var  porp in this.userInfo )
             {
                 console.log(porp + " : " + this.userInfo[porp]  );
             }

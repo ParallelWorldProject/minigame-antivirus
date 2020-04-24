@@ -68,15 +68,17 @@ cc.Class({
         cc.tween(sealBox)
         .to(0.5, { position: cc.v2(positionX, positionY)})
         .call(() => {
-            // 显示印章
             seal.setPosition(positionX,positionY-60)
             seal.active = true
-            cc.tween(sealBox)
-            .to(0.5, { position: cc.v2(positionX, -280)})
-            .call(() => {
-                sealBox.active = false
-            })
-            .start()
+
+            this.scheduleOnce(()=>{
+                cc.tween(sealBox)
+                .to(0.5, { position: cc.v2(positionX, -280)})
+                .call(() => {
+                    sealBox.active = false
+                })
+                .start()
+            },0.5)
         })
         .start()
     },

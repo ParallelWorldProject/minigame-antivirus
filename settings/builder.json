@@ -1,7 +1,7 @@
 {
   "title": "minigame-antivirus",
   "packageName": "org.cocos2d.demo",
-  "startScene": "7d25fcb9-dff0-44a8-b138-5a86e05996e6",
+  "startScene": "4c1ff421-0eaa-453e-ab8a-4f5ae8e4315b",
   "excludeScenes": [],
   "includeSDKBox": false,
   "orientation": {
@@ -15,7 +15,7 @@
   "inlineSpriteFrames_native": true,
   "mergeStartScene": false,
   "optimizeHotUpdate": false,
-  "md5Cache": true,
+  "md5Cache": false,
   "encryptJs": true,
   "xxteaKey": "1fc01997-8f91-44",
   "zipCompressJs": true,

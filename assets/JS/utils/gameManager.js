@@ -1,24 +1,22 @@
 
 var GameManager = {
+    
 
     // 微信登录
     wxlogin() {
         cc.log('模拟登录')
         
-        
         if (cc.sys.platform === cc.sys.WECHAT_GAME){
             wx.login({
                 success(res) {
                     if (res.code) {
-                        // wx.request({
-                        //     url: 'http://www.llspace.com.cn/mg/login',
-                        //     data: {
-                        //         code: res.code
-                        //     }
-                        // })
                         HttpHelper.httpPost('/login',{code:res.code}, (data) =>  {
-                           console.log('logindata',data)
-                           localStorage.setItem("token",data.token)
+                            if(data.errorcode==0) {
+                                console.log('logindata',data)
+                                cc.sys.localStorage.setItem('token', data.content.token)
+                                cc.sys.localStorage.setItem('userid', data.content.userid)
+                           }
+                           
                         })
                         console.log('登录成功！' + res.code)
                     } else {

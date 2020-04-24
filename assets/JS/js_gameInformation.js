@@ -194,32 +194,16 @@ module.exports =
 
        this.updateUserInfo= function(select)
        {
+        this.userInfo.storyid = 1; //这里是什么？
+        this.userInfo.handcardid = this.getTopCardInfo().id;
+        this.userInfo.curcardoption = select=='A'?1:2;
         this.userInfo.mainpara = this.getDataInfo();
         this.userInfo.assistpara = this.getDarkVar();
         this.userInfo.day = this.userInfo.assistpara.dayCount;
-        this.userInfo.curcardoption = select=='A'?1:2;
        }
 
-        this.setsUserInfo = function( u_info ) {
-             /* handcardid: 1,  //当前卡id
-                storyid   : localStorage.getItem('storyid'),
-                day: 1*/
-                
-                
-            for(  porp in u_info )
-            {
-                 this.userInfo[porp] = u_info[porp]
-            }
-
-            this.updateUserInfo(0);
-        },
-
         this.getUserInfo = function( select ){
-            /*
-            curcardoption: 0,   // 1或2
-            mainpara:'{}',        // 明变量json串
-            assistpara: '{}',     // 暗变量json串
-            */
+            
 
             // 每次获取是需要更新呢
            this.updateUserInfo(select);

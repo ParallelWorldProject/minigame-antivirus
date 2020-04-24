@@ -37,7 +37,7 @@ cc.Class({
                 cc.log('cardInfo',cardInfo)
 
                 this.gameInformation.setNewCardInfo(cardInfo);
-                this.gameInformation.setsUserInfo( params );  //这个必需要在Cardinfo加入后执行 //请求到数据后先存放到这里
+                //this.gameInformation.updateUserInfo( 0 );  //这个必需要在Cardinfo加入后执行 //请求到数据后先存放到这里
         
                 //初始化两个区域
                 this.dataRegion.init(this.gameInformation.getDataInfo());
@@ -102,9 +102,7 @@ cc.Class({
 
                 //这里更新卡牌信息
                 this.gameInformation.setNewCardInfo(cardInfo);
-                this.gameInformation.setsUserInfo(   params   ); //请求到新数据后先存放到这里
 
-                
                 // 移走卡牌
                 this.scheduleOnce(()=>{
                     this.maskLayer.active = false

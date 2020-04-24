@@ -27,7 +27,6 @@ cc.Class({
         this.date.string  = this.addDate(  "1/1/2020" , info.day ) ;
 
 
-        console.log("info day"+ info.day)
         this.information.string  = info.information;
 
   

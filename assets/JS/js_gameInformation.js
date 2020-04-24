@@ -194,12 +194,12 @@ module.exports =
 
        this.updateUserInfo= function(select)
        {
-        this.userInfo.storyid = 1; //这里是什么？
+        this.userInfo.storyid = localStorage.getItem('storyid'); //这里是什么？
         this.userInfo.handcardid = this.getTopCardInfo().id;
         this.userInfo.curcardoption = select=='A'?1:2;
         this.userInfo.mainpara = this.getDataInfo();
         this.userInfo.assistpara = this.getDarkVar();
-        this.userInfo.day = this.userInfo.assistpara.dayCount;
+        this.userInfo.day = this.userInfo.assistpara.dayCount+1;
        }
 
         this.getUserInfo = function( select ){

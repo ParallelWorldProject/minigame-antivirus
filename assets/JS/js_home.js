@@ -153,13 +153,13 @@ class CardInfo {
             A: {
                 desc: data.optionOneDesc,
                 valChanged: data.optionOneValueChange ? JSON.parse(data.optionOneValueChange) : data.optionOneValueChange ,
-                weigthChanged: data.optionOneWeightChange ,
+                weigthChanged: data.optionOneWeightChange ? JSON.parse(data.optionOneWeightChange) : data.optionOneWeightChange,
                 nextCard: data.optionOneNextCard
             },
             B: {
                 desc: data.optionTwoDesc,
                 valChanged: data.optionTwoValueChange ? JSON.parse(data.optionTwoValueChange): data.optionTwoValueChange,
-                weigthChanged: data.optionTwoWeightChange,
+                weigthChanged: data.optionTwoWeightChange ? JSON.parse(data.optionTwoWeightChange) : data.optionTwoWeightChange,
                 nextCard: data.optionTwoNextCard
             }
         }

@@ -12,7 +12,7 @@ cc.Class({
     },
 
     init : function( info ){
-        
+        let firstday =  cc.sys.localStorage.getItem('firstday')
 
         //this.information = this.node.getChildByName("information");
         //现在只会这么写
@@ -25,7 +25,7 @@ cc.Class({
         this.from.string = info.from;
         this.name.string  = info.name;
 
-        this.date.string  = this.addDate(  "1/1/2020" , info.day ) ;
+        this.date.string  = this.addDate(  firstday , info.day ) ;
 
 
         this.information.string  = info.information;
@@ -49,7 +49,7 @@ cc.Class({
         this.ac_btn.string = info.option.A.desc;
         this.de_btn.string = info.option.B.desc;
     },     
-    
+
 
     // 日期，在原有日期基础上，增加days天数，默认增加1天
     addDate: function (date, days) {

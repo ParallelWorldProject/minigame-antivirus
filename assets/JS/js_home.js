@@ -26,7 +26,7 @@ cc.Class({
 
         let params = {
             handcardid: 1,  //当前卡id
-            storyid   : localStorage.getItem('storyid'),
+            storyid: cc.sys.localStorage.getItem('storyid'),
             day: 1
         }
         

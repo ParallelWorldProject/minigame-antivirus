@@ -43,14 +43,17 @@ var GameManager = {
         HttpHelper.httpPost('/initgame',{}, (data) =>  {
             console.log('initgame',data)
             
-            if(data.errorcode==0) localStorage.setItem('storyid',data.content.storyid)
+            if(data.errorcode==0) {
+                cc.sys.localStorage.setItem('storyid',data.content.storyid)
+                cc.sys.localStorage.setItem('firstday', data.content.firstday.split("-").reverse().join('/'))
+            }
         })
     },
     // 游戏结束
     gameover() {
         let params = {
-            storyid:localStorage.getItem('storyid'),
-            day: 1 //hard code，后面要修改
+            storyid: cc.sys.localStorage.getItem('storyid'),
+            day: cc.sys.localStorage.getItem('lastday') || 1 //hard code，后面要修改
         }
         HttpHelper.httpPost('/closegame',params, (data) =>  {
             console.log('closegame',data)

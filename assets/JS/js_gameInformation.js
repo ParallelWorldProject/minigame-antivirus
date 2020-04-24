@@ -196,12 +196,14 @@ module.exports =
 
        this.updateUserInfo= function(select)
        {
-        this.userInfo.storyid = localStorage.getItem('storyid'); 
+        this.userInfo.storyid = cc.sys.localStorage.getItem('storyid'); 
         this.userInfo.handcardid = this.getTopCardInfo().id;
         this.userInfo.curcardoption = select=='A'?1:2;
         this.userInfo.mainpara = this.getDataInfo();
         this.userInfo.assistpara = this.getDarkVar();
         this.userInfo.day = this.userInfo.assistpara.dayCount+1;
+
+        cc.sys.localStorage.setItem('lastday', this.userInfo.day)
        }
 
         this.getUserInfo = function( select ){

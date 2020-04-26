@@ -24,7 +24,7 @@ cc.Class({
         switch (data) {
             case 'start':
                 GameManager.initgame()
-                GameManager.startGame('gameScene')
+                GameManager.changeGameScence('gameScene')
                 break;
 
             case 'about':

@@ -92,7 +92,7 @@ cc.Class({
         // },1)
 
         //获取新params请求
-        let params = this.gameInformation.getUserInfo(select);  
+        let params = this.gameInformation.getUserInfo(select);
         
         HttpHelper.httpPost('/getnextcard',params, (data) =>  {  //根据新params请求
             if(data.errorcode === 0) {

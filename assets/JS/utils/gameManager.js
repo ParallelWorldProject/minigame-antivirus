@@ -30,8 +30,8 @@ var GameManager = {
         }
     },
  
-    //进入游戏场景
-    startGame(scence) {
+    //切换游戏场景
+    changeGameScence(scence) {
         cc.director.loadScene(scence);
     },
  
@@ -56,17 +56,30 @@ var GameManager = {
         })
     },
     // 游戏结束
-    gameover() {
+    gameover(endBg) {
+        let endingid = Math.ceil(Math.random()*4)
+
         let params = {
             storyid: cc.sys.localStorage.getItem('storyid'),
-            day: cc.sys.localStorage.getItem('lastday') || 1 //hard code，后面要修改
+            day: cc.sys.localStorage.getItem('lastday') || 1,
+            endingid
         }
         HttpHelper.httpPost('/closegame',params, (data) =>  {
             console.log('closegame',data)
             
-            if(data.errorcode==0) localStorage.clear()
+            if(data.errorcode==0) {
+                this.loadImg(endBg,data.content.imgurl)
+                localStorage.clear() 
+            }
         })
-    }
+        
+    },
+    //远程加载图片  
+    loadImg(target,url){
+        cc.loader.load(url, function (err, texture) {
+            target.spriteFrame = new cc.SpriteFrame(texture);
+        }.bind(this));
+    },
  
 }
 

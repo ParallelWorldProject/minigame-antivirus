@@ -10,6 +10,7 @@ cc.Class({
 
 
     onLoad () {
+        cc.sys.localStorage.clear()
         GameManager.wxlogin()
     },
 

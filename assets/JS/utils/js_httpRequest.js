@@ -18,7 +18,6 @@ const HttpHelper = cc.Class({
         this.baseUrl = 'http://www.llspace.com.cn/mg'
     },
 
- 
     /**
      * post请求
      * @param {string} url 
@@ -26,14 +25,7 @@ const HttpHelper = cc.Class({
      * @param {function} callback 
      */
     httpPost(url, params, callback) {
-        var userid
-
-        if (cc.sys.platform === cc.sys.WECHAT_GAME){
-            var toke = cc.sys.localStorage.getItem('token')
-            userid = cc.sys.localStorage.getItem('userid')
-        } else {
-            userid = Math.ceil(Math.random()*10)
-        }
+        let userid = cc.sys.localStorage.getItem('userid')
 
         let xhr = cc.loader.getXMLHttpRequest();
         xhr.onreadystatechange = function () {
@@ -47,9 +39,10 @@ const HttpHelper = cc.Class({
         };
         let posturl = this.baseUrl + url
         xhr.open('POST', posturl, true);
+
         console.log('userid',userid)
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.setRequestHeader('userid', userid);
+        if(userid) xhr.setRequestHeader('userid', userid);
 
         xhr.timeout = 8000;
 

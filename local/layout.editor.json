@@ -18,7 +18,7 @@
                 "children": [
                   "hierarchy"
                 ],
-                "height": 226.28750610351562,
+                "height": 226,
                 "type": "panel",
                 "width": 273.07501220703125
               },
@@ -27,7 +27,7 @@
                 "children": [
                   "assets"
                 ],
-                "height": 575.7125244140625,
+                "height": 576,
                 "type": "panel",
                 "width": 273.07501220703125
               }
@@ -71,7 +71,7 @@
                   "timeline",
                   "game-window"
                 ],
-                "height": 266.16668701171875,
+                "height": 266,
                 "type": "panel",
                 "width": 1262.3125
               }

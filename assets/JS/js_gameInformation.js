@@ -52,6 +52,10 @@ module.exports =
 
         this.getDarkVar = function(){
             return this.darkVar;
+        },
+
+        this.getDayCount= function(){
+            return this.darkVar.dayCount;
         }
         
     } 

@@ -48,9 +48,8 @@ cc.Class({
         this.ac_btn.string = info.option.A.desc;
         this.de_btn.string = info.option.B.desc;
 
-        //this.ac_btn.fontSize = this.ac_btn.string.length>=7||this.de_btn.string.length>=7?28:35;
-        //this.de_btn.fontSize = this.ac_btn.fontSize;
-        
+        this.ac_btn.fontSize = Math.min(this.ac_btn.fontSize,this.de_btn.fontSize ) ;
+        this.de_btn.fontSize = this.ac_btn.fontSize;
     },     
 
 

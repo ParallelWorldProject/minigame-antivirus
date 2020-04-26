@@ -22,13 +22,14 @@ cc.Class({
      onLoad:function () {
          this.showMask()
 
-        this.gameInformation = new GameInfo.gameInformationList();
-
         let params = {
             handcardid: 1,  //当前卡id
             storyid: cc.sys.localStorage.getItem('storyid'),
-            day: 1
+            day: 1,
         }
+
+
+        this.gameInformation = new GameInfo.gameInformationList();
         
         HttpHelper.httpPost('/getnextcard',params, (data) =>  {
             if(data.errorcode === 0) {

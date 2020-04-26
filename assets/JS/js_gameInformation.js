@@ -18,7 +18,7 @@ module.exports =
         this.logMaxInfected=Math.log(1000000); //maxInfected
         this.logInitialInfected=Math.log(100); // initialInfected
     }
-    { //暗变量
+    { //变量
         this.darkVar = {
         dayCount:0, //当前天数
         hoursCount:0,
@@ -34,6 +34,20 @@ module.exports =
         budgetDailyChange:0,   //财政日增减
         approvalDailyChange:0,//支持率日增减
         shutdown:0,    //封城 是1否0
+
+        /*health : 100,
+        budget : 50 ,
+        resource : 50 ,
+        approval : 50,*/
+        }
+        //新设对应表格
+        this.correspondTable = {
+            "隔离区容量"  :  "quarantineCapacity",
+            "感染率" : "infectionRate",
+            "财政" : "budget",
+            "支持率" : "approval",
+            "治愈率" : "recoveryRate",
+            "资源" : "resource"
         }
 
         this.getDarkVar = function(){
@@ -42,7 +56,7 @@ module.exports =
         
     } 
     {   //数组区相关信息 或者说 明变量
-        this.dataInfo = {
+        this.dataInfo = {  //这个是现在是默认的
             health : 100,
             budget : 50 ,
             resource : 50 ,
@@ -80,19 +94,13 @@ module.exports =
                 option:{
                     A:{
                        desc : "ok",
-                       valChanged :{
-                        "infectedCount" : [5,0],
-                        "dailyRecovery" : [0,5]
-                       } ,
+                       valChanged :null,
                        weigthChanged: null,
                        nextCard: 0,
                     },
                     B:{
                         desc : "ok",
-                        valChanged :{
-                         "infectedCount" : [5,0],
-                         "dailyRecovery" : [0,5]
-                        } ,
+                        valChanged :null,
                         weigthChanged: null,
                         nextCard: 0,
                      },
@@ -120,23 +128,29 @@ module.exports =
         this.calculateAndUpdataData = function( select ){
               
             //先计算卡牌改变的暗变量 
-            console.log( "--------- Calculate And UpdataData -----------")
+            console.log( "--------- Calculate And UpdataData Var-----------")
             let theCard = this.getTopCardInfo();
-            let valChanged = theCard.option[select].valChanged ;  //根据select获取卡牌中的暗变量
+            let valChanged = this.getCorrespondTable( theCard.option[select].valChanged ) ; //根据select获取卡牌中的暗变量
             
             for( var v in valChanged )
             {
-                if( this.darkVar[v] == null ) {
-                    console.log("不存在这样的变量");
+                if( this.darkVar[v] == null &&  this.dataInfo[v]==null ) {
+                    console.log("不存在这样的变量" + v );
                 }
     
                 if( valChanged[v][0] != 0 ) //如果第一个数0，说明是加减改变
                 {
+                    if( this.darkVar[v]!=null )
                     this.darkVar[v]+=valChanged[v][0];
+                    else if( this.dataInfo[v]!=null )
+                    this.dataInfo[v] += valChanged[v][0];
                 }
                 else //否则做赋值改变
                 {
-                    this.darkVar[v]=valChanged[v][1];
+                    if( this.darkVar[v]!=null )
+                    this.darkVar[v]=valChanged[v][0];
+                    else if( this.dataInfo[v]!=null )
+                    this.dataInfo[v]=valChanged[v][0];
                 }
             }
     
@@ -167,21 +181,30 @@ module.exports =
             this.dataInfo.resource=this.dataInfo.resource + this.darkVar.resourceDailyChange;
             this.dataInfo.budget=this.dataInfo.budget + this.darkVar.budgetDailyChange;
             this.dataInfo.approval=this.dataInfo.approval + this.darkVar.approvalDailyChange;
-    
+
+            
+            
     
             console.log( "durtion: " + theCard.durtion );    
             for( var prop in this.darkVar )
             {
                 console.log( prop + " : " + this.darkVar[prop] );
             }
-            for( var prop in this.dataInfo )
-            {
-                console.log( prop + " : " + this.dataInfo[prop] );
-            }
-    
             console.log( "------Calculate And UpdataData OVER--------")
             
-        }           
+        }  
+        
+        this.getCorrespondTable = function( temp ){
+            let tureKey = { }
+            for( t in temp )
+            {
+                let str = temp[t].toString().slice(1,temp[t].length-1).split(',');
+                let tureVal = [parseInt(str[0]),parseInt(str[1])];
+                tureKey[this.correspondTable[t]] = tureVal;
+                //console.log(this.correspondTable[t]+"  :  "+tureVal);
+            }
+            return tureKey;
+        }
             
     }
     {   //后台需要传递的信息
@@ -199,9 +222,16 @@ module.exports =
         this.userInfo.storyid = cc.sys.localStorage.getItem('storyid'); 
         this.userInfo.handcardid = this.getTopCardInfo().id;
         this.userInfo.curcardoption = select=='A'?1:2;
-        this.userInfo.mainpara = this.getDataInfo();
-        this.userInfo.assistpara = this.getDarkVar();
-        this.userInfo.day = this.userInfo.assistpara.dayCount+1;
+
+        this.userInfo.day = this.darkVar.dayCount+1;
+
+        this.userInfo.mainpara = JSON.stringify(this.getDataInfo());
+        this.userInfo.assistpara = JSON.stringify(this.getDarkVar());
+        //this.userInfo.mainpara = this.getDataInfo();
+        //this.userInfo.assistpara = this.getDarkVar();
+        //console.log("this.getDataInfo()"+this.getDataInfo() );
+        //console.log("Json+this.getDataInfo()"+JSON.stringify(this.getDataInfo()));
+        
 
         cc.sys.localStorage.setItem('lastday', this.userInfo.day)
        }
@@ -213,7 +243,8 @@ module.exports =
            this.updateUserInfo(select);
             this.showUserInfo();
           
-            return this.userInfo ;
+            //return JSON.stringify(this.userInfo) ;
+            return this.userInfo;
         }
 
 

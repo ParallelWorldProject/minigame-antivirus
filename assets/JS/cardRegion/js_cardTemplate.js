@@ -21,10 +21,8 @@ cc.Class({
         this.name = this.information.getChildByName("name").getComponent(cc.Label);
         this.date = this.information.getChildByName("date").getComponent(cc.Label);
         this.information = this.information.getChildByName("information").getComponent(cc.Label);
-
         this.from.string = info.from;
         this.name.string  = info.name;
-
         this.date.string  = this.addDate(  firstday , info.day ) ;
 
 
@@ -46,8 +44,13 @@ cc.Class({
         this.ac_btn = this.select.getChildByName("ac_btn").getComponent(cc.Label);
         this.de_btn = this.select.getChildByName("de_btn").getComponent(cc.Label);
 
+        
         this.ac_btn.string = info.option.A.desc;
         this.de_btn.string = info.option.B.desc;
+
+        //this.ac_btn.fontSize = this.ac_btn.string.length>=7||this.de_btn.string.length>=7?28:35;
+        //this.de_btn.fontSize = this.ac_btn.fontSize;
+        
     },     
 
 

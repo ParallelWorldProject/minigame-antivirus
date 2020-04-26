@@ -1,5 +1,6 @@
 //1: 加载所有游戏部件 与 动画
 //2: 存储信息并进行前后端总体交互
+const GameManager = require("./utils/gameManager")
 const GameInfo = require("js_gameInformation");
 const CardRegion = require('js_cardRegion');
 const DataRegion = require('js_dataRegion');
@@ -22,13 +23,14 @@ cc.Class({
      onLoad:function () {
          this.showMask()
 
-        this.gameInformation = new GameInfo.gameInformationList();
-
         let params = {
             handcardid: 1,  //当前卡id
             storyid: cc.sys.localStorage.getItem('storyid'),
-            day: 1
+            day: 1,
         }
+
+
+        this.gameInformation = new GameInfo.gameInformationList();
         
         HttpHelper.httpPost('/getnextcard',params, (data) =>  {
             if(data.errorcode === 0) {
@@ -91,6 +93,9 @@ cc.Class({
         //     this.maskLayer.active = true
         // },1)
 
+        //判定是否结束游戏
+        this.checkGameOver() 
+        
         //获取新params请求
         let params = this.gameInformation.getUserInfo(select);
         
@@ -133,6 +138,27 @@ cc.Class({
             .start()
         }
     },
+
+    checkGameOver()
+    {
+        let endingid;
+        let day = this.gameInformation.getDayCount();
+        let d_info = this.gameInformation.getDataInfo();
+        if( day < 7 ) //测试7天结束
+        {
+            let i = 1;
+            for( di in d_info )
+            {
+                if( d_info[di] == 0 ) { endingid=i; break;}
+                i++;
+            }
+        }
+        else endingid=0;
+        
+        if( endingid!=null)
+        GameManager.changeGameScence('gameEnd',endingid,day)
+        
+    }
     
 });
 

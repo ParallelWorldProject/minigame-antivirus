@@ -84,8 +84,8 @@ cc.Class({
     // 移牌动画
     moveCard(target) {
         cc.tween(target)
-        .to(0.5, { scale: 1.1 })
-        .to(1, { position: cc.v2(-750, 25), scale: 0.9})
+        .to(0.3, { scale: 1.1 })
+        .to(0.3, { position: cc.v2(-750, 25), scale: 0.9})
         .call(() => {
             target.destroy();
         })

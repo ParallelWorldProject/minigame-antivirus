@@ -21,7 +21,7 @@ cc.Class({
     },
     onClickRestart() {
         cc.log('restart')
-        GameManager.startGame('gameStart')
+        GameManager.changeGameScence('gameStart')
     }
 
     // update (dt) {},

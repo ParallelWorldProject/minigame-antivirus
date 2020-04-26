@@ -12,12 +12,10 @@ cc.Class({
     },
 
 
-    onLoad () {
-        GameManager.gameover(this.endBg)
-    },
+    onLoad () {},
 
     start () {
-
+        GameManager.gameover(this.endBg)
     },
     onClickRestart() {
         cc.log('restart')

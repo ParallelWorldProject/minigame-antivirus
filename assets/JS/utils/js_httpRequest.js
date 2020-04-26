@@ -8,7 +8,7 @@ const HttpHelper = cc.Class({
     properties: {},
 
     ctor() {
-        this.baseUrl = 'http://www.llspace.com.cn/mg'
+        this.baseUrl = 'https://www.llspace.com.cn/mg'
     },
 
     /**

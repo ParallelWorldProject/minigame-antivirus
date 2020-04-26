@@ -90,12 +90,14 @@ cc.Class({
         this.holdEndEvent = new cc.Component.EventHandler();
     },
 
-    onLoad () {
+    onLoad () {},
+    
+    start () {
         //触摸开始
         this.node.on(cc.Node.EventType.TOUCH_START,function(event){
             this.isTouchState = true;
             this.touchTime = 0;
-
+    
             if (this.isHold) {
                 setTimeout(() => {
                     if (this.isTouchState) {
@@ -105,20 +107,20 @@ cc.Class({
                 }, this.holdStartTime);
             } 
         },this);
-
+    
         this.node.on(cc.Node.EventType.TOUCH_END,function(event){
             this.isTouchState = false;
-
+    
             if (this.isHold && this.isHoldState) {
                 this.holdEndEvent.emit([this.holdEndEvent.customEventData])
                 this.isHoldState = false;
                 this.touchTime = 0;
                 return;
             }
-
+    
             //判断是不是长按
             if(this.isLongTouch) {
-
+    
                 if(this.touchTime >= this.longTouchTime) {
                     //派发长按事件
                     this.longTouchEvent.emit([this.longTouchEvent.customEventData]);
@@ -126,16 +128,16 @@ cc.Class({
                     return;
                 }
             }
-
+    
             //判断是不是双击
             if(this.isDoubleClick) {
                 // cc.log('isDoubleClick',this.isDoubleClick,this.doubleClickState,this.doubleOffTime)
-
+    
                 if(this.doubleClickState) {
-
+    
                      //第二次点击判断间隔时间
                     if(this.doubleOffTime <= this.doubleClickTime) {
-
+    
                         //派发双击事件
                         this.doubleClickEvent.emit([this.doubleClickEvent.customEventData]);
                     }
@@ -147,13 +149,11 @@ cc.Class({
                     this.doubleOffTime = 0;
                 }
             }
-
+    
             this.touchTime = 0;
         },this);
 
     },
-
-    start () {},
 
     update (dt) {
         //触摸计时

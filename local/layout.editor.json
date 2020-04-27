@@ -7,8 +7,8 @@
       "windowType": "dockable",
       "x": 0,
       "y": 0,
-      "width": 1440,
-      "height": 920,
+      "width": 1536,
+      "height": 922,
       "layout": {
         "children": [
           {
@@ -51,7 +51,25 @@
               {
                 "active": 0,
                 "children": [
-                  "scene"
+                  {
+                    "active": 0,
+                    "children": [
+                      "scene"
+                    ],
+                    "height": 556,
+                    "type": "panel",
+                    "width": 868.6500244140625
+                  },
+                  {
+                    "active": 0,
+                    "children": [
+                      "inspector",
+                      "cocos-services"
+                    ],
+                    "height": 556,
+                    "type": "panel",
+                    "width": 377.8500061035156
+                  }
                 ],
                 "height": 533.5521240234375,
                 "type": "panel",

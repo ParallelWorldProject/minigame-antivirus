@@ -19,11 +19,11 @@ module.exports =
                         InfoList[d] = infos[d];
                        
                     }
-                    else{
+                    /*else{
                         console.log("不存在主要的变量：",d);
-                    }
+                    }*/
 
-                    if( len > infos.length() ) break;
+                    if( len > infos.length ) break;
                     else len++;
                 }
             }

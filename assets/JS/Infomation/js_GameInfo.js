@@ -60,7 +60,10 @@ module.exports =
             "日财政出入"	:"budgetDailyChange",
             "支持率变化"	:"approvalDailyChange",
             "封城"	:"shutdown",
-            "财政" : "budget"
+            "健康" :"health",
+            "资源" :"resource",
+            "财政":	"budget",
+            "支持率":	"approval",
         }
 
         var getCorrespondTable = function( temp ){
@@ -69,8 +72,8 @@ module.exports =
             {
                 let str = temp[t].toString().slice(1,temp[t].length-1).split(',');
                 let tureVal = [parseInt(str[0]),parseInt(str[1])];
-                tureKey[this.correspondTable[t]] = tureVal;
-                //console.log(this.correspondTable[t]+"  :  "+tureVal);
+                tureKey[correspondTable[t]] = tureVal;
+                console.log(  t  + "getCorrespondTable" + correspondTable[t] +"  :  "+tureVal);
             }
             return tureKey;
         }
@@ -98,14 +101,14 @@ module.exports =
              B:ChangeAbleVar,
              durtion : 0, //....
         })
-U
+
         var UserInfoList = new JSData.InfomationList({  //这里用于储存每次向服务器提交的信息
-            storyid : 0,
-            handcardid: 0,      // 当前卡id
-            curcardoption: 0,   // 1或2
-            mainpara:'{}',        // 明变量json串
-            assistpara: '{}',     // 暗变量json串
-            day: 1
+            'storyid' : 0,
+            'handcardid': 0,      // 当前卡id
+            'curcardoption': 0,   // 1或2
+            'mainpara':'{}',        // 明变量json串
+            'assistpara': '{}',     // 暗变量json串
+            'day': 0
         })
 
 
@@ -116,15 +119,19 @@ U
 
             //将选项AB中Val分开用于做计算，
             ValChangedInfoList.SetInfoList({
-                A : getCorrespondTable(Cardinfo.option[A].valChanged),
-                B : getCorrespondTable(Cardinfo.option[B].valChanged),
+                A : getCorrespondTable(Cardinfo.option.A.valChanged),
+                B : getCorrespondTable(Cardinfo.option.B.valChanged),
                 durtion : Cardinfo.durtion,
             })
+            console.log("---------ValChangedInfoList--------- ");
+            ValChangedInfoList.ShowInfoList();
+            console.log("----------------------------------");
+            
 
             //先设置一部发userInfo 。。因为其他部分需要选择卡牌后设置当前还不知道
             UserInfoList.SetInfoList({
-                storyid  :  cc.sys.localStorage.getItem('storyid'),
-                handcardid  :  Cardinfo.id,
+                'storyid'  :  cc.sys.localStorage.getItem('storyid'),
+                'handcardid'  :  Cardinfo.id,
             })
 
             //设置卡牌显示信息
@@ -134,8 +141,8 @@ U
                     name:Cardinfo.name,
                     picUrl:Cardinfo.picUrl,
                     information:Cardinfo.information,
-                    descA:Cardinfo[option][A].desc,
-                    descB:Cardinfo[option][B].desc, 
+                    descA:Cardinfo.option.A.desc,
+                    descB:Cardinfo.option.B.desc, 
 
                     day:ChangeAbleVar.dayCount,//这个日期。。以后再修改吧
                 }
@@ -145,12 +152,15 @@ U
         //点击选项后计算并显示数据 
         this.calculateBySelect = function( select )
         {
-            let valinfo = ValChangedInfoList[select];  //提出表格修改
-            let durtion = ValChangedInfoList[durtion];
+            let valinfo = ValChangedInfoList.GetInfoList().select;  //提出表格修改
+            let durtion = ValChangedInfoList.GetInfoList().durtion;
 
+            //console.log( valinfo +" 222222222222 " +  ValChangedInfoList[select])
             
             for( let v in valinfo ) //先根据选项的改变设置新值
             {
+                console.log("Valinfo:"+v+"["+valinfo[v][0]+","+valinfo[v][1]+"]");
+
                 if( valinfo[v][0] != 0 ){
                     ChangeAbleVar[v] += valinfo[v][0];
                 }
@@ -160,38 +170,46 @@ U
             }
 
             //再进行计算
-            with ( ChangeAbleVar ){
+            //with( ChangeAbleVar ){           /????为什么不能用with？？
+            if( ChangeAbleVar.hoursCount==null ) ChangeAbleVar.hoursCount=0;
+                ChangeAbleVar.hoursCount =  ChangeAbleVar.hoursCount +   durtion
+                ChangeAbleVar.dayCount = Math.floor( ChangeAbleVar.hoursCount / 24) ;
 
-                hoursCount =  hoursCount +   durtion
-                dayCount = Math.floor( hoursCount / 24) ;
 
+                ChangeAbleVar.dailyRecovery=Math.ceil( ChangeAbleVar.infectedCount * 
+                Math.pow( ChangeAbleVar.recoveryRate,  durtion));
 
-                dailyRecovery=Math.ceil( infectedCount * 
-                Math.pow( recoveryRate,  durtion));
+                ChangeAbleVar.dailyInfection=( ChangeAbleVar.infectedCount - 
+                    ChangeAbleVar.quarantineCount) * Math.pow( ChangeAbleVar.infectionRate,  durtion);
 
-                dailyInfection=( infectedCount - 
-                quarantineCount) * Math.pow( infectionRate,  durtion);
+                    ChangeAbleVar.infectedCount= ChangeAbleVar.infectedCount -  
+                    ChangeAbleVar.dailyRecovery +  ChangeAbleVar.dailyInfection;
 
-                infectedCount= infectedCount -  dailyRecovery +  dailyInfection;
+                    ChangeAbleVar.quarantineRate=Math.min(ConstVar.maxQuarantineRate,ConstVar.minQuarantineRate + 
+                (100 -  ChangeAbleVar.health) * ConstVar.quarantineRateParameter);
 
-                quarantineRate=Math.min(this.maxQuarantineRate,this.minQuarantineRate + 
-                (100 -  health) * this.quarantineRateParameter);
+                ChangeAbleVar.quarantineCount=Math.min( ChangeAbleVar.quarantineCapacity,
+                ChangeAbleVar.infectedCount *  ChangeAbleVar.quarantineRate);
 
-                quarantineCount=Math.min( quarantineCapacity, infectedCount * 
-                quarantineRate);
-
-                resourceDailyChange= resourceProductivity- resourceConsumption;
-                if ( dayCount < 12){
-                    approvalDailyChange=-0.1-0.05*(100- health);
+                ChangeAbleVar.resourceDailyChange= ChangeAbleVar.resourceProductivity- ChangeAbleVar.resourceConsumption;
+                if ( ChangeAbleVar.dayCount < 12){
+                    ChangeAbleVar.approvalDailyChange=-0.1-0.05*(100- ChangeAbleVar.health);
                 }else{
-                    approvalDailyChange=1-0.02*(100- health);
+                    ChangeAbleVar.approvalDailyChange=1-0.02*(100- ChangeAbleVar.health);
                 }
                 
-                health=100-(Math.log( infectedCount)-this.logInitialInfected)/this.logMaxInfected;
-                resource= resource +  resourceDailyChange;
-                budget= budget +  budgetDailyChange;
-                approval= approval +  approvalDailyChange;
-            }
+                ChangeAbleVar.health=100-(Math.log( ChangeAbleVar.infectedCount)-ConstVar.logInitialInfected)/
+                                                    ConstVar.logMaxInfected;
+                ChangeAbleVar.resource= ChangeAbleVar.resource +  ChangeAbleVar.resourceDailyChange;
+                ChangeAbleVar.budget= ChangeAbleVar.budget +  ChangeAbleVar.budgetDailyChange;
+                ChangeAbleVar.approval= ChangeAbleVar.approval +  ChangeAbleVar.approvalDailyChange;
+
+
+                for( var prop in ChangeAbleVar )
+                {
+                    console.log( prop + " : " +  ChangeAbleVar[prop] );
+                }
+            //}
             
 
             //现在再开始更新
@@ -205,10 +223,10 @@ U
            
 
             UserInfoList.SetInfoList({
-                curcardoption: select=='A'?1:2,   // 1或2
-                mainpara: JSON.stringify(MainDataList.GetInfoList()),        // 明变量json串
-                assistpara: JSON.stringify(ChangeAbleVar),     // 暗变量json串
-                day: ChangeAbleVar.dayCount+1,
+                'curcardoption': select=='A'?1:2,   // 1或2
+                'mainpara': JSON.stringify(MainDataList.GetInfoList()),        // 明变量json串
+                'assistpara': JSON.stringify(ChangeAbleVar),     // 暗变量json串
+                'day': ChangeAbleVar.dayCount,
             })
             //cc.sys.localStorage.setItem('lastday', day)
 
@@ -218,19 +236,26 @@ U
 
         //返回卡牌区域信息
         this.getCardRegionInfo=function(){
+            console.log("---------getCardRegionInfo--------- ");
             CardRegionInfoList.ShowInfoList();
+            console.log("----------------------------------");
             return CardRegionInfoList.GetInfoList() ;
         }
         
         //返回数据区域信息
         this.getDataRegionInfo=function(){
+            console.log("---------getDataRegionInfo---------");
             MainDataList.ShowInfoList();
-            return MainDataList.GetInfoList()  ;
+            console.log("----------------------------------");
+            return MainDataList.GetInfoList() ;
+            
         }
 
         //返回用户信息
         this.getUserInfo=function(){
+            console.log("---------getUserInfo--------- ");
             UserInfoList.ShowInfoList();
+            console.log("----------------------------------");
             return UserInfoList.GetInfoList() ;
         }
         

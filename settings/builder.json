@@ -15,7 +15,7 @@
   "inlineSpriteFrames_native": true,
   "mergeStartScene": false,
   "optimizeHotUpdate": false,
-  "md5Cache": false,
+  "md5Cache": true,
   "encryptJs": true,
   "xxteaKey": "1fc01997-8f91-44",
   "zipCompressJs": true,

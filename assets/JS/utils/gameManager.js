@@ -1,6 +1,8 @@
 
 var GameManager = {
     
+    endingid: null,
+    endingday: null,
 
     // 微信登录
     wxlogin() {
@@ -57,12 +59,13 @@ var GameManager = {
     },
     // 游戏结束
     gameover(endBg) {
-        let endingid = Math.ceil(Math.random()*4)
+        // let endingid = Math.ceil(Math.random()*4)
+        // day: cc.sys.localStorage.getItem('lastday') || 1,
 
         let params = {
             storyid: cc.sys.localStorage.getItem('storyid'),
-            day: cc.sys.localStorage.getItem('lastday') || 1,
-            endingid
+            day: this.endingday,
+            endingid: this.endingid
         }
         HttpHelper.httpPost('/closegame',params, (data) =>  {
             console.log('closegame',data)

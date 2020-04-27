@@ -9,13 +9,11 @@ cc.Class({
     },
 
 
-    onLoad () {
-        cc.sys.localStorage.clear()
-        GameManager.wxlogin()
-    },
+    onLoad () {},
 
     start () {
-
+        cc.sys.localStorage.clear()
+        GameManager.wxlogin()
     },
 
     onClickBtn(target,data) {

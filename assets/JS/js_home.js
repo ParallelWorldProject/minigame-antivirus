@@ -20,15 +20,16 @@ cc.Class({
         maskLayer: cc.Node
     },
 
-     onLoad:function () {
-         this.showMask()
+     onLoad () {},
+
+    start () {
+        this.showMask()
 
         let params = {
             handcardid: 1,  //当前卡id
             storyid: cc.sys.localStorage.getItem('storyid'),
             day: 1,
         }
-
 
         this.gameInformation = new GameInfo.gameInformationList();
         
@@ -46,11 +47,7 @@ cc.Class({
                 this.cardRegion.init(this.gameInformation.getTopCardInfo());
             }
         })
-       
 
-     },
-
-    start:function () {
 
         // 监听双击、按住松开事件
         this.node.on('DoubleClick', function (event) {
@@ -94,7 +91,7 @@ cc.Class({
         // },1)
 
         //判定是否结束游戏
-        this.checkGameOver() 
+        if (this.checkGameOver() ) {return}
         
         //获取新params请求
         let params = this.gameInformation.getUserInfo(select);
@@ -139,15 +136,14 @@ cc.Class({
         }
     },
 
-    checkGameOver()
-    {
+    checkGameOver() {
         let endingid;
         let day = this.gameInformation.getDayCount();
         let d_info = this.gameInformation.getDataInfo();
         if( day < 7 ) //测试7天结束
         {
             let i = 1;
-            for( di in d_info )
+            for( var di in d_info )
             {
                 if( d_info[di] == 0 ) { endingid=i; break;}
                 i++;
@@ -155,8 +151,13 @@ cc.Class({
         }
         else endingid=0;
         
-        if( endingid!=null)
-        GameManager.changeGameScence('gameEnd',endingid,day)
+        if( endingid!=null) { 
+            GameManager.endingid = endingid
+            GameManager.endingday = day
+            this.scheduleOnce(()=>{
+                GameManager.changeGameScence('gameEnd'); return true
+            },1.8)
+        }
         
     }
     

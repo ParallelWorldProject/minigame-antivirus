@@ -200,7 +200,7 @@ module.exports =
         
         this.getCorrespondTable = function( temp ){
             let tureKey = { }
-            for( t in temp )
+            for( var t in temp )
             {
                 let str = temp[t].toString().slice(1,temp[t].length-1).split(',');
                 let tureVal = [parseInt(str[0]),parseInt(str[1])];

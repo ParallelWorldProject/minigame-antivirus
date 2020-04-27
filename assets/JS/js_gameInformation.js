@@ -1,11 +1,10 @@
-const JSMainData = require("./Infomation/js_MainDataInfo")
+const JSData = require("./Infomation/js_SubInfoList")
 //datainfo
 
 module.exports =
 { 
     gameInformationList : function (){
 
-    
     {  //游戏常量不用从后台获得 ？？
         this.maxInfected=1000000; //失败感染人数
         this.initialInfected=100;  //起始感染人数
@@ -249,12 +248,7 @@ module.exports =
 
         this.userInfo.mainpara = JSON.stringify(this.getDataInfo());
         this.userInfo.assistpara = JSON.stringify(this.getDarkVar());
-        //this.userInfo.mainpara = this.getDataInfo();
-        //this.userInfo.assistpara = this.getDarkVar();
-        //console.log("this.getDataInfo()"+this.getDataInfo() );
-        //console.log("Json+this.getDataInfo()"+JSON.stringify(this.getDataInfo()));
-        
-
+   
         cc.sys.localStorage.setItem('lastday', this.userInfo.day)
        }
 

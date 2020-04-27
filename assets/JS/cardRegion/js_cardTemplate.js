@@ -21,32 +21,24 @@ cc.Class({
         this.name = this.information.getChildByName("name").getComponent(cc.Label);
         this.date = this.information.getChildByName("date").getComponent(cc.Label);
         this.information = this.information.getChildByName("information").getComponent(cc.Label);
-        this.from.string = info.from;
-        this.name.string  = info.name;
-        this.date.string  = this.addDate(  firstday , info.day ) ;
-
-
-        this.information.string  = info.information;
-
-  
-        //修改img区域
-        //本地加载
-        // var picUrl = "cardimg/" + info.picUrl;
-        // let self = this.image;
-        // cc.loader.loadRes(picUrl, cc.SpriteFrame, function (err, spriteFrame) {
-        //     self.getComponent(cc.Sprite).spriteFrame = spriteFrame;
-        // });
-
-        //远程加载  
-        this.loadImg( this.image.getComponent(cc.Sprite) ,info.picUrl )
-
-
         this.ac_btn = this.select.getChildByName("ac_btn").getComponent(cc.Label);
         this.de_btn = this.select.getChildByName("de_btn").getComponent(cc.Label);
 
+
+
+        this.from.string = info.from;
+        this.name.string  = info.name;
+        this.date.string  = this.addDate(  firstday , info.day ) ;
+        this.information.string  = info.information;
+
+        //远程加载  
+        this.loadImg( this.image.getComponent(cc.Sprite) ,info.picUrl )
         
-        this.ac_btn.string = info.option.A.desc;
-        this.de_btn.string = info.option.B.desc;
+        //this.ac_btn.string = info.option.A.desc;
+        //this.de_btn.string = info.option.B.desc;
+
+        this.ac_btn.string = info.descA;
+        this.de_btn.string = info.descB;
 
         this.ac_btn.fontSize = Math.min(this.ac_btn.fontSize,this.de_btn.fontSize ) ;
         this.de_btn.fontSize = this.ac_btn.fontSize;

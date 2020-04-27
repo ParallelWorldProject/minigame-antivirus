@@ -25,29 +25,36 @@ module.exports =
         infectedCount:100, //当前感染人数 
         infectionRate:0.3, //感染率
         dailyInfection:0,  //日感染人数
+        
         recoveryRate:0.2,  //治愈率
+        resourceProductivity:1, //？
+        resourceConsumption:1, //？
+        resourceDailyChange:0, //资源日增减
+
         dailyRecovery:0,   //日治愈人数
         quarantineCapacity:500,    //隔离区容量
         quarantineRate:0,  //隔离率
         quarantineCount:0, //隔离人数
-        resourceDailyChange:0, //资源日增减
+        
         budgetDailyChange:0,   //财政日增减
         approvalDailyChange:0,//支持率日增减
         shutdown:0,    //封城 是1否0
 
-        /*health : 100,
-        budget : 50 ,
-        resource : 50 ,
-        approval : 50,*/
         }
         //新设对应表格
         this.correspondTable = {
-            "隔离区容量"  :  "quarantineCapacity",
-            "感染率" : "infectionRate",
-            "财政" : "budget",
-            "支持率" : "approval",
-            "治愈率" : "recoveryRate",
-            "资源" : "resource"
+            "感染率" 	:"infectionRate",
+            "新增感染"	:"dailyInfection",
+            "治愈率" :	"recoveryRate",
+            "治愈"	:"dailyRecovery",
+            "隔离区容量"	: "quarantineCapacity",
+            "隔离率"	:"quarantineRate",
+            "隔离区人数"	: "quarantineCount",
+            "资源生产力"	:"resourceProductivity",
+            "资源日耗"	:"resourceConsumption",
+            "日财政出入"	:"budgetDailyChange",
+            "支持率变化"	:"approvalDailyChange",
+            "封城"	:"shutdown",
         }
 
         this.getDarkVar = function(){
@@ -152,9 +159,9 @@ module.exports =
                 else //否则做赋值改变
                 {
                     if( this.darkVar[v]!=null )
-                    this.darkVar[v]=valChanged[v][0];
+                    this.darkVar[v]=valChanged[v][1];
                     else if( this.dataInfo[v]!=null )
-                    this.dataInfo[v]=valChanged[v][0];
+                    this.dataInfo[v]=valChanged[v][1];
                 }
             }
     
@@ -179,6 +186,12 @@ module.exports =
             this.darkVar.quarantineCount=Math.min(this.darkVar.quarantineCapacity,this.darkVar.infectedCount * 
                 this.darkVar.quarantineRate);
             
+            this.darkVar.resourceDailyChange=this.darkVar.resourceProductivity-this.darkVar.resourceConsumption;
+            if (this.darkVar.dayCount < 12){
+                this.darkVar.approvalDailyChange=-0.1-0.05*(100-this.dataInfo.health);
+            }else{
+                this.darkVar.approvalDailyChange=1-0.02*(100-this.dataInfo.health);
+            }
             
             //再改变主变量
             this.dataInfo.health=100-(Math.log(this.darkVar.infectedCount)-this.logInitialInfected)/this.logMaxInfected;

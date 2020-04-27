@@ -1,10 +1,8 @@
+const JSMainData = require("./Infomation/js_MainDataInfo")
+//datainfo
 
 module.exports =
 { 
-
-
-
-
     gameInformationList : function (){
 
     
@@ -18,7 +16,7 @@ module.exports =
         this.logMaxInfected=Math.log(1000000); //maxInfected
         this.logInitialInfected=Math.log(100); // initialInfected
     }
-    { //变量
+    {   //变量
         this.darkVar = {
         dayCount:0, //当前天数
         hoursCount:0,
@@ -55,6 +53,7 @@ module.exports =
             "日财政出入"	:"budgetDailyChange",
             "支持率变化"	:"approvalDailyChange",
             "封城"	:"shutdown",
+            "财政" : "budget"
         }
 
         this.getDarkVar = function(){
@@ -66,14 +65,15 @@ module.exports =
         }
         
     } 
-    {   //数组区相关信息 或者说 明变量
+    {   
+        //数组区相关信息 或者说 明变量
         this.dataInfo = {  //这个是现在是默认的
             health : 100,
             budget : 50 ,
             resource : 50 ,
             approval : 50,
         }
-        this.setDataInfo = function( d_info ){
+        /*this.setDataInfo = function( d_info ){
             for( var porp in d_info )
             {
                  this.dataInfo[porp] = d_info[porp]
@@ -84,10 +84,15 @@ module.exports =
             {
                 this.dataInfo[porp] += d_info[porp]
             }
-        }
+        }*/
         this.getDataInfo = function(){
             return this.dataInfo;
         }
+
+        /*var MainDataInfoList = new JSMainData.MainDataInfomation( this.dataInfo  );
+        this.getDataInfo = function(){
+            return MainDataInfoList.GetInfoList();
+        }*/
     }
     {    //卡牌区相关信息
         
@@ -278,5 +283,6 @@ module.exports =
         }
     }
     }
+
 }
     

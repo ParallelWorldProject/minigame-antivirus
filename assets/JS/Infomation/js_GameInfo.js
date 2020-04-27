@@ -168,7 +168,13 @@ module.exports =
         this.calculateBySelect = function( select )
         {
             let val = ValChangedInfoList.GetInfoList()
-            let valinfo = val.select;  //提出表格修改
+            let valinfo = {}
+
+            if( select == 'A')
+            valinfo = val.A;  //提出表格修改
+            else 
+            valinfo = val.B;
+
             let durtion = val.durtion; 
             let tempGameInfo = val.Game;
 
@@ -232,49 +238,53 @@ module.exports =
                     Game : ChangeAbleVar,
                 })
 
-                PreviewData.SetInfoList({
-                    calculated : {
-                        select  : 1
-                    },
-                    select  : {
-                        health: tempGameInfo.health>ChangeAbleVar.health?1:
-                        (tempGameInfo.health<ChangeAbleVar.health?-1:0),
-                        resource: tempGameInfo.resource>ChangeAbleVar.resource?1:
-                        (tempGameInfo.resource<ChangeAbleVar.resource?-1:0),
-                        budget: tempGameInfo.budget>ChangeAbleVar.budget?1:
-                        (tempGameInfo.budget<ChangeAbleVar.budget?-1:0),
-                        approval: tempGameInfo.approval>ChangeAbleVar.approval?1:
-                        (tempGameInfo.approval<ChangeAbleVar.approval?-1:0)
-                    }
-                })
-
-
                 console.log("-----------------Temp::" + select + "::-----------------")
                 for( var prop in tempGameInfo )
                 {
                     console.log( prop + " : " +  tempGameInfo[prop] );
                 }
                 console.log("---------------------------------")
+                ///////.................................
 
-            //}
-            
-
-            //现在再开始更新
-            
-            //cc.sys.localStorage.setItem('lastday', day)
-
+                if(select == 'A')
+                {
+                    PreviewData.SetInfoList({
+                        calculated : {
+                            A  : 1
+                        },
+                        A  : {
+                            health: tempGameInfo.health>ChangeAbleVar.health?1:
+                            (tempGameInfo.health<ChangeAbleVar.health?-1:0),
+                            resource: tempGameInfo.resource>ChangeAbleVar.resource?1:
+                            (tempGameInfo.resource<ChangeAbleVar.resource?-1:0),
+                            budget: tempGameInfo.budget>ChangeAbleVar.budget?1:
+                            (tempGameInfo.budget<ChangeAbleVar.budget?-1:0),
+                            approval: tempGameInfo.approval>ChangeAbleVar.approval?1:
+                            (tempGameInfo.approval<ChangeAbleVar.approval?-1:0)
+                        }
+                    })
+                }   
+                else 
+                {
+                    PreviewData.SetInfoList({
+                        calculated : {
+                            B  : 1
+                        },
+                        B  : {
+                            health: tempGameInfo.health>ChangeAbleVar.health?1:
+                            (tempGameInfo.health<ChangeAbleVar.health?-1:0),
+                            resource: tempGameInfo.resource>ChangeAbleVar.resource?1:
+                            (tempGameInfo.resource<ChangeAbleVar.resource?-1:0),
+                            budget: tempGameInfo.budget>ChangeAbleVar.budget?1:
+                            (tempGameInfo.budget<ChangeAbleVar.budget?-1:0),
+                            approval: tempGameInfo.approval>ChangeAbleVar.approval?1:
+                            (tempGameInfo.approval<ChangeAbleVar.approval?-1:0)
+                        }
+                    })
+                }
         }
         
-        //获得预览
-        this.getDataPreView=function( select )  
-        {
-            let needCal = PreviewData.GetInfoList().calculated[select];
-            if( needCal == 0 ) //需要计算
-            {
-                this.calculateBySelect( select )
-            }
-            return PreviewData.GetInfoList().select;
-        }
+       
 
         //确认选择
         this.confirmSelect=function(select)
@@ -285,7 +295,11 @@ module.exports =
                 this.calculateBySelect( select )
             }
 
-            let calculatedGameChangeAbleVarInfo = ValChangedInfoList.GetInfoList()[select]
+            let calculatedGameChangeAbleVarInfo = {}
+            if( select == 'A ')
+            calculatedGameChangeAbleVarInfo = ValChangedInfoList.GetInfoList().A
+            else 
+            calculatedGameChangeAbleVarInfo = ValChangedInfoList.GetInfoList().B
 
             //最后才全部更新
             for( d in calculatedGameChangeAbleVarInfo )
@@ -306,8 +320,26 @@ module.exports =
                 'assistpara': JSON.stringify(ChangeAbleVar),     // 暗变量json串
                 'day': ChangeAbleVar.dayCount,
             })
+
+            cc.sys.localStorage.setItem('lastday', ChangeAbleVar.dayCoun)
+
         }
 
+         //获得预览
+         this.getDataPreView=function( select )  
+         {
+             let needCal = PreviewData.GetInfoList().calculated[select];
+             if( needCal == 0 ) //需要计算
+             {
+                 this.calculateBySelect( select )
+             }
+             
+             console.log("---------PreviewData--------- ");
+             PreviewData.ShowInfoList();
+             console.log("----------------------------------");
+
+             return PreviewData.GetInfoList().select;
+         }
 
         //返回卡牌区域信息
         this.getCardRegionInfo=function(){

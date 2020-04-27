@@ -1,7 +1,6 @@
 //1: 加载所有游戏部件 与 动画
 //2: 存储信息并进行前后端总体交互
 const GameManager = require("./utils/gameManager")
-const GameInfo = require("js_gameInformation");
 const GMIF = require("js_GameInfo");
 
 const CardRegion = require('js_cardRegion');
@@ -71,7 +70,13 @@ cc.Class({
         /*this.node.on('HoldStart', function (event) {
             cc.log( 'HoldStart');
             // 触摸 计算变量 提示数值可能的变化
-            // ....
+
+            if (event.SelectBtn === 'AC_HoldStart') {
+                select = 'A';
+            } else if (event.SelectBtn === 'DE_HoldStart') {
+                select = 'B';
+            }
+
             this.dataRegion.previewTheValue( this.gameInformation.getDataPreView(select) )
 
         },this);

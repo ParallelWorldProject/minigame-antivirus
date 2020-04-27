@@ -8,6 +8,7 @@ cc.Class({
     },
 
     init:function( info ){
+        this.infoLength = info.length;
 
         for( var p in info ) //set 属性名
         {
@@ -27,5 +28,25 @@ cc.Class({
             it++;
         }
     },
+
+    previewTheValue( pre_info )
+    {
+        let it = 1;
+        for( var p in pre_info )
+        {
+            let item = this.node.children[it];
+            item.getComponent('js_dataTemplate').previewTheValue(pre_info[p]);
+            it++;
+        }
+    },
+
+    clearPreview( )
+    {
+        for( let i in infoLength )
+        {
+            let item = this.node.children[i];
+            item.getComponent('js_dataTemplate').previewTheValue(0);
+        }
+    }
    
 });

@@ -73,7 +73,7 @@ module.exports =
                 let str = temp[t].toString().slice(1,temp[t].length-1).split(',');
                 let tureVal = [parseInt(str[0]),parseInt(str[1])];
                 tureKey[correspondTable[t]] = tureVal;
-                console.log(  t  + "getCorrespondTable" + correspondTable[t] +"  :  "+tureVal);
+                console.log(  t  + "  getCorrespondTable  " + correspondTable[t] +"  :  "+tureVal);
             }
             return tureKey;
         }
@@ -97,6 +97,7 @@ module.exports =
         }) 
 
         var ValChangedInfoList = new JSData.InfomationList( {  //这里储存卡牌用于计算的信息
+             Game:ChangeAbleVar,
              A:ChangeAbleVar,
              B:ChangeAbleVar,
              durtion : 0, //....
@@ -112,6 +113,14 @@ module.exports =
         })
 
 
+
+        var PreviewData = new JSData.InfomationList({
+            calculated : {A:0,B:0},  //1表示已经计算过了，0表示需要计算，前后表示AB选项
+            A : { health:0,budget:0,resource:0,approval:0 },
+            B : { health:0,budget:0,resource:0,approval:0 }
+        })
+
+
         //这里不知道卡牌的细节，只是提供分解机制，
         //也就是说，请求新卡牌时带来的信息将立马被分解
         //若卡牌中不存在需要信息，需要报错，(其实这就需要知道卡牌里面的细节了。。。。)
@@ -119,6 +128,7 @@ module.exports =
 
             //将选项AB中Val分开用于做计算，
             ValChangedInfoList.SetInfoList({
+                Game : ChangeAbleVar,
                 A : getCorrespondTable(Cardinfo.option.A.valChanged),
                 B : getCorrespondTable(Cardinfo.option.B.valChanged),
                 durtion : Cardinfo.durtion,
@@ -147,72 +157,142 @@ module.exports =
                     day:ChangeAbleVar.dayCount,//这个日期。。以后再修改吧
                 }
             )
+
+            //这里是预处理信息
+            PreviewData.SetInfoList({
+                calculated:{A:0,B:0}
+            })
         },
 
         //点击选项后计算并显示数据 
         this.calculateBySelect = function( select )
         {
-            let valinfo = ValChangedInfoList.GetInfoList().select;  //提出表格修改
-            let durtion = ValChangedInfoList.GetInfoList().durtion;
+            let val = ValChangedInfoList.GetInfoList()
+            let valinfo = val.select;  //提出表格修改
+            let durtion = val.durtion; 
+            let tempGameInfo = val.Game;
 
-            //console.log( valinfo +" 222222222222 " +  ValChangedInfoList[select])
-            
+
+            console.log("------------Chang New Val-------------");
+            for( let i in valinfo )
+            {
+                console.log(i+"======="+valinfo[i]);
+            }
+            console.log("------------Chang New Val-------------");
             for( let v in valinfo ) //先根据选项的改变设置新值
             {
                 console.log("Valinfo:"+v+"["+valinfo[v][0]+","+valinfo[v][1]+"]");
 
                 if( valinfo[v][0] != 0 ){
-                    ChangeAbleVar[v] += valinfo[v][0];
+                    tempGameInfo[v] += valinfo[v][0];
                 }
                 else{
-                    ChangeAbleVar[v] = valinfo[v][1];
+                    tempGameInfo[v] = valinfo[v][1];
                 }
             }
 
             //再进行计算
             //with( ChangeAbleVar ){           /????为什么不能用with？？
-            if( ChangeAbleVar.hoursCount==null ) ChangeAbleVar.hoursCount=0;
-                ChangeAbleVar.hoursCount =  ChangeAbleVar.hoursCount +   durtion
-                ChangeAbleVar.dayCount = Math.floor( ChangeAbleVar.hoursCount / 24) ;
+            if( tempGameInfo.hoursCount==null ) tempGameInfo.hoursCount=0;
+                tempGameInfo.hoursCount =  tempGameInfo.hoursCount +   durtion
+                tempGameInfo.dayCount = Math.floor( tempGameInfo.hoursCount / 24) ;
 
 
-                ChangeAbleVar.dailyRecovery=Math.ceil( ChangeAbleVar.infectedCount * 
-                Math.pow( ChangeAbleVar.recoveryRate,  durtion));
+                tempGameInfo.dailyRecovery=Math.ceil( tempGameInfo.infectedCount * 
+                Math.pow( tempGameInfo.recoveryRate,  durtion));
 
-                ChangeAbleVar.dailyInfection=( ChangeAbleVar.infectedCount - 
-                    ChangeAbleVar.quarantineCount) * Math.pow( ChangeAbleVar.infectionRate,  durtion);
+                tempGameInfo.dailyInfection=( tempGameInfo.infectedCount - 
+                    tempGameInfo.quarantineCount) * Math.pow( tempGameInfo.infectionRate,  durtion);
 
-                    ChangeAbleVar.infectedCount= ChangeAbleVar.infectedCount -  
-                    ChangeAbleVar.dailyRecovery +  ChangeAbleVar.dailyInfection;
+                    tempGameInfo.infectedCount= tempGameInfo.infectedCount -  
+                    tempGameInfo.dailyRecovery +  tempGameInfo.dailyInfection;
 
-                    ChangeAbleVar.quarantineRate=Math.min(ConstVar.maxQuarantineRate,ConstVar.minQuarantineRate + 
-                (100 -  ChangeAbleVar.health) * ConstVar.quarantineRateParameter);
+                    tempGameInfo.quarantineRate=Math.min(ConstVar.maxQuarantineRate,ConstVar.minQuarantineRate + 
+                (100 -  tempGameInfo.health) * ConstVar.quarantineRateParameter);
 
-                ChangeAbleVar.quarantineCount=Math.min( ChangeAbleVar.quarantineCapacity,
-                ChangeAbleVar.infectedCount *  ChangeAbleVar.quarantineRate);
+                tempGameInfo.quarantineCount=Math.min( tempGameInfo.quarantineCapacity,
+                tempGameInfo.infectedCount *  tempGameInfo.quarantineRate);
 
-                ChangeAbleVar.resourceDailyChange= ChangeAbleVar.resourceProductivity- ChangeAbleVar.resourceConsumption;
-                if ( ChangeAbleVar.dayCount < 12){
-                    ChangeAbleVar.approvalDailyChange=-0.1-0.05*(100- ChangeAbleVar.health);
+                tempGameInfo.resourceDailyChange= tempGameInfo.resourceProductivity- tempGameInfo.resourceConsumption;
+                if ( tempGameInfo.dayCount < 12){
+                    tempGameInfo.approvalDailyChange=-0.1-0.05*(100- tempGameInfo.health);
                 }else{
-                    ChangeAbleVar.approvalDailyChange=1-0.02*(100- ChangeAbleVar.health);
+                    tempGameInfo.approvalDailyChange=1-0.02*(100- tempGameInfo.health);
                 }
                 
-                ChangeAbleVar.health=100-(Math.log( ChangeAbleVar.infectedCount)-ConstVar.logInitialInfected)/
+                tempGameInfo.health=100-(Math.log( tempGameInfo.infectedCount)-ConstVar.logInitialInfected)/
                                                     ConstVar.logMaxInfected;
-                ChangeAbleVar.resource= ChangeAbleVar.resource +  ChangeAbleVar.resourceDailyChange;
-                ChangeAbleVar.budget= ChangeAbleVar.budget +  ChangeAbleVar.budgetDailyChange;
-                ChangeAbleVar.approval= ChangeAbleVar.approval +  ChangeAbleVar.approvalDailyChange;
+                tempGameInfo.resource= tempGameInfo.resource +  tempGameInfo.resourceDailyChange;
+                tempGameInfo.budget= tempGameInfo.budget +  tempGameInfo.budgetDailyChange;
+                tempGameInfo.approval= tempGameInfo.approval +  tempGameInfo.approvalDailyChange;
 
 
-                for( var prop in ChangeAbleVar )
+                ValChangedInfoList.SetInfoList({
+                    select : tempGameInfo,
+                    Game : ChangeAbleVar,
+                })
+
+                PreviewData.SetInfoList({
+                    calculated : {
+                        select  : 1
+                    },
+                    select  : {
+                        health: tempGameInfo.health>ChangeAbleVar.health?1:
+                        (tempGameInfo.health<ChangeAbleVar.health?-1:0),
+                        resource: tempGameInfo.resource>ChangeAbleVar.resource?1:
+                        (tempGameInfo.resource<ChangeAbleVar.resource?-1:0),
+                        budget: tempGameInfo.budget>ChangeAbleVar.budget?1:
+                        (tempGameInfo.budget<ChangeAbleVar.budget?-1:0),
+                        approval: tempGameInfo.approval>ChangeAbleVar.approval?1:
+                        (tempGameInfo.approval<ChangeAbleVar.approval?-1:0)
+                    }
+                })
+
+
+                console.log("-----------------Temp::" + select + "::-----------------")
+                for( var prop in tempGameInfo )
                 {
-                    console.log( prop + " : " +  ChangeAbleVar[prop] );
+                    console.log( prop + " : " +  tempGameInfo[prop] );
                 }
+                console.log("---------------------------------")
+
             //}
             
 
             //现在再开始更新
+            
+            //cc.sys.localStorage.setItem('lastday', day)
+
+        }
+        
+        //获得预览
+        this.getDataPreView=function( select )  
+        {
+            let needCal = PreviewData.GetInfoList().calculated[select];
+            if( needCal == 0 ) //需要计算
+            {
+                this.calculateBySelect( select )
+            }
+            return PreviewData.GetInfoList().select;
+        }
+
+        //确认选择
+        this.confirmSelect=function(select)
+        {
+            let needCal = PreviewData.GetInfoList().calculated[select];
+            if( needCal == 0 ) //需要计算
+            {
+                this.calculateBySelect( select )
+            }
+
+            let calculatedGameChangeAbleVarInfo = ValChangedInfoList.GetInfoList()[select]
+
+            //最后才全部更新
+            for( d in calculatedGameChangeAbleVarInfo )
+            {
+                ChangeAbleVar[d] = calculatedGameChangeAbleVarInfo[d];
+            }
+
             MainDataList.SetInfoList({
                 health:ChangeAbleVar.health,
                 budget:ChangeAbleVar.budget,
@@ -220,18 +300,13 @@ module.exports =
                 approval:ChangeAbleVar.approval
             })
 
-           
-
             UserInfoList.SetInfoList({
                 'curcardoption': select=='A'?1:2,   // 1或2
                 'mainpara': JSON.stringify(MainDataList.GetInfoList()),        // 明变量json串
                 'assistpara': JSON.stringify(ChangeAbleVar),     // 暗变量json串
                 'day': ChangeAbleVar.dayCount,
             })
-            //cc.sys.localStorage.setItem('lastday', day)
-
         }
-
 
 
         //返回卡牌区域信息
@@ -258,6 +333,7 @@ module.exports =
             console.log("----------------------------------");
             return UserInfoList.GetInfoList() ;
         }
+
         
     }
 

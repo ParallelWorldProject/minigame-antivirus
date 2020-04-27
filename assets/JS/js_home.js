@@ -67,11 +67,12 @@ cc.Class({
             this.updateHome(select)
         },this);
 
-        /*
-        this.node.on('HoldStart', function (event) {
+        
+        /*this.node.on('HoldStart', function (event) {
             cc.log( 'HoldStart');
             // 触摸 计算变量 提示数值可能的变化
             // ....
+            this.dataRegion.previewTheValue( this.gameInformation.getDataPreView(select) )
 
         },this);
 
@@ -79,9 +80,10 @@ cc.Class({
             cc.log( 'HoldEnd');
             // 松手 关掉提示
             // ....
+            this.dataRegion.clearPreview(  );
 
-        },this);
-        */
+        },this);*/
+        
     },
 
 
@@ -89,7 +91,7 @@ cc.Class({
     {
         //按照选项就行计算
         //this.gameInformation.calculateAndUpdataData(select);
-        this.gameInformation.calculateBySelect(select);
+        this.gameInformation.confirmSelect(select);
         
         // 盖章动画
         let cloneCard = this.cardRegion.sealAnimation( select );

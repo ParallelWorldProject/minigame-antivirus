@@ -254,7 +254,7 @@ module.exports =
         //console.log("this.getDataInfo()"+this.getDataInfo() );
         //console.log("Json+this.getDataInfo()"+JSON.stringify(this.getDataInfo()));
         
-
+        cc.log('showCard',new Date())
         cc.sys.localStorage.setItem('lastday', this.userInfo.day)
        }
 

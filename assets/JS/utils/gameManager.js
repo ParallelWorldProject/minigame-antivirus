@@ -3,11 +3,10 @@ var GameManager = {
     
     endingid: null,
     endingday: null,
+    timecost: 0,
 
     // 微信登录
     wxlogin() {
-        cc.log('模拟登录')
-        
         if (cc.sys.platform === cc.sys.WECHAT_GAME){
             wx.login({
                 success(res) {
@@ -36,13 +35,6 @@ var GameManager = {
     changeGameScence(scence) {
         cc.director.loadScene(scence);
     },
- 
-    //退出游戏 
-    exitGame:function(){
-        // cc.game.end();
-        // 清空缓存
-    },
-
     // 游戏初始化
     initgame() {
         HttpHelper.httpPost('/initgame',{}, (data) =>  {
@@ -77,13 +69,36 @@ var GameManager = {
         })
         
     },
+    //退出游戏 
+    exitGame:function(){
+        // cc.game.end();
+        // 清空缓存
+    },
     //远程加载图片  
     loadImg(target,url){
         cc.loader.load(url, function (err, texture) {
             target.spriteFrame = new cc.SpriteFrame(texture);
         }.bind(this));
     },
- 
+    // 数据上报
+    dataReport(data) {
+        let paraments = {
+            userid: cc.sys.localStorage.getItem('userid'),
+            storyid: cc.sys.localStorage.getItem('storyid'),
+            cardid: data.cardid,
+            choice: data.choice,
+            timecost: timecost
+        }
+        let params = {
+            paraments: JSON.stringify(paraments),
+            tracerid: 1
+        }
+        HttpHelper.httpPost('/tracer',params, (res) =>  {
+            if(res.errorcode==0) {
+                console.log('tracer',res)
+            }
+        })
+    }
 }
 
 //导出类

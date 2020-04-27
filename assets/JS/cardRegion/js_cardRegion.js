@@ -36,17 +36,18 @@ cc.Class({
         cloneCard.zIndex = 9
         cloneCard.getComponent('js_checkButton').destroy()
         // 2.获取章戳，选择并盖章
-        let seal = cloneCard.getChildByName("seal_wrap")
-        let sealBox = cloneCard.getChildByName("seal_box")
+        cloneCard.getChildByName("seal_container").active = true
+        let seal = cloneCard.getChildByName("seal_container").getChildByName("seal")
+        let sealBox = cloneCard.getChildByName("seal_container").getChildByName("sealbox")
 
         let sealBoxPos ; 
         if( select == 'A' ){
             sealBox.x = -160
-            sealBoxPos = [-160,-375]
+            sealBoxPos = [-160,65]
         }
         else if( select=='B') {
             sealBox.x = 160
-            sealBoxPos = [ 160,-375]
+            sealBoxPos = [ 160,65]
         }
         sealBox.active = true
         this.moveSeal(sealBox,seal,sealBoxPos[0],sealBoxPos[1]);
@@ -67,12 +68,12 @@ cc.Class({
         cc.tween(sealBox)
         .to(0.5, { position: cc.v2(positionX, positionY)})
         .call(() => {
-            seal.setPosition(positionX,positionY+60)
+            seal.setPosition(positionX,positionY-65)
             seal.active = true
 
             this.scheduleOnce(()=>{
                 cc.tween(sealBox)
-                .to(0.8, { position: cc.v2(positionX, -280)})
+                .to(0.8, { position: cc.v2(positionX, 100)})
                 .call(() => {
                     sealBox.active = false
                 })

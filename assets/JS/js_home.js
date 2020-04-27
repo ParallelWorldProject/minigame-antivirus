@@ -23,7 +23,7 @@ cc.Class({
      onLoad () {},
 
     start () {
-        this.showMask()
+        // this.showMask()
 
         let params = {
             handcardid: 1,  //当前卡id
@@ -51,6 +51,7 @@ cc.Class({
 
         // 监听双击、按住松开事件
         this.node.on('DoubleClick', function (event) {
+            cc.log('choose',new Date())
             let select ;
             if (event.SelectBtn === 'AC_DoubleClick') {
                 select = 'A';
@@ -123,7 +124,7 @@ cc.Class({
             let loadingBar = this.loadingMask.getChildByName("bar").getComponent(cc.Sprite)
 
             cc.tween(loadingBar)
-            .to(2, { fillRange: 1})
+            .to(1.7, { fillRange: 1})
             .call(() => {
                 this.loadingMask.getComponent(cc.Animation).play('scaleHide')
             })
@@ -160,14 +161,12 @@ cc.Class({
 
 class CardInfo {
     constructor(data) {
-        this.errorcode = 0
         this.message= data.message;
         this.id = data.cardid;
         this.from= data.cfrom ;
         this.name= data.cname;
         this.date= data.durtion;
         this.durtion = data.durtion;
-        this.weight = data.weight ;
         this.information= data.message;
         this.picUrl=data.imgurl;
 
@@ -175,14 +174,12 @@ class CardInfo {
             A: {
                 desc: data.optionOneDesc,
                 valChanged: data.optionOneValueChange ? JSON.parse(data.optionOneValueChange) : data.optionOneValueChange ,
-                weigthChanged: data.optionOneWeightChange ? JSON.parse(data.optionOneWeightChange) : data.optionOneWeightChange,
-                nextCard: data.optionOneNextCard
+                // weigthChanged: data.optionOneWeightChange ? JSON.parse(data.optionOneWeightChange) : data.optionOneWeightChange,
             },
             B: {
                 desc: data.optionTwoDesc,
                 valChanged: data.optionTwoValueChange ? JSON.parse(data.optionTwoValueChange): data.optionTwoValueChange,
-                weigthChanged: data.optionTwoWeightChange ? JSON.parse(data.optionTwoWeightChange) : data.optionTwoWeightChange,
-                nextCard: data.optionTwoNextCard
+                // weigthChanged: data.optionTwoWeightChange ? JSON.parse(data.optionTwoWeightChange) : data.optionTwoWeightChange,
             }
         }
     }

@@ -86,9 +86,6 @@ cc.Class({
 
         // 盖章动画
         let cloneCard = this.cardRegion.sealAnimation( select );
-        // this.scheduleOnce(()=>{
-        //     this.maskLayer.active = true
-        // },1)
 
         //判定是否结束游戏
         if (this.checkGameOver() ) {return}
@@ -107,7 +104,6 @@ cc.Class({
 
                 // 移走卡牌
                 this.scheduleOnce(()=>{
-                    this.maskLayer.active = false
                     this.cardRegion.moveCard(cloneCard)
                 },1.7)
 
@@ -130,7 +126,6 @@ cc.Class({
             .to(2, { fillRange: 1})
             .call(() => {
                 this.loadingMask.getComponent(cc.Animation).play('scaleHide')
-                // this.loadingMask.active = false
             })
             .start()
         }

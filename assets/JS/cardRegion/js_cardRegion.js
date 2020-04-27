@@ -41,12 +41,12 @@ cc.Class({
 
         let sealBoxPos ; 
         if( select == 'A' ){
-            sealBox.x = -165
-            sealBoxPos = [-165,-310]
+            sealBox.x = -160
+            sealBoxPos = [-160,-375]
         }
         else if( select=='B') {
-            sealBox.x = 165
-            sealBoxPos = [ 150,-310]
+            sealBox.x = 160
+            sealBoxPos = [ 160,-375]
         }
         sealBox.active = true
         this.moveSeal(sealBox,seal,sealBoxPos[0],sealBoxPos[1]);
@@ -67,7 +67,7 @@ cc.Class({
         cc.tween(sealBox)
         .to(0.5, { position: cc.v2(positionX, positionY)})
         .call(() => {
-            seal.setPosition(positionX,positionY-60)
+            seal.setPosition(positionX,positionY+60)
             seal.active = true
 
             this.scheduleOnce(()=>{

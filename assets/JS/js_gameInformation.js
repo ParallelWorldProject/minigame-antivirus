@@ -254,7 +254,6 @@ module.exports =
         //console.log("this.getDataInfo()"+this.getDataInfo() );
         //console.log("Json+this.getDataInfo()"+JSON.stringify(this.getDataInfo()));
         
-        cc.log('showCard',new Date())
         cc.sys.localStorage.setItem('lastday', this.userInfo.day)
        }
 
@@ -263,9 +262,8 @@ module.exports =
 
             // 每次获取是需要更新呢
            this.updateUserInfo(select);
-            this.showUserInfo();
+            // this.showUserInfo();
           
-            //return JSON.stringify(this.userInfo) ;
             return this.userInfo;
         }
 

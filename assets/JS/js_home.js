@@ -20,7 +20,7 @@ cc.Class({
         maskLayer: cc.Node
     },
 
-     onLoad () {},
+    onLoad () {},
 
     start () {
         // this.showMask()
@@ -51,7 +51,6 @@ cc.Class({
 
         // 监听双击、按住松开事件
         this.node.on('DoubleClick', function (event) {
-            cc.log('choose',new Date())
             let select ;
             if (event.SelectBtn === 'AC_DoubleClick') {
                 select = 'A';
@@ -93,6 +92,17 @@ cc.Class({
         
         //获取新params请求
         let params = this.gameInformation.getUserInfo(select);
+
+        // 数据上报
+        GameManager.time_cardChoose = new Date()
+        let second = parseFloat((GameManager.time_cardChoose - GameManager.time_cardShow) / 1000)-1.7;
+        let par = {
+            cardid: params.handcardid,
+            choice: params.curcardoption,
+            timecost: second
+        }
+        cc.log(par, 1111111111)
+        GameManager.dataReport(par)
         
         HttpHelper.httpPost('/getnextcard',params, (data) =>  {  //根据新params请求
             if(data.errorcode === 0) {
@@ -114,7 +124,6 @@ cc.Class({
         })
         
     },
-
     
     //必需在showmask后面才能行动
     showMask() {
@@ -155,7 +164,7 @@ cc.Class({
             },1.8)
         }
         
-    }
+    },
     
 });
 

@@ -3,7 +3,8 @@ var GameManager = {
     
     endingid: null,
     endingday: null,
-    timecost: 0,
+    time_cardShow: 0,
+    time_cardChoose: 0,
 
     // 微信登录
     wxlogin() {
@@ -87,7 +88,7 @@ var GameManager = {
             storyid: cc.sys.localStorage.getItem('storyid'),
             cardid: data.cardid,
             choice: data.choice,
-            timecost: timecost
+            timecost: data.timecost
         }
         let params = {
             paraments: JSON.stringify(paraments),

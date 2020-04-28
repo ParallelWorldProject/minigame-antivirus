@@ -95,13 +95,12 @@ cc.Class({
 
         // 数据上报
         GameManager.time_cardChoose = new Date()
-        let second = parseFloat((GameManager.time_cardChoose - GameManager.time_cardShow) / 1000)-1.7;
+        let second = (parseFloat((GameManager.time_cardChoose - GameManager.time_cardShow) / 1000)-1.7).toFixed(3);
         let par = {
             cardid: params.handcardid,
             choice: params.curcardoption,
             timecost: second
         }
-        cc.log(par, 1111111111)
         GameManager.dataReport(par)
         
         HttpHelper.httpPost('/getnextcard',params, (data) =>  {  //根据新params请求

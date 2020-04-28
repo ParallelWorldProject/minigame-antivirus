@@ -49,8 +49,8 @@ cc.Class({
         this.de_btn = this.select.getChildByName("de_btn").getComponent(cc.Label);
 
         
-        this.ac_btn.string = info.option.A.desc;
-        this.de_btn.string = info.option.B.desc;
+        this.ac_btn.string = info.descA;
+        this.de_btn.string = info.descB;
 
         this.ac_btn.fontSize = Math.min(this.ac_btn.fontSize,this.de_btn.fontSize ) ;
         this.de_btn.fontSize = this.ac_btn.fontSize;

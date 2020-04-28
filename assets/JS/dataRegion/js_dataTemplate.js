@@ -5,6 +5,7 @@ cc.Class({
     properties: {
         itemName : cc.Label,
         itemValue : cc.Label,
+        preview : cc.Label,
     },
 
     init : function( name)
@@ -15,5 +16,12 @@ cc.Class({
     updateValue : function( value )
     {
         this.itemValue.string = Math.round(value) + '%';
-    }
+    },
+
+    previewTheValue( preview )
+    {
+        if( preview == 1 ) this.preview.string = '↑' ;
+        else if( preview == -1 ) this.preview.string = '↓';
+        else this.preview.string ='';
+    } 
 });

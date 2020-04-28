@@ -1,7 +1,8 @@
 //1: 加载所有游戏部件 与 动画
 //2: 存储信息并进行前后端总体交互
 const GameManager = require("./utils/gameManager")
-const GameInfo = require("js_gameInformation");
+//const GameInfo = require("js_gameInformation");
+const GMIF = require("js_GameInfo"); 
 const CardRegion = require('js_cardRegion');
 const DataRegion = require('js_dataRegion');
 
@@ -31,7 +32,7 @@ cc.Class({
             day: 1,
         }
 
-        this.gameInformation = new GameInfo.gameInformationList();
+        this.gameInformation = new GMIF.gameInformationList();
         
         HttpHelper.httpPost('/getnextcard',params, (data) =>  {
             if(data.errorcode === 0) {
@@ -39,12 +40,10 @@ cc.Class({
                 let cardInfo =  new CardInfo(data.content)
                 cc.log('cardInfo',cardInfo)
 
-                this.gameInformation.setNewCardInfo(cardInfo);
-                //this.gameInformation.updateUserInfo( 0 );  //这个必需要在Cardinfo加入后执行 //请求到数据后先存放到这里
-        
-                //初始化两个区域
-                this.dataRegion.init(this.gameInformation.getDataInfo());
-                this.cardRegion.init(this.gameInformation.getTopCardInfo());
+                this.gameInformation.SolveCapturedCardInfo(cardInfo);
+
+                this.dataRegion.init(this.gameInformation.getDataRegionInfo());
+                this.cardRegion.init(this.gameInformation.getCardRegionInfo());
             }
         })
 
@@ -61,28 +60,34 @@ cc.Class({
             this.updateHome(select)
         },this);
 
-        /*
+        
         this.node.on('HoldStart', function (event) {
             cc.log( 'HoldStart');
             // 触摸 计算变量 提示数值可能的变化
-            // ....
+            if (event.SelectBtn === 'AC_HoldStart') {
+                select = 'A';
+            } else if (event.SelectBtn === 'DE_HoldStart') {
+                select = 'B';
+            }
+
+            this.dataRegion.previewTheValue( this.gameInformation.getDataPreView(select) );
 
         },this);
 
         this.node.on('HoldEnd', function (event) {
             cc.log( 'HoldEnd');
             // 松手 关掉提示
-            // ....
+            this.dataRegion.previewTheValue( this.gameInformation.getDataPreView(0) );
 
         },this);
-        */
+        
     },
 
 
     updateHome : function(select)
     {
         //按照选项就行计算
-        this.gameInformation.calculateAndUpdataData(select);
+        this.gameInformation.confirmSelect(select);
 
         // 盖章动画
         let cloneCard = this.cardRegion.sealAnimation( select );
@@ -110,15 +115,15 @@ cc.Class({
                 cc.log('请求成功',cardInfo)
 
                 //这里更新卡牌信息
-                this.gameInformation.setNewCardInfo(cardInfo);
+                this.gameInformation.SolveCapturedCardInfo(cardInfo);
 
                 // 移走卡牌
                 this.scheduleOnce(()=>{
                     this.cardRegion.moveCard(cloneCard)
                 },1.7)
 
-                this.dataRegion.updateData(this.gameInformation.getDataInfo());
-                this.cardRegion.getNextCard(this.gameInformation.getTopCardInfo());
+                this.dataRegion.updateData(this.gameInformation.getDataRegionInfo());
+                this.cardRegion.getNextCard(this.gameInformation.getCardRegionInfo());
             }
         })
         
@@ -142,8 +147,8 @@ cc.Class({
 
     checkGameOver() {
         let endingid;
-        let day = this.gameInformation.getDayCount();
-        let d_info = this.gameInformation.getDataInfo();
+        let day = this.gameInformation.getCardRegionInfo().day;
+        let d_info = this.gameInformation.getDataRegionInfo();
         if( day < 7 ) //测试7天结束
         {
             let i = 1;

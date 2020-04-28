@@ -27,5 +27,19 @@ cc.Class({
             it++;
         }
     },
+
+
+    previewTheValue( pre_info )
+    {
+        
+        let it = 1;
+        for( var p in pre_info )
+        {
+            let item = this.node.children[it];
+            item.getComponent('js_dataTemplate').previewTheValue(pre_info[p]);
+            it++;
+        }
+       
+    },
    
 });

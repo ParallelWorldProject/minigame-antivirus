@@ -15,7 +15,7 @@ cc.Class({
 
     updateValue : function( value  )
     {
-        this.itemValue.string = Math.round(value) + '%';
+        this.itemValue.string = value + '%';
     },
 
     previewTheValue( preview )

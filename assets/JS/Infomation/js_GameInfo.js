@@ -7,9 +7,9 @@ module.exports =
         var ConstVar = {                             //游戏常量只可读，或只写一次
             maxInfected:1000000, //失败感染人数
             initialInfected:100,  //起始感染人数
-            minQuarantineRate:0.15,    //最小隔离率
-            maxQuarantineRate:0.6,     //最大隔离率
-            quarantineRateParameter:0.05, //隔离率系数
+            minQuarantineRate:0.15000,    //最小隔离率
+            maxQuarantineRate:0.6000,     //最大隔离率
+            quarantineRateParameter:0.0500, //隔离率系数
         
             logMaxInfected:Math.log(1000000), //maxInfected=10000
             logInitialInfected:Math.log(100), //initialInfected=100
@@ -21,10 +21,10 @@ module.exports =
             hoursCount:0, //小时数
 
             infectedCount:100, //当前感染人数 
-            infectionRate:0.3, //感染率
+            infectionRate:0.3000, //感染率
             dailyInfection:0,  //日感染人数
             
-            recoveryRate:0.2,  //治愈率
+            recoveryRate: 0.2000,  //治愈率
             resourceProductivity:1, //？
             resourceConsumption:1, //？
             resourceDailyChange:0, //资源日增减
@@ -71,7 +71,7 @@ module.exports =
             for( var t in temp )
             {
                 let str = temp[t].toString().slice(1,temp[t].length-1).split(',');
-                let tureVal = [parseInt(str[0]),parseInt(str[1])];
+                let tureVal = [parseFloat(str[0]),parseFloat(str[1])];
                 tureKey[correspondTable[t]] = tureVal;
                 console.log(  t  + "  getCorrespondTable  " + correspondTable[t] +"  :  "+tureVal);
             }
@@ -97,27 +97,52 @@ module.exports =
         }) 
 
         var ValChangedInfoList = new JSData.InfomationList( {  //这里储存卡牌用于计算的信息
-             Game:ChangeAbleVar,
              A:ChangeAbleVar,
              B:ChangeAbleVar,
              durtion : 0, //....
         })
 
         var UserInfoList = new JSData.InfomationList({  //这里用于储存每次向服务器提交的信息
-            'storyid' : 0,
-            'handcardid': 0,      // 当前卡id
-            'curcardoption': 0,   // 1或2
-            'mainpara':'{}',        // 明变量json串
-            'assistpara': '{}',     // 暗变量json串
-            'day': 0
+            storyid : 0,
+            handcardid: 0,      // 当前卡id
+            curcardoption: 0,   // 1或2
+            mainpara:'{}',        // 明变量json串
+            assistpara: '{}',     // 暗变量json串
+            day: 1
         })
 
 
 
         var PreviewData = new JSData.InfomationList({
-            calculated : {A:0,B:0},  //1表示已经计算过了，0表示需要计算，前后表示AB选项
+            calculatedA : 0,  //1表示已经计算过了，0表示需要计算
+            calculatedB : 0,
             A : { health:0,budget:0,resource:0,approval:0 },
-            B : { health:0,budget:0,resource:0,approval:0 }
+            B : { health:0,budget:0,resource:0,approval:0 },
+            clear : { health:0,budget:0,resource:0,approval:0 }
+        })
+
+        var AssistPara = new JSData.InfomationList({
+            dayCount:0, //当前天数
+            hoursCount:0, //小时数
+
+            infectedCount:100, //当前感染人数 
+            infectionRate:0.3, //感染率
+            dailyInfection:0,  //日感染人数
+            
+            recoveryRate:0.2,  //治愈率
+            resourceProductivity:1, //？
+            resourceConsumption:1, //？
+            resourceDailyChange:0, //资源日增减
+
+            dailyRecovery:0,   //日治愈人数
+
+            quarantineCapacity:500,    //隔离区容量
+            quarantineRate:0,  //隔离率
+            quarantineCount:0, //隔离人数
+            
+            budgetDailyChange:0,   //财政日增减
+            approvalDailyChange:0,//支持率日增减
+            shutdown:0,    //封城 是1否0
         })
 
 
@@ -125,6 +150,14 @@ module.exports =
         //也就是说，请求新卡牌时带来的信息将立马被分解
         //若卡牌中不存在需要信息，需要报错，(其实这就需要知道卡牌里面的细节了。。。。)
         this.SolveCapturedCardInfo=function( Cardinfo ){
+
+            console.log("-----------------LAST CHANGEABLE VAR::-----------------")
+            for( var prop in ChangeAbleVar )
+            {
+                console.log( prop + " : " +  ChangeAbleVar[prop] );
+            }
+            console.log("-----------------LAST CHANGEABLE VAR::-----------------")
+
 
             //将选项AB中Val分开用于做计算，
             ValChangedInfoList.SetInfoList({
@@ -140,8 +173,8 @@ module.exports =
 
             //先设置一部发userInfo 。。因为其他部分需要选择卡牌后设置当前还不知道
             UserInfoList.SetInfoList({
-                'storyid'  :  cc.sys.localStorage.getItem('storyid'),
-                'handcardid'  :  Cardinfo.id,
+                
+                handcardid  :  Cardinfo.id,
             })
 
             //设置卡牌显示信息
@@ -160,7 +193,8 @@ module.exports =
 
             //这里是预处理信息
             PreviewData.SetInfoList({
-                calculated:{A:0,B:0}
+                calculatedA:0,
+                calculatedB:0
             })
         },
 
@@ -176,36 +210,48 @@ module.exports =
             valinfo = val.B;
 
             let durtion = val.durtion; 
-            let tempGameInfo = val.Game;
+            let tempGameInfo = {};
+            for( d in ChangeAbleVar )
+            {
+                tempGameInfo[d] = ChangeAbleVar[d];
+            }
 
 
-            console.log("------------Chang New Val-------------");
+            /*console.log("------------Chang New Val-------------");
             for( let i in valinfo )
             {
                 console.log(i+"======="+valinfo[i]);
             }
-            console.log("------------Chang New Val-------------");
+            console.log("------------Chang New Val-------------");*/
             for( let v in valinfo ) //先根据选项的改变设置新值
             {
-                console.log("Valinfo:"+v+"["+valinfo[v][0]+","+valinfo[v][1]+"]");
-
                 if( valinfo[v][0] != 0 ){
                     tempGameInfo[v] += valinfo[v][0];
                 }
                 else{
                     tempGameInfo[v] = valinfo[v][1];
                 }
+
+                ///console.log("Valinfo:"+v+"["+valinfo[v][0]+","+valinfo[v][1]+"]" + "tempGameInfo[v]:" + tempGameInfo[v]);
             }
 
+
+            console.log("-----------------Frist Temp::" + select + "::-----------------")
+                for( var prop in tempGameInfo )
+                {
+                    console.log( prop + " : " +  tempGameInfo[prop] );
+                }
+                console.log("---------------------------------")
+            
             //再进行计算
             //with( ChangeAbleVar ){           /????为什么不能用with？？
             if( tempGameInfo.hoursCount==null ) tempGameInfo.hoursCount=0;
-                tempGameInfo.hoursCount =  tempGameInfo.hoursCount +   durtion
+
+                tempGameInfo.hoursCount =  tempGameInfo.hoursCount +   durtion ;
                 tempGameInfo.dayCount = Math.floor( tempGameInfo.hoursCount / 24) ;
 
 
-                tempGameInfo.dailyRecovery=Math.ceil( tempGameInfo.infectedCount * 
-                Math.pow( tempGameInfo.recoveryRate,  durtion));
+                tempGameInfo.dailyRecovery=Math.ceil( tempGameInfo.infectedCount *  Math.pow( tempGameInfo.recoveryRate,  durtion));
 
                 tempGameInfo.dailyInfection=( tempGameInfo.infectedCount - 
                     tempGameInfo.quarantineCount) * Math.pow( tempGameInfo.infectionRate,  durtion);
@@ -226,62 +272,64 @@ module.exports =
                     tempGameInfo.approvalDailyChange=1-0.02*(100- tempGameInfo.health);
                 }
                 
-                tempGameInfo.health=100-(Math.log( tempGameInfo.infectedCount)-ConstVar.logInitialInfected)/
-                                                    ConstVar.logMaxInfected;
-                tempGameInfo.resource= tempGameInfo.resource +  tempGameInfo.resourceDailyChange;
-                tempGameInfo.budget= tempGameInfo.budget +  tempGameInfo.budgetDailyChange;
-                tempGameInfo.approval= tempGameInfo.approval +  tempGameInfo.approvalDailyChange;
+                tempGameInfo.health=Math.floor( 100-(Math.log( tempGameInfo.infectedCount)-ConstVar.logInitialInfected)/
+                                                    ConstVar.logMaxInfected );
+                tempGameInfo.resource= Math.floor( tempGameInfo.resource +  tempGameInfo.resourceDailyChange );
+                tempGameInfo.budget= Math.floor( tempGameInfo.budget +  tempGameInfo.budgetDailyChange);
+                tempGameInfo.approval= Math.floor(tempGameInfo.approval +  tempGameInfo.approvalDailyChange);
 
-
-                ValChangedInfoList.SetInfoList({
-                    select : tempGameInfo,
-                    Game : ChangeAbleVar,
-                })
-
-                console.log("-----------------Temp::" + select + "::-----------------")
+                /*console.log("-----------------calculate::" + select + "::-----------------")
                 for( var prop in tempGameInfo )
                 {
                     console.log( prop + " : " +  tempGameInfo[prop] );
                 }
-                console.log("---------------------------------")
-                ///////.................................
+                console.log("---------------------------------")*/
+
+                let pre = [0,0,0,0]; 
+                let t=0;
+                for( var p in MainDataList.GetInfoList() )
+                {
+                    if( tempGameInfo[p] > ChangeAbleVar[p] ) pre[t]=1;
+                    else if( tempGameInfo[p] < ChangeAbleVar[p] )pre[t]=-1;
+                    t++;
+                    
+                } 
 
                 if(select == 'A')
                 {
                     PreviewData.SetInfoList({
-                        calculated : {
-                            A  : 1
-                        },
+                        calculatedA : 1,
                         A  : {
-                            health: tempGameInfo.health>ChangeAbleVar.health?1:
-                            (tempGameInfo.health<ChangeAbleVar.health?-1:0),
-                            resource: tempGameInfo.resource>ChangeAbleVar.resource?1:
-                            (tempGameInfo.resource<ChangeAbleVar.resource?-1:0),
-                            budget: tempGameInfo.budget>ChangeAbleVar.budget?1:
-                            (tempGameInfo.budget<ChangeAbleVar.budget?-1:0),
-                            approval: tempGameInfo.approval>ChangeAbleVar.approval?1:
-                            (tempGameInfo.approval<ChangeAbleVar.approval?-1:0)
+                            health: pre[0],
+                            resource: pre[1],
+                            budget: pre[2],
+                            approval: pre[3],
                         }
+                    })
+
+                    ValChangedInfoList.SetInfoList({
+                        A : tempGameInfo,
                     })
                 }   
-                else 
+                else  if(select == 'B')
                 {
                     PreviewData.SetInfoList({
-                        calculated : {
-                            B  : 1
-                        },
+                        calculatedB:1,
                         B  : {
-                            health: tempGameInfo.health>ChangeAbleVar.health?1:
-                            (tempGameInfo.health<ChangeAbleVar.health?-1:0),
-                            resource: tempGameInfo.resource>ChangeAbleVar.resource?1:
-                            (tempGameInfo.resource<ChangeAbleVar.resource?-1:0),
-                            budget: tempGameInfo.budget>ChangeAbleVar.budget?1:
-                            (tempGameInfo.budget<ChangeAbleVar.budget?-1:0),
-                            approval: tempGameInfo.approval>ChangeAbleVar.approval?1:
-                            (tempGameInfo.approval<ChangeAbleVar.approval?-1:0)
+                            health: pre[0],
+                            resource: pre[1],
+                            budget: pre[2],
+                            approval: pre[3],
                         }
                     })
+
+                    ValChangedInfoList.SetInfoList({
+                        B : tempGameInfo,
+                    })
                 }
+
+            
+                
         }
         
        
@@ -289,17 +337,28 @@ module.exports =
         //确认选择
         this.confirmSelect=function(select)
         {
-            let needCal = PreviewData.GetInfoList().calculated[select];
-            if( needCal == 0 ) //需要计算
-            {
-                this.calculateBySelect( select )
-            }
-
             let calculatedGameChangeAbleVarInfo = {}
-            if( select == 'A ')
-            calculatedGameChangeAbleVarInfo = ValChangedInfoList.GetInfoList().A
-            else 
-            calculatedGameChangeAbleVarInfo = ValChangedInfoList.GetInfoList().B
+            if( select == 'A')
+            {
+                if(  PreviewData.GetInfoList().calculatedA == 0 ) //需要计算
+                {
+                    this.calculateBySelect( 'A' )
+                }
+                calculatedGameChangeAbleVarInfo = ValChangedInfoList.GetInfoList().A;
+                
+            }
+            else if( select=='B' )
+            {
+                if( PreviewData.GetInfoList().calculatedB == 0 ) //需要计算
+                {
+                    this.calculateBySelect( 'B' )
+                }
+
+                calculatedGameChangeAbleVarInfo = ValChangedInfoList.GetInfoList().B;
+            }
+            else {
+                console.log("error:"+select);
+            }
 
             //最后才全部更新
             for( d in calculatedGameChangeAbleVarInfo )
@@ -314,55 +373,87 @@ module.exports =
                 approval:ChangeAbleVar.approval
             })
 
-            UserInfoList.SetInfoList({
-                'curcardoption': select=='A'?1:2,   // 1或2
-                'mainpara': JSON.stringify(MainDataList.GetInfoList()),        // 明变量json串
-                'assistpara': JSON.stringify(ChangeAbleVar),     // 暗变量json串
-                'day': ChangeAbleVar.dayCount,
+            AssistPara.SetInfoList({
+                ChangeAbleVar
             })
 
-            cc.sys.localStorage.setItem('lastday', ChangeAbleVar.dayCoun)
+            UserInfoList.SetInfoList({
+                storyid  :  cc.sys.localStorage.getItem('storyid'),
+                //handid再前面获取了
+                curcardoption: select=='A'?1:2,   // 1或2
+                mainpara: JSON.stringify(MainDataList.GetInfoList()),        // 明变量json串
+                assistpara: JSON.stringify(AssistPara.GetInfoList()),     // 暗变量json串
+                day: ChangeAbleVar.dayCount +1 ,
+                
+            })
 
+            cc.sys.localStorage.setItem('lastday', ChangeAbleVar.dayCount)
+
+
+           
         }
 
          //获得预览
          this.getDataPreView=function( select )  
          {
-             let needCal = PreviewData.GetInfoList().calculated[select];
-             if( needCal == 0 ) //需要计算
-             {
-                 this.calculateBySelect( select )
-             }
              
-             console.log("---------PreviewData--------- ");
-             PreviewData.ShowInfoList();
-             console.log("----------------------------------");
+            console.log( "getDataPreView " + select);
+             if( select == 'A'  )
+             {
+                if( PreviewData.GetInfoList().calculatedA == 0 )
+                this.calculateBySelect( 'A' );
 
-             return PreviewData.GetInfoList().select;
+                for( i in  PreviewData.GetInfoList().A ) 
+                {
+                    console.log(i + " : " +  PreviewData.GetInfoList().A[i] );
+                }
+
+                return PreviewData.GetInfoList().A;
+             }
+             else if( select == 'B' )
+             {
+                if( PreviewData.GetInfoList().calculatedA == 0 )
+                this.calculateBySelect( 'B' );
+
+                for( i in  PreviewData.GetInfoList().B ) 
+                {
+                    console.log(i + " : " +  PreviewData.GetInfoList().B[i] );
+                }
+
+                return PreviewData.GetInfoList().B;
+             }
+             else if (select==0)
+             {
+                 return PreviewData.GetInfoList().clear;
+             }
+
+            
+
+
          }
 
         //返回卡牌区域信息
         this.getCardRegionInfo=function(){
-            console.log("---------getCardRegionInfo--------- ");
+            /*console.log("---------getCardRegionInfo--------- ");
             CardRegionInfoList.ShowInfoList();
-            console.log("----------------------------------");
+            console.log("----------------------------------");*/
             return CardRegionInfoList.GetInfoList() ;
         }
         
         //返回数据区域信息
         this.getDataRegionInfo=function(){
-            console.log("---------getDataRegionInfo---------");
+            /*console.log("---------getDataRegionInfo---------");
             MainDataList.ShowInfoList();
-            console.log("----------------------------------");
+            console.log("----------------------------------");*/
             return MainDataList.GetInfoList() ;
             
         }
 
         //返回用户信息
         this.getUserInfo=function(){
-            console.log("---------getUserInfo--------- ");
+            /*console.log("---------getUserInfo--------- ");
             UserInfoList.ShowInfoList();
-            console.log("----------------------------------");
+            console.log("----------------------------------");*/
             return UserInfoList.GetInfoList() ;
         }
 

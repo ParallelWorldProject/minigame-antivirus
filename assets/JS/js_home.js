@@ -67,7 +67,7 @@ cc.Class({
         },this);
 
         
-        /*this.node.on('HoldStart', function (event) {
+        this.node.on('HoldStart', function (event) {
             cc.log( 'HoldStart');
             // 触摸 计算变量 提示数值可能的变化
 
@@ -85,9 +85,9 @@ cc.Class({
             cc.log( 'HoldEnd');
             // 松手 关掉提示
             // ....
-            this.dataRegion.clearPreview(  );
+            this.dataRegion.previewTheValue( this.gameInformation.getDataPreView(0) );
 
-        },this);*/
+        },this);
         
     },
 

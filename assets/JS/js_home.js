@@ -63,6 +63,7 @@ cc.Class({
         
         this.node.on('HoldStart', function (event) {
             cc.log( 'HoldStart');
+            let select ;
             // 触摸 计算变量 提示数值可能的变化
             if (event.SelectBtn === 'AC_HoldStart') {
                 select = 'A';

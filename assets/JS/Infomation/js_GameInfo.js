@@ -275,7 +275,7 @@ module.exports =
                                                     ConstVar.logMaxInfected );
                 tempGameInfo.resource= Math.floor( tempGameInfo.resource +  tempGameInfo.resourceDailyChange );
                 tempGameInfo.budget= Math.floor( tempGameInfo.budget +  tempGameInfo.budgetDailyChange);
-                tempGameInfo.approval= Math.floor(tempGameInfo.approval +  tempGameInfo.approvalDailyChange);
+                tempGameInfo.approval= Math.floor( tempGameInfo.approval +  tempGameInfo.approvalDailyChange);
 
                 /*console.log("-----------------calculate::" + select + "::-----------------")
                 for( var prop in tempGameInfo )
@@ -395,7 +395,10 @@ module.exports =
          //获得预览
          this.getDataPreView=function( select )  
          {
-             
+             console.log("select"+select);
+            console.log("PreviewData.GetInfoList().calculatedA"+PreviewData.GetInfoList().calculatedA);
+            console.log("PreviewData.GetInfoList().calculatedB"+PreviewData.GetInfoList().calculatedB);
+
             console.log( "getDataPreView " + select);
              if( select == 'A'  )
              {
@@ -411,7 +414,7 @@ module.exports =
              }
              else if( select == 'B' )
              {
-                if( PreviewData.GetInfoList().calculatedA == 0 )
+                if( PreviewData.GetInfoList().calculatedB == 0 )
                 this.calculateBySelect( 'B' );
 
                 for( i in  PreviewData.GetInfoList().B ) 

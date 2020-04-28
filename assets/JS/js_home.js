@@ -23,7 +23,7 @@ cc.Class({
     onLoad () {},
 
     start () {
-        // this.showMask()
+        this.showMask()
 
         let params = {
             handcardid: 1,  //当前卡id

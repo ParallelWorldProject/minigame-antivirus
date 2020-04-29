@@ -66,19 +66,19 @@ cc.Class({
     // 向下盖章动画
     moveSeal(sealBox,seal,positionX,positionY) {
         cc.tween(sealBox)
-        .to(0.5, { position: cc.v2(positionX, positionY)})
+        .to(0.3, { position: cc.v2(positionX, positionY)})
         .call(() => {
             seal.setPosition(positionX,positionY-65)
             seal.active = true
 
             this.scheduleOnce(()=>{
                 cc.tween(sealBox)
-                .to(0.8, { position: cc.v2(positionX, 100)})
+                .to(0.5, { position: cc.v2(positionX, 100)})
                 .call(() => {
                     sealBox.active = false
                 })
                 .start()
-            },0.2)
+            },0.7)
         })
         .start()
     },

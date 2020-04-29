@@ -86,7 +86,9 @@
         "timeline",
         "game-window"
       ]
-    }
+    },
+    "worker": {},
+    "window-1588083696115": {}
   },
   "panels": {
     "preferences": {

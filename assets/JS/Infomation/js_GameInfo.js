@@ -67,7 +67,7 @@ module.exports =
 
         var getCorrespondTable = function( temp ){
             let tureKey = { }
-            for( var t in temp )
+            for( let t in temp )
             {
                 let str = temp[t].toString().slice(1,temp[t].length-1).split(',');
                 let tureVal = [parseFloat(str[0]),parseFloat(str[1])];
@@ -151,7 +151,7 @@ module.exports =
         this.SolveCapturedCardInfo=function( Cardinfo ){
 
             console.log("-----------------LAST CHANGEABLE VAR::-----------------")
-            for( var prop in ChangeAbleVar )
+            for( let prop in ChangeAbleVar )
             {
                 console.log( prop + " : " +  ChangeAbleVar[prop] );
             }
@@ -210,7 +210,7 @@ module.exports =
 
             let durtion = val.durtion; 
             let tempGameInfo = {};
-            for( d in ChangeAbleVar )
+            for( let d in ChangeAbleVar )
             {
                 tempGameInfo[d] = ChangeAbleVar[d];
             }
@@ -236,7 +236,7 @@ module.exports =
 
 
             console.log("-----------------Frist Temp::" + select + "::-----------------")
-                for( var prop in tempGameInfo )
+                for( let prop in tempGameInfo )
                 {
                     console.log( prop + " : " +  tempGameInfo[prop] );
                 }
@@ -374,7 +374,7 @@ module.exports =
             }
 
             //最后才全部更新
-            for( d in calculatedGameChangeAbleVarInfo )
+            for( let d in calculatedGameChangeAbleVarInfo )
             {
                 ChangeAbleVar[d] = calculatedGameChangeAbleVarInfo[d];
             }
@@ -419,7 +419,7 @@ module.exports =
                 if( PreviewData.GetInfoList().calculatedA == 0 )
                 this.calculateBySelect( 'A' );
 
-                for( i in  PreviewData.GetInfoList().A ) 
+                for( let i in  PreviewData.GetInfoList().A ) 
                 {
                     console.log(i + " : " +  PreviewData.GetInfoList().A[i] );
                 }
@@ -431,7 +431,7 @@ module.exports =
                 if( PreviewData.GetInfoList().calculatedB == 0 )
                 this.calculateBySelect( 'B' );
 
-                for( i in  PreviewData.GetInfoList().B ) 
+                for( let i in  PreviewData.GetInfoList().B ) 
                 {
                     console.log(i + " : " +  PreviewData.GetInfoList().B[i] );
                 }

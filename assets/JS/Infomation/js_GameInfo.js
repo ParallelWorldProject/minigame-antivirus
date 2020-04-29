@@ -250,10 +250,10 @@ module.exports =
                 tempGameInfo.dayCount = Math.floor( tempGameInfo.hoursCount / 24) ;
 
 
-                tempGameInfo.dailyRecovery=Math.ceil( tempGameInfo.infectedCount *  Math.pow( tempGameInfo.recoveryRate,  durtion));
+                tempGameInfo.dailyRecovery=Math.ceil( tempGameInfo.infectedCount *  Math.pow( 1+tempGameInfo.recoveryRate,  durtion));
 
                 tempGameInfo.dailyInfection=( tempGameInfo.infectedCount - 
-                    tempGameInfo.quarantineCount) * Math.pow( tempGameInfo.infectionRate,  durtion);
+                    tempGameInfo.quarantineCount) * Math.pow( 1+tempGameInfo.infectionRate,  durtion);
 
                     tempGameInfo.infectedCount= tempGameInfo.infectedCount -  
                     tempGameInfo.dailyRecovery +  tempGameInfo.dailyInfection;
@@ -271,18 +271,32 @@ module.exports =
                     tempGameInfo.approvalDailyChange=1-0.02*(100- tempGameInfo.health);
                 }
                 
-                tempGameInfo.health=Math.floor( 100-(Math.log( tempGameInfo.infectedCount)-ConstVar.logInitialInfected)/
+                tempGameInfo.health=
+                Math.floor( 100-(Math.log( tempGameInfo.infectedCount)-ConstVar.logInitialInfected)/
                                                     ConstVar.logMaxInfected );
-                tempGameInfo.resource= Math.floor( tempGameInfo.resource +  tempGameInfo.resourceDailyChange );
-                tempGameInfo.budget= Math.floor( tempGameInfo.budget +  tempGameInfo.budgetDailyChange);
-                tempGameInfo.approval= Math.floor( tempGameInfo.approval +  tempGameInfo.approvalDailyChange);
+                tempGameInfo.resource= Math.floor( tempGameInfo.resource +  tempGameInfo.resourceDailyChange ) ;
+                tempGameInfo.budget= Math.floor( tempGameInfo.budget +  tempGameInfo.budgetDailyChange );
+                tempGameInfo.approval= Math.floor(tempGameInfo.approval +  tempGameInfo.approvalDailyChange);
 
-                /*console.log("-----------------calculate::" + select + "::-----------------")
+               /*console.log("-----------------calculate::" + select + "::-----------------")
                 for( var prop in tempGameInfo )
                 {
                     console.log( prop + " : " +  tempGameInfo[prop] );
                 }
-                console.log("---------------------------------")*/
+                console.log("--------ConstVar------")
+                for( var prop in ConstVar )
+                {
+                    console.log( prop + " : " +  ConstVar[prop] );
+                }
+                console.log("---------------------------------")
+
+                console.log("ConstVar.logMaxInfected"+ConstVar.logMaxInfected);
+                console.log("ConstVar.logInitialInfected"+ConstVar.logInitialInfected);
+                console.log("tempGameInfo.infectedCount:"+tempGameInfo.infectedCount);
+                console.log("health=100-(Math.log( tempGameInfo.infectedCount)-ConstVar.logInitialInfected)/ConstVar.logMaxInfected:"+tempGameInfo.health)
+                    */
+                
+
 
                 let pre = [0,0,0,0]; 
                 let t=0;
@@ -395,9 +409,9 @@ module.exports =
          //获得预览
          this.getDataPreView=function( select )  
          {
-             console.log("select"+select);
-            console.log("PreviewData.GetInfoList().calculatedA"+PreviewData.GetInfoList().calculatedA);
-            console.log("PreviewData.GetInfoList().calculatedB"+PreviewData.GetInfoList().calculatedB);
+            // console.log("select"+select);
+            //console.log("PreviewData.GetInfoList().calculatedA"+PreviewData.GetInfoList().calculatedA);
+            //console.log("PreviewData.GetInfoList().calculatedB"+PreviewData.GetInfoList().calculatedB);
 
             console.log( "getDataPreView " + select);
              if( select == 'A'  )

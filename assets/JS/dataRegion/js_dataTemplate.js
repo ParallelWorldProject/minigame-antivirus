@@ -22,6 +22,7 @@ cc.Class({
     {
         if( preview == 1 ) this.preview.string = '↑' ;
         else if( preview == -1 ) this.preview.string = '↓';
+        else if( preview == 0 ) this.preview.string ='-';
         else this.preview.string ='';
     } 
 });

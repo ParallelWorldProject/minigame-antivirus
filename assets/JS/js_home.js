@@ -78,7 +78,7 @@ cc.Class({
         this.node.on('HoldEnd', function (event) {
             cc.log( 'HoldEnd');
             // 松手 关掉提示
-            this.dataRegion.previewTheValue( this.gameInformation.getDataPreView(0) );
+            this.dataRegion.turnDownPreview(  );
 
         },this);
         

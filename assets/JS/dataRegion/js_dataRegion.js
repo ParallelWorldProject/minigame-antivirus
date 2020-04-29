@@ -31,7 +31,6 @@ cc.Class({
 
     previewTheValue( pre_info )
     {
-        
         let it = 1;
         for( var p in pre_info )
         {
@@ -41,5 +40,14 @@ cc.Class({
         }
        
     },
+
+    turnDownPreview(){
+
+        for( it =0; it<this.node.childrenCount; it++ )
+        {
+            let item = this.node.children[it];
+            item.getComponent('js_dataTemplate').previewTheValue(100);
+        }
+    }
    
 });

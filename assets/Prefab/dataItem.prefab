@@ -14,7 +14,7 @@
   {
     "__type__": "cc.Node",
     "_name": "dataItem",
-    "_objFlags": 0,
+    "_objFlags": 512,
     "_parent": null,
     "_children": [
       {
@@ -327,7 +327,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 22.65,
+      "width": 0,
       "height": 37.8
     },
     "_anchorPoint": {

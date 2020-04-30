@@ -43,6 +43,15 @@ module.exports =
             budget : 50 , //财政
             resource : 50 , //资源
             approval : 50, //支持度
+
+
+            /*"市民健康" : 100, //健康
+            "政府财政" : 50 , //财政
+            "医疗资源" : 50 , //资源
+            "政府声望" : 50, //支持度*/
+
+
+               
         }
 
 
@@ -235,13 +244,6 @@ module.exports =
             }
 
 
-            // console.log("-----------------Frist Temp::" + select + "::-----------------")
-            //     for( let prop in tempGameInfo )
-            //     {
-            //         console.log( prop + " : " +  tempGameInfo[prop] );
-            //     }
-            //     console.log("---------------------------------")
-            
             //再进行计算
             //with( ChangeAbleVar ){           /????为什么不能用with？？
             if( tempGameInfo.hoursCount==null ) tempGameInfo.hoursCount=0;
@@ -250,19 +252,20 @@ module.exports =
                 tempGameInfo.dayCount = Math.floor( tempGameInfo.hoursCount / 24) ;
 
 
-                tempGameInfo.dailyRecovery=Math.ceil( tempGameInfo.infectedCount *  Math.pow( 1+tempGameInfo.recoveryRate,  durtion));
+                tempGameInfo.dailyRecovery=Math.ceil( tempGameInfo.infectedCount *  
+                        Math.pow( 1+tempGameInfo.recoveryRate,  durtion));
 
                 tempGameInfo.dailyInfection=( tempGameInfo.infectedCount - 
                     tempGameInfo.quarantineCount) * Math.pow( 1+tempGameInfo.infectionRate,  durtion);
 
-                    tempGameInfo.infectedCount= tempGameInfo.infectedCount -  
+                tempGameInfo.infectedCount= tempGameInfo.infectedCount -  
                     tempGameInfo.dailyRecovery +  tempGameInfo.dailyInfection;
 
-                    tempGameInfo.quarantineRate=Math.min(ConstVar.maxQuarantineRate,ConstVar.minQuarantineRate + 
-                (100 -  tempGameInfo.health) * ConstVar.quarantineRateParameter);
+                tempGameInfo.quarantineRate=Math.min(ConstVar.maxQuarantineRate,ConstVar.minQuarantineRate + 
+                    (100 -  tempGameInfo.health) * ConstVar.quarantineRateParameter);
 
                 tempGameInfo.quarantineCount=Math.min( tempGameInfo.quarantineCapacity,
-                tempGameInfo.infectedCount *  tempGameInfo.quarantineRate);
+                    tempGameInfo.infectedCount *  tempGameInfo.quarantineRate);
 
                 tempGameInfo.resourceDailyChange= tempGameInfo.resourceProductivity- tempGameInfo.resourceConsumption;
                 if ( tempGameInfo.dayCount < 12){
@@ -272,11 +275,18 @@ module.exports =
                 }
                 
                 tempGameInfo.health=
-                Math.floor( 100-(Math.log( tempGameInfo.infectedCount)-ConstVar.logInitialInfected)/
-                                                    ConstVar.logMaxInfected );
+                    Math.floor( 100-(Math.log( tempGameInfo.infectedCount )-ConstVar.logInitialInfected)/ ConstVar.logMaxInfected );
                 tempGameInfo.resource= Math.floor( tempGameInfo.resource +  tempGameInfo.resourceDailyChange ) ;
                 tempGameInfo.budget= Math.floor( tempGameInfo.budget +  tempGameInfo.budgetDailyChange );
                 tempGameInfo.approval= Math.floor(tempGameInfo.approval +  tempGameInfo.approvalDailyChange);
+
+
+                console.log("-----------------Temp::" + select + "::-----------------")
+                for( let prop in tempGameInfo )
+                {
+                    console.log( prop + " : " +  tempGameInfo[prop] );
+                }
+                console.log("---------------------------------")
 
                /*console.log("-----------------calculate::" + select + "::-----------------")
                 for( var prop in tempGameInfo )

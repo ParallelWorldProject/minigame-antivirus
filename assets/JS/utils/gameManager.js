@@ -14,7 +14,6 @@ var GameManager = {
                     if (res.code) {
                         HttpHelper.httpPost('/login',{code:res.code}, (data) =>  {
                             if(data.errorcode==0) {
-                                console.log('logindata',data)
                                 cc.sys.localStorage.setItem('token', data.content.token)
                                 cc.sys.localStorage.setItem('userid', data.content.userid)
                            }
@@ -39,7 +38,6 @@ var GameManager = {
     // 游戏初始化
     initgame() {
         HttpHelper.httpPost('/initgame',{}, (data) =>  {
-            console.log('initgame',data)
             
             if(data.errorcode==0) {
                 cc.sys.localStorage.setItem('storyid',data.content.storyid)
@@ -58,7 +56,6 @@ var GameManager = {
             endingid: this.endingid
         }
         HttpHelper.httpPost('/closegame',params, (data) =>  {
-            console.log('closegame',data)
             
             if(data.errorcode==0) {
                 this.loadImg(endBg,data.content.imgurl)
@@ -93,7 +90,7 @@ var GameManager = {
         }
         HttpHelper.httpPost('/tracer',params, (res) =>  {
             if(res.errorcode==0) {
-                console.log('tracer',res)
+                // console.log('tracer',res)
             }
         })
     }

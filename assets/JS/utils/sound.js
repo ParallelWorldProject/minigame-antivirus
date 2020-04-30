@@ -25,10 +25,10 @@ cc.Class({
 
     },
     playSealSound() {
-        cc.audioEngine.play(this.soundSeal, false, 1);
+        cc.audioEngine.play(this.soundSeal, false, 0.8);
     },
     playPageSound() {
-        cc.audioEngine.play(this.soundPage, false, 1);
+        cc.audioEngine.play(this.soundPage, false, 0.8);
     },
     // playBgSound() {
     //     cc.audioEngine.play(this.soundBg, false, 1);

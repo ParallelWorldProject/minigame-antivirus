@@ -18,7 +18,11 @@ cc.Class({
             type: DataRegion
         },
         loadingPre: cc.Prefab,
-        maskLayer: cc.Node
+        maskLayer: cc.Node,
+        popoverPre: cc.Prefab,
+    },
+    ctor(){
+        this.postIndex = 0
     },
 
     onLoad () {},
@@ -56,7 +60,7 @@ cc.Class({
             } else if (event.SelectBtn === 'DE_DoubleClick') {
                 select = 'B';
             }
-            cc.log('click ' + select)
+            // cc.log('click ' + select)
             this.updateHome(select)
         },this);
 
@@ -89,7 +93,6 @@ cc.Class({
         
     },
 
-
     updateHome : function(select)
     {
         //按照选项就行计算
@@ -116,11 +119,14 @@ cc.Class({
         }
         GameManager.dataReport(par)
         
-        HttpHelper.httpPost('/getnextcard',params, (data) =>  {  //根据新params请求
+        this.getNextCardFn(params,cloneCard)
+        
+    },
+    getNextCardFn(params,cloneCard) {
+        HttpHelper.httpPost('/getnextcard',params, (data) =>  {
             if(data.errorcode === 0) {
-
+                this.postIndex = 0
                 let cardInfo =  new CardInfo(data.content)
-                cc.log('请求成功',cardInfo)
 
                 //这里更新卡牌信息
                 this.gameInformation.SolveCapturedCardInfo(cardInfo);
@@ -132,11 +138,19 @@ cc.Class({
 
                 this.dataRegion.updateData(this.gameInformation.getDataRegionInfo());
                 this.cardRegion.getNextCard(this.gameInformation.getCardRegionInfo());
-                
-                
+
+            } else if( data.errorcode === 1001 ) {
+                this.postIndex +=1
+                if(this.postIndex <= 3 ) {
+                    cc.log(1001)
+                    this.getNextCardFn(params)
+                } else {
+                    cc.log('重新开始')
+                    let popover = cc.instantiate(this.popoverPre)
+                    this.node.parent.addChild(popover)
+                }
             }
         })
-        
     },
     
     //必需在showmask后面才能行动

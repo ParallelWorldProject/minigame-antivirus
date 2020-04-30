@@ -13,7 +13,7 @@ cc.Class({
     },
 
     init : function( info ){
-        cc.log('initcardInfo',new Date())
+        // cc.log('initcardInfo',new Date())
         GameManager.time_cardShow = new Date()
 
         let firstday =  cc.sys.localStorage.getItem('firstday')

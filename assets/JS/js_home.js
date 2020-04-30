@@ -159,7 +159,7 @@ cc.Class({
             let i = 1;
             for( var di in d_info )
             {
-                if( d_info[di] == 0 ) { endingid=i; break;}
+                if( d_info[di] <= 0 ) { endingid=i; break;}
                 i++;
             }
         }

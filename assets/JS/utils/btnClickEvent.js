@@ -65,7 +65,19 @@ cc.Class({
             visible() {
                 return this.isHold
             }
-        }
+        },
+        isCancel: {
+            default: false,
+            tooltip: "是否监听Cancel事件"
+        },
+        cancelEvent: {
+            default: null,
+            tooltip: "cancel回调方法",
+            type: cc.Component.EventHandler,
+            visible() {
+                return this.isCancel
+            }
+        },
     },
       /***
       **  下面的都是临时变量
@@ -88,6 +100,7 @@ cc.Class({
         this.doubleClickEvent = new cc.Component.EventHandler();
         this.holdStartEvent = new cc.Component.EventHandler();
         this.holdEndEvent = new cc.Component.EventHandler();
+        this.cancelEvent = new cc.Component.EventHandler();
     },
 
     onLoad () {},
@@ -107,7 +120,7 @@ cc.Class({
                 }, this.holdStartTime);
             } 
         },this);
-    
+        
         this.node.on(cc.Node.EventType.TOUCH_END,function(event){
             this.isTouchState = false;
     
@@ -152,6 +165,13 @@ cc.Class({
     
             this.touchTime = 0;
         },this);
+
+        this.node.on(cc.Node.EventType.TOUCH_CANCEL, function (event) {
+            this.cancelEvent.emit([this.cancelEvent.customEventData])
+            this.isTouchState = false;
+            this.isHoldState = false;
+            this.touchTime = 0;
+        }, this);
 
     },
 

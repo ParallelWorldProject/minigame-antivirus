@@ -18,23 +18,23 @@
                 "children": [
                   "hierarchy"
                 ],
-                "height": 385.9250183105469,
+                "height": 386.1125183105469,
                 "type": "panel",
-                "width": 287.3125
+                "width": 287.07501220703125
               },
               {
                 "active": 0,
                 "children": [
                   "assets"
                 ],
-                "height": 319.2749938964844,
+                "height": 319.0874938964844,
                 "type": "panel",
-                "width": 287.3125
+                "width": 287.07501220703125
               }
             ],
             "height": 708.2000122070312,
             "type": "dock-v",
-            "width": 287.3125
+            "width": 287.07501220703125
           },
           {
             "active": 0,
@@ -44,7 +44,7 @@
             ],
             "height": 708.2000122070312,
             "type": "panel",
-            "width": 394.0625
+            "width": 394.1000061035156
           },
           {
             "children": [
@@ -53,9 +53,9 @@
                 "children": [
                   "scene"
                 ],
-                "height": 439.20001220703125,
+                "height": 439.125,
                 "type": "panel",
-                "width": 835.0125122070312
+                "width": 835.2250366210938
               },
               {
                 "active": 0,
@@ -64,14 +64,14 @@
                   "timeline",
                   "game-window"
                 ],
-                "height": 266,
+                "height": 266.07501220703125,
                 "type": "panel",
-                "width": 835.0125122070312
+                "width": 835.2250366210938
               }
             ],
             "height": 708.2000122070312,
             "type": "dock-v",
-            "width": 835.0125122070312
+            "width": 835.2250366210938
           }
         ],
         "type": "dock-h"
@@ -86,9 +86,7 @@
         "timeline",
         "game-window"
       ]
-    },
-    "worker": {},
-    "window-1588083696115": {}
+    }
   },
   "panels": {
     "preferences": {

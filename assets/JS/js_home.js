@@ -93,6 +93,8 @@ cc.Class({
         // 盖章动画
         let cloneCard = this.cardRegion.sealAnimation( select );
 
+        this.dataRegion.turnDownPreview(  ); //防止预显示生效
+
         //判定是否结束游戏
         if (this.checkGameOver() ) {return}
         
@@ -125,6 +127,8 @@ cc.Class({
 
                 this.dataRegion.updateData(this.gameInformation.getDataRegionInfo());
                 this.cardRegion.getNextCard(this.gameInformation.getCardRegionInfo());
+                
+                
             }
         })
         

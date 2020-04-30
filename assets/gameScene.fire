@@ -174,7 +174,7 @@
       "array": [
         0,
         0,
-        353.95401481609747,
+        404.7044965060155,
         0,
         0,
         0,
@@ -3681,6 +3681,9 @@
     "maskLayer": {
       "__id__": 99
     },
+    "popoverPre": {
+      "__uuid__": "caa11e92-fcd4-476d-bede-d664b83a5d6e"
+    },
     "_id": "9d7E+y/D5D/5P9i/GKXLMS"
   },
   {
@@ -3694,7 +3697,7 @@
     "_clip": {
       "__uuid__": "8836f1b0-ac16-4015-8ab6-47e6f8c51fee"
     },
-    "_volume": 0.5,
+    "_volume": 0.8,
     "_mute": false,
     "_loop": true,
     "playOnLoad": true,

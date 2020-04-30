@@ -72,7 +72,7 @@ module.exports =
                 let str = temp[t].toString().slice(1,temp[t].length-1).split(',');
                 let tureVal = [parseFloat(str[0]),parseFloat(str[1])];
                 tureKey[correspondTable[t]] = tureVal;
-                console.log(  t  + "  getCorrespondTable  " + correspondTable[t] +"  :  "+tureVal);
+                // console.log(  t  + "  getCorrespondTable  " + correspondTable[t] +"  :  "+tureVal);
             }
             return tureKey;
         }
@@ -150,12 +150,12 @@ module.exports =
         //若卡牌中不存在需要信息，需要报错，(其实这就需要知道卡牌里面的细节了。。。。)
         this.SolveCapturedCardInfo=function( Cardinfo ){
 
-            console.log("-----------------LAST CHANGEABLE VAR::-----------------")
-            for( let prop in ChangeAbleVar )
-            {
-                console.log( prop + " : " +  ChangeAbleVar[prop] );
-            }
-            console.log("-----------------LAST CHANGEABLE VAR::-----------------")
+            // console.log("-----------------LAST CHANGEABLE VAR::-----------------")
+            // for( let prop in ChangeAbleVar )
+            // {
+            //     console.log( prop + " : " +  ChangeAbleVar[prop] );
+            // }
+            // console.log("-----------------LAST CHANGEABLE VAR::-----------------")
 
 
             //将选项AB中Val分开用于做计算，
@@ -235,12 +235,12 @@ module.exports =
             }
 
 
-            console.log("-----------------Frist Temp::" + select + "::-----------------")
-                for( let prop in tempGameInfo )
-                {
-                    console.log( prop + " : " +  tempGameInfo[prop] );
-                }
-                console.log("---------------------------------")
+            // console.log("-----------------Frist Temp::" + select + "::-----------------")
+            //     for( let prop in tempGameInfo )
+            //     {
+            //         console.log( prop + " : " +  tempGameInfo[prop] );
+            //     }
+            //     console.log("---------------------------------")
             
             //再进行计算
             //with( ChangeAbleVar ){           /????为什么不能用with？？

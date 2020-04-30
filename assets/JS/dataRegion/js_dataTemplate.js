@@ -15,7 +15,7 @@ cc.Class({
             case "health": name = "健康"; break;
             case "budget": name = "财政";   break;
             case "resource": name = "医疗"; break;
-            case "approval": name = "声望"; break;
+            case "approval": name = "支持率"; break;
             default : name = name;
         }
         this.itemName.string = name ;

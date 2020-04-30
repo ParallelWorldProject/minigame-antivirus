@@ -81,6 +81,11 @@ cc.Class({
             this.dataRegion.turnDownPreview(  );
 
         },this);
+
+        this.node.on('HoldCancel', function (event) {
+            cc.log('TOUCH_CANCEL');
+            this.dataRegion.turnDownPreview();
+        }, this);
         
     },
 

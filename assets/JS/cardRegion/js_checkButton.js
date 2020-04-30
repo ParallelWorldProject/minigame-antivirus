@@ -68,5 +68,9 @@ cc.Class({
             default:
                 break;
         }
+    },
+    HoldCancelCallBack(data) {
+        const e = new cc.Event.EventCustom('HoldCancel',true)
+        this.node.dispatchEvent( e )
     }
 });

@@ -258,8 +258,8 @@ module.exports =
                 tempGameInfo.dailyInfection=( tempGameInfo.infectedCount - 
                     tempGameInfo.quarantineCount) * Math.pow( 1+tempGameInfo.infectionRate,  durtion);
 
-                tempGameInfo.infectedCount= tempGameInfo.infectedCount -  
-                    tempGameInfo.dailyRecovery +  tempGameInfo.dailyInfection;
+                tempGameInfo.infectedCount= Math.max( tempGameInfo.infectedCount -  
+                    tempGameInfo.dailyRecovery +  tempGameInfo.dailyInfection, 0.1 );
 
                 tempGameInfo.quarantineRate=Math.min(ConstVar.maxQuarantineRate,ConstVar.minQuarantineRate + 
                     (100 -  tempGameInfo.health) * ConstVar.quarantineRateParameter);

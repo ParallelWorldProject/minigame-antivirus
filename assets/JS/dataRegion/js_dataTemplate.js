@@ -10,6 +10,14 @@ cc.Class({
 
     init : function( name)
     {
+        switch( name )
+        {
+            case "health": name = "市民健康"; break;
+            case "budget": name = "政府财政";   break;
+            case "resource": name = "医疗资源"; break;
+            case "approval": name = "政府声望"; break;
+            default : name = name;
+        }
         this.itemName.string = name ;
     },
 

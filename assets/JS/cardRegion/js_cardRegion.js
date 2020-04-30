@@ -1,10 +1,14 @@
-
+const Sound = require('sound');
 
 cc.Class({
     extends: cc.Component,
 
     properties: {
-        cardPerfab: cc.Prefab
+        cardPerfab: cc.Prefab,
+        sound: {  //卡片区域
+            default: null,
+            type: Sound
+        },
     },
 
     init:function (info) {  
@@ -70,6 +74,7 @@ cc.Class({
         .call(() => {
             seal.setPosition(positionX,positionY-65)
             seal.active = true
+            this.sound.playSealSound()
 
             this.scheduleOnce(()=>{
                 cc.tween(sealBox)
@@ -84,6 +89,7 @@ cc.Class({
     },
     // 移牌动画
     moveCard(target) {
+        this.sound.playPageSound()
         cc.tween(target)
         .to(0.3, { scale: 1.1 })
         .to(0.3, { position: cc.v2(-750, 25), scale: 0.9})

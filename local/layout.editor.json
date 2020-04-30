@@ -86,7 +86,8 @@
         "timeline",
         "game-window"
       ]
-    }
+    },
+    "window-1588227831670": {}
   },
   "panels": {
     "preferences": {
@@ -132,10 +133,10 @@
       "height": 540
     },
     "builder": {
-      "x": 284,
-      "y": 52,
+      "x": 220,
+      "y": 54,
       "width": 526,
-      "height": 748
+      "height": 749
     }
   },
   "panelLabelWidth": {

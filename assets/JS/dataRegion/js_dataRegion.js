@@ -43,7 +43,7 @@ cc.Class({
 
     turnDownPreview(){
 
-        for( it =0; it<this.node.childrenCount; it++ )
+        for( let it =0; it<this.node.childrenCount; it++ )
         {
             let item = this.node.children[it];
             item.getComponent('js_dataTemplate').previewTheValue(100);

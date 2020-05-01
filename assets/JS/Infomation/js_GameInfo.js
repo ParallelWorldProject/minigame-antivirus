@@ -80,7 +80,7 @@ module.exports =
             {
                 //let str = temp[t].toString().slice(1,temp[t].length-1).split(',');
                 //let tureVal [] = [parseFloat(str[0]),parseFloat(str[1])];
-                tureVal = temp[t];
+                let tureVal = temp[t];
                 tureKey[correspondTable[t]] = tureVal;
                 // console.log(  t  + "  getCorrespondTable  " + correspondTable[t] +"  :  "+tureVal);
             }

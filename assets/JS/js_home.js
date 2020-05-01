@@ -174,7 +174,7 @@ cc.Class({
         let endingid;
         let day = this.gameInformation.getCardRegionInfo().day;
         let d_info = this.gameInformation.getDataRegionInfo();
-        if( day < 50 ) //测试50天结束
+        if( day <= 100 ) //测试100天结束
         {
             let i = 1;
             for( var di in d_info )

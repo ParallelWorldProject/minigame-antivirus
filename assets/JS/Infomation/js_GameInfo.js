@@ -23,7 +23,7 @@ module.exports =
             infectionRate:0.3000, //感染率
             dailyInfection:0,  //日感染人数
             
-            recoveryRate: 0.2000,  //治愈率
+            recoveryRate: 0.07,  //治愈率
             resourceProductivity:1, //？
             resourceConsumption:1, //？
             resourceDailyChange:0, //资源日增减
@@ -138,7 +138,7 @@ module.exports =
             infectionRate:0.3, //感染率
             dailyInfection:0,  //日感染人数
             
-            recoveryRate:0.2,  //治愈率
+            recoveryRate:0.07,  //治愈率
             resourceProductivity:1, //？
             resourceConsumption:1, //？
             resourceDailyChange:0, //资源日增减

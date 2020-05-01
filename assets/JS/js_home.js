@@ -171,10 +171,14 @@ cc.Class({
     },
 
     checkGameOver() {
-        let endingid;
-        let day = this.gameInformation.getCardRegionInfo().day;
+        let endingid ;
+        let day = this.gameInformation.getCardRegionInfo().day;   //getUserInfo
+        let c_id = this.gameInformation.getUserInfo().handcardid; 
+
         let d_info = this.gameInformation.getDataRegionInfo();
-        if( day < 50 ) //测试50天结束
+
+        //if( day < 100 ) //测试50天结束
+        if( c_id != 53 )
         {
             let i = 1;
             for( var di in d_info )
@@ -185,7 +189,7 @@ cc.Class({
         }
         else endingid=0;
         
-        if( endingid!=null) { 
+        if( endingid!=null ) { 
             GameManager.endingid = endingid
             GameManager.endingday = day
             this.scheduleOnce(()=>{

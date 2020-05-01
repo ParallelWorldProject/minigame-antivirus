@@ -24,10 +24,6 @@ module.exports =
             dailyInfection:0,  //日感染人数
             
             recoveryRate: 0.0700,  //治愈率
-
-
-
-
             resourceProductivity:1, //？
             resourceConsumption:1, //？
             resourceDailyChange:0, //资源日增减
@@ -89,7 +85,7 @@ module.exports =
             {
                 //let str = temp[t].toString().slice(1,temp[t].length-1).split(',');
                 //let tureVal [] = [parseFloat(str[0]),parseFloat(str[1])];
-                tureVal = temp[t];
+                let tureVal = temp[t];
                 tureKey[correspondTable[t]] = tureVal;
                 // console.log(  t  + "  getCorrespondTable  " + correspondTable[t] +"  :  "+tureVal);
             }

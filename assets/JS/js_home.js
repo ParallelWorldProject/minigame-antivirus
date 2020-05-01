@@ -193,8 +193,9 @@ cc.Class({
             GameManager.endingid = endingid
             GameManager.endingday = day
             this.scheduleOnce(()=>{
-                GameManager.changeGameScence('gameEnd'); return true
+                GameManager.changeGameScence('gameEnd'); 
             },1.8)
+            return true
         }
         
     },

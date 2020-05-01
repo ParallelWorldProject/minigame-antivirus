@@ -53,11 +53,7 @@
                 "children": [
                   "scene"
                 ],
-<<<<<<< HEAD
                 "height": 348.78125,
-=======
-                "height": 439.125,
->>>>>>> 07b532f81bf5b78b698d811f2cd9b8888e81e258
                 "type": "panel",
                 "width": 650.1749877929688
               },
@@ -68,11 +64,7 @@
                   "timeline",
                   "game-window"
                 ],
-<<<<<<< HEAD
                 "height": 464.71875,
-=======
-                "height": 266.07501220703125,
->>>>>>> 07b532f81bf5b78b698d811f2cd9b8888e81e258
                 "type": "panel",
                 "width": 650.1749877929688
               }

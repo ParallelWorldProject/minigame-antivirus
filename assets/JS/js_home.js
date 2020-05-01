@@ -172,9 +172,11 @@ cc.Class({
 
     checkGameOver() {
         let endingid;
-        let day = this.gameInformation.getCardRegionInfo().day;
+        // let day = this.gameInformation.getCardRegionInfo().day;
+        let c_id = this.gameInformation.getCardRegionInfo().handcardid;
         let d_info = this.gameInformation.getDataRegionInfo();
-        if( day <= 100 ) //测试100天结束
+        // if( day <= 100 ) //测试100天结束
+        if( c_id != 53 ) //测试100天结束
         {
             let i = 1;
             for( var di in d_info )

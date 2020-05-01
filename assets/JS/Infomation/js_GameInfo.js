@@ -78,8 +78,9 @@ module.exports =
             let tureKey = { }
             for( let t in temp )
             {
-                let str = temp[t].toString().slice(1,temp[t].length-1).split(',');
-                let tureVal = [parseFloat(str[0]),parseFloat(str[1])];
+                //let str = temp[t].toString().slice(1,temp[t].length-1).split(',');
+                //let tureVal [] = [parseFloat(str[0]),parseFloat(str[1])];
+                tureVal = temp[t];
                 tureKey[correspondTable[t]] = tureVal;
                 // console.log(  t  + "  getCorrespondTable  " + correspondTable[t] +"  :  "+tureVal);
             }
@@ -159,12 +160,12 @@ module.exports =
         //若卡牌中不存在需要信息，需要报错，(其实这就需要知道卡牌里面的细节了。。。。)
         this.SolveCapturedCardInfo=function( Cardinfo ){
 
-            // console.log("-----------------LAST CHANGEABLE VAR::-----------------")
-            // for( let prop in ChangeAbleVar )
-            // {
-            //     console.log( prop + " : " +  ChangeAbleVar[prop] );
-            // }
-            // console.log("-----------------LAST CHANGEABLE VAR::-----------------")
+            /* console.log("-----------------LAST CHANGEABLE VAR::-----------------")
+             for( let prop in ChangeAbleVar )
+             {
+                 console.log( prop + " : " +  ChangeAbleVar[prop] );
+             }
+             console.log("-----------------LAST CHANGEABLE VAR::-----------------")*/
 
 
             //将选项AB中Val分开用于做计算，
@@ -225,12 +226,12 @@ module.exports =
             }
 
 
-            /*console.log("------------Chang New Val-------------");
+            console.log("------------Chang New Val-------------");
             for( let i in valinfo )
             {
                 console.log(i+"======="+valinfo[i]);
             }
-            console.log("------------Chang New Val-------------");*/
+            console.log("------------Chang New Val-------------");
             for( let v in valinfo ) //先根据选项的改变设置新值
             {
                 if( valinfo[v][0] != 0 ){

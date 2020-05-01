@@ -127,6 +127,7 @@ cc.Class({
             if(data.errorcode === 0) {
                 this.postIndex = 0
                 let cardInfo =  new CardInfo(data.content)
+                cc.log('cardInfo',cardInfo)
 
                 //这里更新卡牌信息
                 this.gameInformation.SolveCapturedCardInfo(cardInfo);

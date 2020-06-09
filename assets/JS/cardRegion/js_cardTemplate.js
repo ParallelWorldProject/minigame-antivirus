@@ -1,4 +1,4 @@
-
+//const GameManager = require("../utils/gameManager")
 
 cc.Class({
     extends: cc.Component,
@@ -14,7 +14,7 @@ cc.Class({
 
     init : function( info ){
         // cc.log('initcardInfo',new Date())
-        GameManager.time_cardShow = new Date()
+        //GameManager.time_cardShow = new Date()
 
         let firstday =  cc.sys.localStorage.getItem('firstday')
 
@@ -32,18 +32,21 @@ cc.Class({
 
         this.information.string  = info.information;
 
-  
+        /*
         //修改img区域
         //本地加载
-        // var picUrl = "cardimg/" + info.picUrl;
-        // let self = this.image;
-        // cc.loader.loadRes(picUrl, cc.SpriteFrame, function (err, spriteFrame) {
-        //     self.getComponent(cc.Sprite).spriteFrame = spriteFrame;
-        // });
+         var relativePos = "../../localCard/cardsImg/"
+         var picUrl = relativePos + info.picUrl;
+
+         let self = this.image;
+         cc.loader.loadRes(picUrl, cc.SpriteFrame, function (err, spriteFrame) {
+             self.getComponent(cc.Sprite).spriteFrame = spriteFrame;
+         });
+         //this.image.getComponent(cc.Sprite)
 
         //远程加载  
-        this.loadImg( this.image.getComponent(cc.Sprite) ,info.picUrl )
-
+        //this.loadImg( this.image.getComponent(cc.Sprite) ,info.picUrl )
+        */
 
         this.ac_btn = this.select.getChildByName("ac_btn").getComponent(cc.Label);
         this.de_btn = this.select.getChildByName("de_btn").getComponent(cc.Label);

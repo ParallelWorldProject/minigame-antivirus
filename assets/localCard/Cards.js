@@ -3,43 +3,43 @@ var Cards =
     "card01":
     {
         cardid:1,
-        imgUrl:"",
+        imgUrl:"detective_portrait",
         cfrom: "USA",
         cname: "001",
         message:"this is first card",
-        durtion:1,
+        durtion:"1",
         optionOneDesc:"optionOneDesc1",
-        optionOneValueChange: {},
+        optionOneValueChange: "{}",
         optionTwoDesc:"optionTwoDesc1",
-        optionTwoValueChange:{}
+        optionTwoValueChange:"{}"
     },
 
     "card02":
     {
         cardid:2,
-        imgUrl:"",
+        imgUrl:"jounalist_portrait",
         cfrom: "CN",
         cname: "002",
         message:"this is second card",
-        durtion:1,
+        durtion:"1",
         optionOneDesc:"optionOneDesc2",
-        optionOneValueChange: {},
+        optionOneValueChange: "{}",
         optionTwoDesc:"optionTwoDesc2",
-        optionTwoValueChange:{}
+        optionTwoValueChange: "{}"
     },
 
     "card03":
     {
         cardid:2,
-        imgUrl:"",
+        imgUrl:"secretary_portrait",
         cfrom: "JP",
         cname: "003",
         message:"this is 3rd card",
-        durtion:1,
+        durtion:"1",
         optionOneDesc:"optionOneDesc3",
-        optionOneValueChange: {},
+        optionOneValueChange: "{}",
         optionTwoDesc:"optionTwoDesc3",
-        optionTwoValueChange:{}
+        optionTwoValueChange:"{}"
     }
 }
 

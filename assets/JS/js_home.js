@@ -53,9 +53,14 @@ cc.Class({
         })*/
         
             
-
-        let cardInfo =  new CardInfo(LocalCard.card01)
+        //加载本地card
+        var randomCardcnt = Math.floor((Math.random()*3)+1);
+        var randomCardName =  "card0" + randomCardcnt.toString() ;
+        let cardInfo =  new CardInfo(LocalCard[randomCardName.toString()])
+        cc.log("randomCardName.toString()",randomCardName.toString());
         cc.log('cardInfo',cardInfo)
+
+
 
         this.gameInformation.SolveCapturedCardInfo(cardInfo);
 
@@ -65,7 +70,7 @@ cc.Class({
 
 
 
-        //setClickEvevt();
+        this.setClickEvevt();
     },
 
    
@@ -86,8 +91,9 @@ cc.Class({
         //获取新params请求
         let params = this.gameInformation.getUserInfo(select);
 
+        /*
         // 数据上报
-        GameManager.time_cardChoose = new Date()
+        //GameManager.time_cardChoose = new Date()
         let second = (parseFloat((GameManager.time_cardChoose - GameManager.time_cardShow) / 1000)-1.7).toFixed(3);
         let par = {
             cardid: params.handcardid,
@@ -95,12 +101,12 @@ cc.Class({
             timecost: second
         }
         GameManager.dataReport(par)
-        
+        */
         this.getNextCardFn(params,cloneCard)
         
     },
     getNextCardFn(params,cloneCard) {
-        HttpHelper.httpPost('/getnextcard',params, (data) =>  {
+        /*HttpHelper.httpPost('/getnextcard',params, (data) =>  {
             if(data.errorcode === 0) {
                 this.postIndex = 0
                 let cardInfo =  new CardInfo(data.content)
@@ -128,7 +134,22 @@ cc.Class({
                     this.node.parent.addChild(popover)
                 }
             }
-        })
+        })*/
+        var randomCardcnt = Math.floor((Math.random()*3)+1);
+        var randomCardName =  "card0" + randomCardcnt.toString() ;
+        let cardInfo =  new CardInfo(LocalCard[randomCardName.toString()])
+        cc.log('cardInfo',cardInfo)
+
+        //这里更新卡牌信息
+        this.gameInformation.SolveCapturedCardInfo(cardInfo);
+
+        this.scheduleOnce(()=>{
+            this.cardRegion.moveCard(cloneCard)
+        },1.7)
+
+        this.dataRegion.updateData(this.gameInformation.getDataRegionInfo());
+        this.cardRegion.getNextCard(this.gameInformation.getCardRegionInfo());
+        
     },
     
     //必需在showmask后面才能行动

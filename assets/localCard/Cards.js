@@ -30,7 +30,7 @@ var Cards =
 
     "card03":
     {
-        cardid:2,
+        cardid:3,
         imgUrl:"secretary_portrait",
         cfrom: "JP",
         cname: "003",

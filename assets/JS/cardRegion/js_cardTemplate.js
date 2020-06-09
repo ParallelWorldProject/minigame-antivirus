@@ -1,4 +1,4 @@
-const GameManager = require("../utils/gameManager")
+
 
 cc.Class({
     extends: cc.Component,

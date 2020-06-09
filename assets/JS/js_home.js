@@ -1,10 +1,11 @@
 //1: 加载所有游戏部件 与 动画
 //2: 存储信息并进行前后端总体交互
-const GameManager = require("./utils/gameManager")
-//const GameInfo = require("js_gameInformation");
+
 const GMIF = require("js_GameInfo"); 
 const CardRegion = require('js_cardRegion');
 const DataRegion = require('js_dataRegion');
+
+const LocalCard = require('../localCard/Cards');
 
 cc.Class({
     extends: cc.Component,
@@ -30,15 +31,15 @@ cc.Class({
     start () {
         this.showMask()
 
-        let params = {
+        /*let params = {
             handcardid: 1,  //当前卡id
             storyid: cc.sys.localStorage.getItem('storyid'),
             day: 1,
-        }
+        }*/
 
         this.gameInformation = new GMIF.gameInformationList();
         
-        HttpHelper.httpPost('/getnextcard',params, (data) =>  {
+        /*HttpHelper.httpPost('/getnextcard',params, (data) =>  {
             if(data.errorcode === 0) {
 
                 let cardInfo =  new CardInfo(data.content)
@@ -49,11 +50,22 @@ cc.Class({
                 this.dataRegion.init(this.gameInformation.getDataRegionInfo());
                 this.cardRegion.init(this.gameInformation.getCardRegionInfo());
             }
-        })
+        })*/
+        
+            
+
+        let cardInfo =  new CardInfo(LocalCard.card01)
+        cc.log('cardInfo',cardInfo)
+
+        this.gameInformation.SolveCapturedCardInfo(cardInfo);
+
+        this.dataRegion.init(this.gameInformation.getDataRegionInfo());
+        this.cardRegion.init(this.gameInformation.getCardRegionInfo());
+    
 
 
 
-        setClickEvevt();
+        //setClickEvevt();
     },
 
    
@@ -211,12 +223,12 @@ cc.Class({
 class CardInfo {
     constructor(data) {
         this.message= data.message;
+        this.information= data.message;
         this.id = data.cardid;
         this.from= data.cfrom ;
         this.name= data.cname;
         this.date= data.durtion;
         this.durtion = data.durtion;
-        this.information= data.message;
         this.picUrl=data.imgurl;
 
         this.option = {

@@ -1,10 +1,11 @@
 const JSData = require("./js_SubInfoList")
+const ConstVar = require("./js_constant");
 
 module.exports =
 { 
     gameInformationList : function (){
     
-        var ConstVar = {                             //游戏常量只可读，或只写一次
+        /*var ConstVar = {                             //游戏常量只可读，或只写一次
             maxInfected:1000000, //失败感染人数
             initialInfected:100,  //起始感染人数
             minQuarantineRate:0.15000,    //最小隔离率
@@ -13,7 +14,7 @@ module.exports =
         
             logMaxInfected:Math.log(1000000), //maxInfected=10000
             logInitialInfected:Math.log(100), //initialInfected=100
-        }
+        }*/
 
         var ChangeAbleVar = {                         //游戏变量，根据每次请求更改,现在游戏开始并没有传递其中参数，所以先默认为此
             dayCount:0, //当前天数

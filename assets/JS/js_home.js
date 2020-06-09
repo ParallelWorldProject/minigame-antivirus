@@ -52,46 +52,11 @@ cc.Class({
         })
 
 
-        // 监听双击、按住松开事件
-        this.node.on('DoubleClick', function (event) {
-            let select ;
-            if (event.SelectBtn === 'AC_DoubleClick') {
-                select = 'A';
-            } else if (event.SelectBtn === 'DE_DoubleClick') {
-                select = 'B';
-            }
-            // cc.log('click ' + select)
-            this.updateHome(select)
-        },this);
 
-        
-        this.node.on('HoldStart', function (event) {
-            cc.log( 'HoldStart');
-            let select ;
-            // 触摸 计算变量 提示数值可能的变化
-            if (event.SelectBtn === 'AC_HoldStart') {
-                select = 'A';
-            } else if (event.SelectBtn === 'DE_HoldStart') {
-                select = 'B';
-            }
-
-            this.dataRegion.previewTheValue( this.gameInformation.getDataPreView(select) );
-
-        },this);
-
-        this.node.on('HoldEnd', function (event) {
-            cc.log( 'HoldEnd');
-            // 松手 关掉提示
-            this.dataRegion.turnDownPreview(  );
-
-        },this);
-
-        this.node.on('HoldCancel', function (event) {
-            cc.log('TOUCH_CANCEL');
-            this.dataRegion.turnDownPreview();
-        }, this);
-        
+        setClickEvevt();
     },
+
+   
 
     updateHome : function(select)
     {
@@ -199,6 +164,47 @@ cc.Class({
         }
         
     },
+
+        setClickEvevt(){
+        // 监听双击、按住松开事件
+                this.node.on('DoubleClick', function (event) {
+                    let select ;
+                    if (event.SelectBtn === 'AC_DoubleClick') {
+                        select = 'A';
+                    } else if (event.SelectBtn === 'DE_DoubleClick') {
+                        select = 'B';
+                    }
+                    // cc.log('click ' + select)
+                    this.updateHome(select)
+                },this);
+        
+                
+                this.node.on('HoldStart', function (event) {
+                    cc.log( 'HoldStart');
+                    let select ;
+                    // 触摸 计算变量 提示数值可能的变化
+                    if (event.SelectBtn === 'AC_HoldStart') {
+                        select = 'A';
+                    } else if (event.SelectBtn === 'DE_HoldStart') {
+                        select = 'B';
+                    }
+        
+                    this.dataRegion.previewTheValue( this.gameInformation.getDataPreView(select) );
+        
+                },this);
+        
+                this.node.on('HoldEnd', function (event) {
+                    cc.log( 'HoldEnd');
+                    // 松手 关掉提示
+                    this.dataRegion.turnDownPreview(  );
+        
+                },this);
+        
+                this.node.on('HoldCancel', function (event) {
+                    cc.log('TOUCH_CANCEL');
+                    this.dataRegion.turnDownPreview();
+                }, this);
+            },
     
 });
 

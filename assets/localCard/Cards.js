@@ -1,3 +1,22 @@
+
+var changed = {
+    changeOne:
+    
+
+     '{"感染率":[-0.1,0],"治愈":[0.2,0]}' ,
+  
+
+    /*changeTwo:
+    {
+        "资源生产力":[-0.2,0]
+    },
+
+    changeThree:
+    {
+        "支持率变化":[0.3,0]
+    }*/
+}
+
 var Cards = 
 {
     "card01":
@@ -9,9 +28,10 @@ var Cards =
         message:"this is first card",
         durtion:"1",
         optionOneDesc:"optionOneDesc1",
-        optionOneValueChange: "{}",
+        optionOneValueChange: changed.changeOne
+        ,
         optionTwoDesc:"optionTwoDesc1",
-        optionTwoValueChange:"{}"
+        optionTwoValueChange: "{}"
     },
 
     "card02":
@@ -23,9 +43,9 @@ var Cards =
         message:"this is second card",
         durtion:"1",
         optionOneDesc:"optionOneDesc2",
-        optionOneValueChange: "{}",
+        optionOneValueChange:changed.changeOne,
         optionTwoDesc:"optionTwoDesc2",
-        optionTwoValueChange: "{}"
+        optionTwoValueChange:"{}"
     },
 
     "card03":
@@ -37,7 +57,7 @@ var Cards =
         message:"this is 3rd card",
         durtion:"1",
         optionOneDesc:"optionOneDesc3",
-        optionOneValueChange: "{}",
+        optionOneValueChange:changed.changeOne,
         optionTwoDesc:"optionTwoDesc3",
         optionTwoValueChange:"{}"
     }

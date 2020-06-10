@@ -5,10 +5,10 @@
       "main": true,
       "url": "app://editor/index.html",
       "windowType": "dockable",
-      "x": -8,
-      "y": -8,
-      "width": 1552,
-      "height": 880,
+      "x": 0,
+      "y": 0,
+      "width": 1536,
+      "height": 922,
       "layout": {
         "children": [
           {
@@ -22,7 +22,7 @@
                     ],
                     "height": 336,
                     "type": "panel",
-                    "width": 274
+                    "width": 271.07501220703125
                   },
                   {
                     "active": 0,
@@ -31,12 +31,12 @@
                     ],
                     "height": 486,
                     "type": "panel",
-                    "width": 274
+                    "width": 271.07501220703125
                   }
                 ],
                 "height": 825,
                 "type": "dock-v",
-                "width": 274
+                "width": 271.07501220703125
               },
               {
                 "children": [
@@ -49,7 +49,7 @@
                         ],
                         "height": 556,
                         "type": "panel",
-                        "width": 837
+                        "width": 923.2374877929688
                       },
                       {
                         "active": 1,
@@ -59,12 +59,12 @@
                         ],
                         "height": 556,
                         "type": "panel",
-                        "width": 419
+                        "width": 322.07501220703125
                       }
                     ],
                     "height": 556,
                     "type": "dock-h",
-                    "width": 1259
+                    "width": 1248.3250732421875
                   },
                   {
                     "active": 1,
@@ -75,17 +75,17 @@
                     ],
                     "height": 266,
                     "type": "panel",
-                    "width": 1259
+                    "width": 1248.3250732421875
                   }
                 ],
                 "height": 825,
                 "type": "dock-v",
-                "width": 1259
+                "width": 1248.3250732421875
               }
             ],
             "height": 825,
             "type": "dock-h",
-            "width": 1536
+            "width": 1522.4000244140625
           }
         ],
         "type": "dock-v"
@@ -93,12 +93,12 @@
       "panels": [
         "hierarchy",
         "assets",
-        "inspector",
-        "cocos-services",
         "scene",
+        "cocos-services",
+        "inspector",
         "timeline",
-        "game-window",
-        "console"
+        "console",
+        "game-window"
       ]
     }
   },

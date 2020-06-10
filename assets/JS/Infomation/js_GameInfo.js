@@ -1,84 +1,13 @@
 const JSData = require("./js_SubInfoList")
 const ConstVar = require("./js_constant");
+const ChangeAbleVar = require("./Variable")
+const correspondTable = require("./correspondTable");
 
 module.exports =
 { 
     gameInformationList : function (){
     
-        /*var ConstVar = {                             //游戏常量只可读，或只写一次
-            maxInfected:1000000, //失败感染人数
-            initialInfected:100,  //起始感染人数
-            minQuarantineRate:0.15000,    //最小隔离率
-            maxQuarantineRate:0.6000,     //最大隔离率
-            quarantineRateParameter:0.0500, //隔离率系数
-        
-            logMaxInfected:Math.log(1000000), //maxInfected=10000
-            logInitialInfected:Math.log(100), //initialInfected=100
-        }*/
 
-        var ChangeAbleVar = {                         //游戏变量，根据每次请求更改,现在游戏开始并没有传递其中参数，所以先默认为此
-            dayCount:0, //当前天数
-            hoursCount:0, //小时数
-
-            infectedCount:100, //当前感染人数 
-            infectionRate:0.3000, //感染率
-            dailyInfection:0,  //日感染人数
-            
-            recoveryRate: 0.0700,  //治愈率
-            resourceProductivity:1, //？
-            resourceConsumption:1, //？
-            resourceDailyChange:0, //资源日增减
-
-            dailyRecovery:0,   //日治愈人数
-
-            quarantineCapacity:500,    //隔离区容量
-            quarantineRate:0,  //隔离率
-            quarantineCount:0, //隔离人数
-            
-            budgetDailyChange:0,   //财政日增减
-            approvalDailyChange:0,//支持率日增减
-            shutdown:0,    //封城 是1否0
-
-
-            health : 100, //健康
-            budget : 50 , //财政
-            resource : 50 , //资源
-            approval : 50, //支持度
-
-            /*health : 5, //健康
-            budget : 5 , //财政
-            resource : 5 , //资源
-            approval : 5, //支持度*/
-
-
-            /*"市民健康" : 100, //健康
-            "政府财政" : 50 , //财政
-            "医疗资源" : 50 , //资源
-            "政府声望" : 50, //支持度*/
-
-
-               
-        }
-
-
-        var correspondTable = {          //中英文对应表，静态创建用于将请求json转化
-            "感染率" 	:"infectionRate",
-            "新增感染"	:"dailyInfection",
-            "治愈率" :	"recoveryRate",
-            "治愈"	:"dailyRecovery",
-            "隔离区容量"	: "quarantineCapacity",
-            "隔离率"	:"quarantineRate",
-            "隔离区人数"	: "quarantineCount",
-            "资源生产力"	:"resourceProductivity",
-            "资源日耗"	:"resourceConsumption",
-            "日财政出入"	:"budgetDailyChange",
-            "支持率变化"	:"approvalDailyChange",
-            "封城"	:"shutdown",
-            "健康" :"health",
-            "资源" :"resource",
-            "财政":	"budget",
-            "支持率":	"approval",
-        }
 
         var getCorrespondTable = function( temp ){
             let tureKey = { }
@@ -88,7 +17,7 @@ module.exports =
                 //let tureVal [] = [parseFloat(str[0]),parseFloat(str[1])];
                 let tureVal = temp[t];
                 tureKey[correspondTable[t]] = tureVal;
-                // console.log(  t  + "  getCorrespondTable  " + correspondTable[t] +"  :  "+tureVal);
+                 console.log(  t  + "  getCorrespondTable  " + correspondTable[t] +"  :  "+tureVal);
             }
             return tureKey;
         }
@@ -247,7 +176,7 @@ module.exports =
                     tempGameInfo[v] = valinfo[v][1];
                 }
 
-                ///console.log("Valinfo:"+v+"["+valinfo[v][0]+","+valinfo[v][1]+"]" + "tempGameInfo[v]:" + tempGameInfo[v]);
+                console.log("Valinfo:"+v+"["+valinfo[v][0]+","+valinfo[v][1]+"]" + "tempGameInfo[v]:" + tempGameInfo[v]);
             }
 
 

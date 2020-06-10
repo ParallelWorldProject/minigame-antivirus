@@ -1,7 +1,6 @@
 
 
 module.exports = {
-    
     maxInfected:1000000,          //失败感染人数
     initialInfected:100,          //起始感染人数
     minQuarantineRate:0.15000,    //最小隔离率

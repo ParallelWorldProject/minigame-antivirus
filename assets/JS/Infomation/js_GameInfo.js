@@ -7,21 +7,6 @@ module.exports =
 { 
     gameInformationList : function (){
     
-
-
-        var getCorrespondTable = function( temp ){
-            let tureKey = { }
-            for( let t in temp )
-            {
-                //let str = temp[t].toString().slice(1,temp[t].length-1).split(',');
-                //let tureVal [] = [parseFloat(str[0]),parseFloat(str[1])];
-                let tureVal = temp[t];
-                tureKey[correspondTable[t]] = tureVal;
-                 console.log(  t  + "  getCorrespondTable  " + correspondTable[t] +"  :  "+tureVal);
-            }
-            return tureKey;
-        }
-
         //设置主要信息表，便于读取和设置,以及和写出接口和前端交互
         var MainDataList = new JSData.InfomationList( {  //这里对应的是DataRegio显示
             health:ChangeAbleVar.health,
@@ -106,8 +91,8 @@ module.exports =
             //将选项AB中Val分开用于做计算，
             ValChangedInfoList.SetInfoList({
                 Game : ChangeAbleVar,
-                A : getCorrespondTable(Cardinfo.option.A.valChanged),
-                B : getCorrespondTable(Cardinfo.option.B.valChanged),
+                A : correspondTable.getCorrespond(Cardinfo.option.A.valChanged),
+                B : correspondTable.getCorrespond(Cardinfo.option.B.valChanged),
                 durtion : Cardinfo.durtion,
             })
             console.log("---------ValChangedInfoList--------- ");

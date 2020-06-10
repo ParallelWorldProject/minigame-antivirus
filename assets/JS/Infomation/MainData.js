@@ -1,0 +1,5 @@
+class MainData{
+    constructor( arg ){
+        ;
+    }
+}

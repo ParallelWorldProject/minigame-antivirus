@@ -1,5 +1,8 @@
-module.exports = {
-    
+//用于更换中英文
+//如 "感染率":[-0.1,0] , 将被替换位 infectionRate:[-0.1,0]
+
+var correspondTable =
+{
     "感染率" 	:"infectionRate",
     "新增感染"	:"dailyInfection",
     "治愈率" :	"recoveryRate",
@@ -16,4 +19,14 @@ module.exports = {
     "资源" :"resource",
     "财政":	"budget",
     "支持率":	"approval",
+}
+
+
+module.exports.getCorrespond = function( arg ){
+    let result = { }
+    for( let key in arg )
+    {
+        result[correspondTable[key]] = arg[key];
+    }
+    return result;
 };

@@ -12,12 +12,7 @@ module.exports =
     gameInformationList : function (){
     
         //设置主要信息表，便于读取和设置,以及和写出接口和前端交互
-        /*var MainDataList = new JSData.InfomationList( {  //这里对应的是DataRegio显示
-            health:ChangeAbleVar.health,
-            budget:ChangeAbleVar.budget,
-            resource:ChangeAbleVar.resource,
-            approval:ChangeAbleVar.approval
-        })*/
+        
         var MainDataList = setMainDataList(
             {
                 health:ChangeAbleVar.health,
@@ -145,12 +140,11 @@ module.exports =
             let val = ValChangedInfoList.GetInfoList()
             let valinfo = {}
 
-            if( select == 'A')
-            valinfo = val.A;  //提出表格修改
-            else 
-            valinfo = val.B;
+            valinfo = val[select.toString()];  //提出表格修改
+            
+            
 
-            let durtion = val.durtion; 
+            //let durtion = val.durtion; 
             let tempGameInfo = {};
             for( let d in ChangeAbleVar )
             {
@@ -158,11 +152,6 @@ module.exports =
             }
 
 
-            console.log("------------Chang New Val-------------");
-            for( let i in valinfo )
-            {
-                console.log(i+"======="+valinfo[i]);
-            }
             console.log("------------Chang New Val-------------");
             for( let v in valinfo ) //先根据选项的改变设置新值
             {
@@ -175,116 +164,14 @@ module.exports =
 
                 console.log("Valinfo:"+v+"["+valinfo[v][0]+","+valinfo[v][1]+"]" + "tempGameInfo[v]:" + tempGameInfo[v]);
             }
+            console.log("------------Chang New Val-------------");
 
 
-            //再进行计算
-            //with( ChangeAbleVar ){           /????为什么不能用with？？
-            if( tempGameInfo.hoursCount==null ) tempGameInfo.hoursCount=0;
+            tempGameInfo =  this.calculateVal( Object.assign({},tempGameInfo),val.durtion );
+            this.printTempGameInfomation(tempGameInfo,select);
 
-                tempGameInfo.hoursCount =  tempGameInfo.hoursCount +   durtion ;
-                tempGameInfo.dayCount = Math.floor( tempGameInfo.hoursCount / 24) ;
-
-
-                tempGameInfo.dailyRecovery=Math.ceil( tempGameInfo.infectedCount *  Math.pow( 1+tempGameInfo.recoveryRate,  durtion));
-
-                tempGameInfo.dailyInfection=( tempGameInfo.infectedCount - 
-                    tempGameInfo.quarantineCount) * Math.pow( 1+tempGameInfo.infectionRate,  durtion);
-
-                tempGameInfo.infectedCount= Math.max( tempGameInfo.infectedCount -  
-                    tempGameInfo.dailyRecovery +  tempGameInfo.dailyInfection, 0.1 );
-
-                tempGameInfo.quarantineRate=Math.min(ConstVar.maxQuarantineRate,ConstVar.minQuarantineRate + 
-                    (100 -  tempGameInfo.health) * ConstVar.quarantineRateParameter);
-
-                tempGameInfo.quarantineCount=Math.min( tempGameInfo.quarantineCapacity,
-                    tempGameInfo.infectedCount *  tempGameInfo.quarantineRate);
-
-                tempGameInfo.resourceDailyChange= tempGameInfo.resourceProductivity- tempGameInfo.resourceConsumption;
-                if ( tempGameInfo.dayCount < 12){
-                    tempGameInfo.approvalDailyChange=-0.1-0.05*(100- tempGameInfo.health);
-                }else{
-                    tempGameInfo.approvalDailyChange=1-0.02*(100- tempGameInfo.health);
-                }
                 
-                tempGameInfo.health=
-                    Math.floor( 100-(Math.log( tempGameInfo.infectedCount )-ConstVar.logInitialInfected)/ ConstVar.logMaxInfected );
-                tempGameInfo.resource= Math.floor( tempGameInfo.resource +  tempGameInfo.resourceDailyChange ) ;
-                tempGameInfo.budget= Math.floor( tempGameInfo.budget +  tempGameInfo.budgetDailyChange );
-                tempGameInfo.approval= Math.floor(tempGameInfo.approval +  tempGameInfo.approvalDailyChange);
-
-
-                console.log("-----------------Temp::" + select + "::-----------------")
-                for( let prop in tempGameInfo )
-                {
-                    console.log( prop + " : " +  tempGameInfo[prop] );
-                }
-                console.log("---------------------------------")
-
-               /*console.log("-----------------calculate::" + select + "::-----------------")
-                for( var prop in tempGameInfo )
-                {
-                    console.log( prop + " : " +  tempGameInfo[prop] );
-                }
-                console.log("--------ConstVar------")
-                for( var prop in ConstVar )
-                {
-                    console.log( prop + " : " +  ConstVar[prop] );
-                }
-                console.log("---------------------------------")
-
-                console.log("ConstVar.logMaxInfected"+ConstVar.logMaxInfected);
-                console.log("ConstVar.logInitialInfected"+ConstVar.logInitialInfected);
-                console.log("tempGameInfo.infectedCount:"+tempGameInfo.infectedCount);
-                console.log("health=100-(Math.log( tempGameInfo.infectedCount)-ConstVar.logInitialInfected)/ConstVar.logMaxInfected:"+tempGameInfo.health)
-                    */
-                
-
-
-                let pre = [0,0,0,0]; 
-                let t=0;
-                for( var p in MainDataList.GetInfoList() )
-                {
-                    if( tempGameInfo[p] > ChangeAbleVar[p] ) pre[t]=1;
-                    else if( tempGameInfo[p] < ChangeAbleVar[p] )pre[t]=-1;
-                    t++;
-                    
-                } 
-
-                if(select == 'A')
-                {
-                    PreviewData.SetInfoList({
-                        calculatedA : 1,
-                        A  : {
-                            health: pre[0],
-                            resource: pre[1],
-                            budget: pre[2],
-                            approval: pre[3],
-                        }
-                    })
-
-                    ValChangedInfoList.SetInfoList({
-                        A : tempGameInfo,
-                    })
-                }   
-                else  if(select == 'B')
-                {
-                    PreviewData.SetInfoList({
-                        calculatedB:1,
-                        B  : {
-                            health: pre[0],
-                            resource: pre[1],
-                            budget: pre[2],
-                            approval: pre[3],
-                        }
-                    })
-
-                    ValChangedInfoList.SetInfoList({
-                        B : tempGameInfo,
-                    })
-                }
-
-            
-                
+            this.solveMainDataPreview(tempGameInfo,select );
         }
         
        
@@ -413,8 +300,146 @@ module.exports =
             UserInfoList.ShowInfoList();
             console.log("----------------------------------");*/
             return UserInfoList.GetInfoList() ;
+        },
+
+        
+        this.calculateVal = function( tempGameInfo,durtion ){
+
+            if( tempGameInfo.hoursCount==null ) tempGameInfo.hoursCount=0;
+
+                tempGameInfo.hoursCount =  tempGameInfo.hoursCount +   durtion ;
+                tempGameInfo.dayCount = Math.floor( tempGameInfo.hoursCount / 24) ;
+
+
+                tempGameInfo.dailyRecovery=Math.ceil( tempGameInfo.infectedCount *  Math.pow( 1+tempGameInfo.recoveryRate,  durtion));
+
+                tempGameInfo.dailyInfection=( tempGameInfo.infectedCount - 
+                    tempGameInfo.quarantineCount) * Math.pow( 1+tempGameInfo.infectionRate,  durtion);
+
+                tempGameInfo.infectedCount= Math.max( tempGameInfo.infectedCount -  
+                    tempGameInfo.dailyRecovery +  tempGameInfo.dailyInfection, 0.1 );
+
+                tempGameInfo.quarantineRate=Math.min(ConstVar.maxQuarantineRate,ConstVar.minQuarantineRate + 
+                    (100 -  tempGameInfo.health) * ConstVar.quarantineRateParameter);
+
+                tempGameInfo.quarantineCount=Math.min( tempGameInfo.quarantineCapacity,
+                    tempGameInfo.infectedCount *  tempGameInfo.quarantineRate);
+
+                tempGameInfo.resourceDailyChange= tempGameInfo.resourceProductivity- tempGameInfo.resourceConsumption;
+                if ( tempGameInfo.dayCount < 12){
+                    tempGameInfo.approvalDailyChange=-0.1-0.05*(100- tempGameInfo.health);
+                }else{
+                    tempGameInfo.approvalDailyChange=1-0.02*(100- tempGameInfo.health);
+                }
+                
+                tempGameInfo.health=
+                    Math.floor( 100-(Math.log( tempGameInfo.infectedCount )-ConstVar.logInitialInfected)/ ConstVar.logMaxInfected );
+                tempGameInfo.resource= Math.floor( tempGameInfo.resource +  tempGameInfo.resourceDailyChange ) ;
+                tempGameInfo.budget= Math.floor( tempGameInfo.budget +  tempGameInfo.budgetDailyChange );
+                tempGameInfo.approval= Math.floor(tempGameInfo.approval +  tempGameInfo.approvalDailyChange);
+                
+                cc.log("calculate over");
+                return tempGameInfo;
         }
 
+
+        this.printTempGameInfomation = function( tempGameInfo,select ){
+
+            
+
+            console.log("-----------------Temp::" + select + "::-----------------")
+                for( let prop in tempGameInfo )
+                {
+                    console.log( prop + " : " +  tempGameInfo[prop] );
+                }
+                console.log("---------------------------------")
+
+            /*console.log("-----------------calculate::" + select + "::-----------------")
+            for( var prop in tempGameInfo )
+            {
+                console.log( prop + " : " +  tempGameInfo[prop] );
+            }
+            console.log("--------ConstVar------")
+            for( var prop in ConstVar )
+            {
+                console.log( prop + " : " +  ConstVar[prop] );
+            }
+            console.log("---------------------------------")
+
+            console.log("ConstVar.logMaxInfected"+ConstVar.logMaxInfected);
+            console.log("ConstVar.logInitialInfected"+ConstVar.logInitialInfected);
+            console.log("tempGameInfo.infectedCount:"+tempGameInfo.infectedCount);
+            console.log("health=100-(Math.log( tempGameInfo.infectedCount)-ConstVar.logInitialInfected)/ConstVar.logMaxInfected:"+tempGameInfo.health)
+            */
+        }
+
+
+        this.solveMainDataPreview = function( tempGameInfo,select  )
+        {
+            let pre = [0,0,0,0]; 
+                let t=0;
+                for( var p in MainDataList.GetInfoList() )
+                {
+                    if( tempGameInfo[p] > ChangeAbleVar[p] ) pre[t]=1;
+                    else if( tempGameInfo[p] < ChangeAbleVar[p] )pre[t]=-1;
+                    t++;
+                    
+                } 
+
+               
+                /*
+                let calculateFiledString = "calculated" + select.toString();
+                PreviewData[calculateFiledString.toString()] = 1;
+                PreviewData[select.toString()] = {
+                    health: pre[0],
+                    resource: pre[1],
+                    budget: pre[2],
+                    approval: pre[3],
+                }
+
+                ValChangedInfoList[select.toString()] = tempGameInfo;
+
+                cc.log(calculateFiledString);
+                cc.log(select);
+                ValChangedInfoList.ShowInfoList();
+                **/
+               
+                
+
+                if(select == 'A')
+                {
+                    PreviewData.SetInfoList({
+                        calculatedA : 1,
+                        A  : {
+                            health: pre[0],
+                            resource: pre[1],
+                            budget: pre[2],
+                            approval: pre[3],
+                        }
+                    })
+
+                    ValChangedInfoList.SetInfoList({
+                        A : tempGameInfo,
+                    })
+                }   
+                else  if(select == 'B')
+                {
+                    PreviewData.SetInfoList({
+                        calculatedB:1,
+                        B  : {
+                            health: pre[0],
+                            resource: pre[1],
+                            budget: pre[2],
+                            approval: pre[3],
+                        }
+                    })
+
+                    ValChangedInfoList.SetInfoList({
+                        B : tempGameInfo,
+                    })
+                }
+                
+        }
         
     }
 

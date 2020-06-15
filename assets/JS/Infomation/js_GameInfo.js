@@ -1,11 +1,11 @@
 const JSData = require("./js_SubInfoList")
 const ConstVar = require("./js_constant");
-const ChangeAbleVar = require("./Variable").variable
+
 
 const correspondTable = require("./correspondTable");
 
 
-
+import {getGameVarible,setGameVarible} from './Variable'
 import {setMainData,getMainData} from './MainData';
 import {setAssistParameter,getAssistParameter} from './AssistParameter';
 
@@ -36,8 +36,8 @@ module.exports =
         })
 
         var ValChangedInfoList = new JSData.InfomationList( {  //这里储存卡牌用于计算的信息
-             A:ChangeAbleVar,
-             B:ChangeAbleVar,
+             A:{},
+             B:{},
              durtion : 0, //....
         })
 
@@ -68,7 +68,7 @@ module.exports =
                     descA:Cardinfo.option.A.desc,
                     descB:Cardinfo.option.B.desc, 
 
-                    day:ChangeAbleVar.dayCount,//这个日期。。以后再修改吧
+                    day:getGameVarible().dayCount,//这个日期。。以后再修改吧
                 }
             )
 
@@ -84,24 +84,23 @@ module.exports =
          
             let cardChangedVal = ValChangedInfoList.GetInfoList()[select.toString()];  //提出表格修改
             
-            this.captureCardChangedVal(ChangeAbleVar,cardChangedVal);
-            this.calculateVal( ChangeAbleVar );
+            this.captureCardChangedVal(cardChangedVal);
+            getGameVarible().calculateGameVar(ValChangedInfoList.GetInfoList().durtion)
             //this.solveMainDataPreview( ChangeAbleVar,select );
-
             //this.printTempGameInfomation(tempGameInfo,select);
         }
         
-        this.captureCardChangedVal = function( ChangeAbleVar,cardChangedVal )
+        this.captureCardChangedVal = function( cardChangedVal )
         {
             //let result = Object.assign( {},ChangeAbleVar);
             //console.log("------------Chang New Val-------------");
             for( let v in cardChangedVal ) //先根据选项的改变设置新值
             {
                 if( cardChangedVal[v][0] != 0 ){
-                    ChangeAbleVar[v] += cardChangedVal[v][0];
+                    getGameVarible()[v] += cardChangedVal[v][0];
                 }
                 else{
-                    ChangeAbleVar[v] = cardChangedVal[v][1];
+                    getGameVarible()[v] = cardChangedVal[v][1];
                 }
 
                 /*console.log("Valinfo:"+v+"["+cardChangedVal[v][0]+","+cardChangedVal[v][1]+"]" 
@@ -127,12 +126,12 @@ module.exports =
         this.updataImportantInfo = function(select)
         {
             setMainData({
-                health:ChangeAbleVar.health,
-                budget:ChangeAbleVar.budget,
-                resource:ChangeAbleVar.resource,
-                approval:ChangeAbleVar.approval
+                health:getGameVarible().health,
+                budget:getGameVarible().budget,
+                resource:getGameVarible().resource,
+                approval:getGameVarible().approval
             })
-            setAssistParameter(ChangeAbleVar);
+            setAssistParameter(getGameVarible());
 
             UserInfoList.SetInfoList({
                 storyid  :  cc.sys.localStorage.getItem('storyid'),
@@ -140,10 +139,10 @@ module.exports =
                 curcardoption: select=='A'?1:2,   // 1或2
                 mainpara: JSON.stringify(getMainData() ),        // 明变量json串
                 assistpara: JSON.stringify(getAssistParameter()),     // 暗变量json串
-                day: ChangeAbleVar.dayCount +1 ,
+                day: getGameVarible().dayCount +1 ,
                 
             })
-            cc.sys.localStorage.setItem('lastday', ChangeAbleVar.dayCount)
+            cc.sys.localStorage.setItem('lastday', getGameVarible().dayCount)
         }
 
 
@@ -165,58 +164,6 @@ module.exports =
             
             return UserInfoList.GetInfoList() ;
         },
-
-        
-        this.calculateVal = function( tempGameInfo ){
-
-            if( tempGameInfo.hoursCount==null ) tempGameInfo.hoursCount=0;
-
-                tempGameInfo.hoursCount =  tempGameInfo.hoursCount +   ValChangedInfoList.GetInfoList().durtion ;
-                tempGameInfo.dayCount = Math.floor( tempGameInfo.hoursCount / 24) ;
-
-
-                tempGameInfo.dailyRecovery=
-                Math.ceil
-                ( tempGameInfo.infectedCount *  
-                Math.pow( 1+tempGameInfo.recoveryRate,  ValChangedInfoList.GetInfoList().durtion));
-
-                tempGameInfo.dailyInfection=
-                    ( tempGameInfo.infectedCount - 
-                    tempGameInfo.quarantineCount) * 
-                    Math.pow( 1+tempGameInfo.infectionRate,  ValChangedInfoList.GetInfoList().durtion);
-
-                tempGameInfo.infectedCount= 
-                Math.max( tempGameInfo.infectedCount -  
-                    tempGameInfo.dailyRecovery + 
-                     tempGameInfo.dailyInfection, 0.1 );
-
-                tempGameInfo.quarantineRate=
-                    Math.min(ConstVar.maxQuarantineRate,ConstVar.minQuarantineRate + 
-                    (100 -  tempGameInfo.health) * ConstVar.quarantineRateParameter);
-
-                tempGameInfo.quarantineCount=Math.min( tempGameInfo.quarantineCapacity,
-                    tempGameInfo.infectedCount *  tempGameInfo.quarantineRate);
-
-                tempGameInfo.resourceDailyChange= 
-                    tempGameInfo.resourceProductivity- 
-                    tempGameInfo.resourceConsumption;
-                if ( tempGameInfo.dayCount < 12){
-                    tempGameInfo.approvalDailyChange=-0.1-0.05*(100- tempGameInfo.health);
-                }else{
-                    tempGameInfo.approvalDailyChange=1-0.02*(100- tempGameInfo.health);
-                }
-                
-                tempGameInfo.health=
-                    Math.floor( 100-(Math.log( tempGameInfo.infectedCount )-ConstVar.logInitialInfected)/ ConstVar.logMaxInfected );
-                tempGameInfo.resource= Math.floor( tempGameInfo.resource +  tempGameInfo.resourceDailyChange ) ;
-                tempGameInfo.budget= Math.floor( tempGameInfo.budget +  tempGameInfo.budgetDailyChange );
-                tempGameInfo.approval= Math.floor(tempGameInfo.approval +  tempGameInfo.approvalDailyChange);
-                
-                cc.log("calculate over");
-                return tempGameInfo;
-        }
-
-        
 
 
         this.printTempGameInfomation = function( tempGameInfo,select ){

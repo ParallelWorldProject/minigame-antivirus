@@ -6,8 +6,7 @@ const correspondTable = require("./correspondTable");
 
 
 import {getGameVarible,setGameVarible} from './Variable'
-import {setMainData,getMainData} from './MainData';
-import {setAssistParameter,getAssistParameter} from './AssistParameter';
+
 
 
 module.exports =
@@ -67,49 +66,34 @@ module.exports =
                     information:Cardinfo.information,
                     descA:Cardinfo.option.A.desc,
                     descB:Cardinfo.option.B.desc, 
-
                     day:getGameVarible().dayCount,//这个日期。。以后再修改吧
                 }
             )
-
-            //这里是预处理信息
-           
         },
 
 
 
-        //点击选项后计算并显示数据 
-        this.calculateBySelect = function( select )
-        {
-         
-            let cardChangedVal = ValChangedInfoList.GetInfoList()[select.toString()];  //提出表格修改
-            
-            this.captureCardChangedVal(cardChangedVal);
-            getGameVarible().calculateGameVar(ValChangedInfoList.GetInfoList().durtion)
-            //this.solveMainDataPreview( ChangeAbleVar,select );
-            //this.printTempGameInfomation(tempGameInfo,select);
-        }
         
-        this.captureCardChangedVal = function( cardChangedVal )
-        {
-            //let result = Object.assign( {},ChangeAbleVar);
-            //console.log("------------Chang New Val-------------");
-            for( let v in cardChangedVal ) //先根据选项的改变设置新值
-            {
-                if( cardChangedVal[v][0] != 0 ){
-                    getGameVarible()[v] += cardChangedVal[v][0];
-                }
-                else{
-                    getGameVarible()[v] = cardChangedVal[v][1];
-                }
+  
 
-                /*console.log("Valinfo:"+v+"["+cardChangedVal[v][0]+","+cardChangedVal[v][1]+"]" 
-                + "tempGameInfo[v]:" + ChangeAbleVar[v]);*/
-            }
-           // console.log("------------Chang New Val-------------");
-            //return result;
+        
+
+
+        this.updataImportantInfo = function(select)
+        {
+           
+            UserInfoList.SetInfoList({
+                storyid  :  cc.sys.localStorage.getItem('storyid'),
+                //handid再前面获取了
+                curcardoption: select=='A'?1:2,   // 1或2
+                mainpara: JSON.stringify(getGameVarible().getMainData() ),        // 明变量json串
+                assistpara: JSON.stringify(getGameVarible().getAssistParameter()),     // 暗变量json串
+                day: getGameVarible().dayCount +1 ,
+                
+            })
+            cc.sys.localStorage.setItem('lastday', getGameVarible().dayCount)
         }
-       
+
 
         //确认选择
         this.confirmSelect=function(select)
@@ -122,63 +106,44 @@ module.exports =
             this.updataImportantInfo(select);
         }
 
-
-        this.updataImportantInfo = function(select)
+        //点击选项后计算并显示数据 
+        this.calculateBySelect = function( select )
         {
-            setMainData({
-                health:getGameVarible().health,
-                budget:getGameVarible().budget,
-                resource:getGameVarible().resource,
-                approval:getGameVarible().approval
-            })
-            setAssistParameter(getGameVarible());
-
-            UserInfoList.SetInfoList({
-                storyid  :  cc.sys.localStorage.getItem('storyid'),
-                //handid再前面获取了
-                curcardoption: select=='A'?1:2,   // 1或2
-                mainpara: JSON.stringify(getMainData() ),        // 明变量json串
-                assistpara: JSON.stringify(getAssistParameter()),     // 暗变量json串
-                day: getGameVarible().dayCount +1 ,
-                
-            })
-            cc.sys.localStorage.setItem('lastday', getGameVarible().dayCount)
+         
+            let cardChangedVal = ValChangedInfoList.GetInfoList()[select.toString()];  //提出表格修改
+            
+            //获取更新卡牌中的值
+            getGameVarible().captureCardChangedVal(cardChangedVal)
+            //计算更新其他值
+            getGameVarible().calculateGameVar(ValChangedInfoList.GetInfoList().durtion)
+            //this.solveMainDataPreview( ChangeAbleVar,select );
+            //this.printTempGameInfomation(tempGameInfo,select);
         }
-
+        
 
         //返回卡牌区域信息
         this.getCardRegionInfo=function(){
-           
             return CardRegionInfoList.GetInfoList() ;
         }
         
         //返回数据区域信息
         this.getDataRegionInfo=function(){
-           
-            return getMainData() ;
-            
+            return getGameVarible().getMainData() ;
         }
 
         //返回用户信息
         this.getUserInfo=function(){
-            
             return UserInfoList.GetInfoList() ;
-        },
+        }
 
-
-        this.printTempGameInfomation = function( tempGameInfo,select ){
-
+        /*this.printTempGameInfomation = function( tempGameInfo,select ){
             console.log("-----------------Temp::" + select + "::-----------------")
                 for( let prop in tempGameInfo )
                 {
                     console.log( prop + " : " +  tempGameInfo[prop] );
                 }
                 console.log("---------------------------------")
-        }
-
-
-        
-        
+        }*/
     }
 
 }

@@ -7,7 +7,6 @@ const correspondTable = require("./correspondTable");
 
 
 import {setMainData,getMainData} from './MainData';
-
 import {setAssistParameter,getAssistParameter} from './AssistParameter';
 
 
@@ -20,15 +19,6 @@ module.exports =
     gameInformationList : function (){
     
         //设置主要信息表，便于读取和设置,以及和写出接口和前端交互
-        
-        /*setMainData (
-            {
-                health:ChangeAbleVar.health,
-                budget:ChangeAbleVar.budget,
-                resource:ChangeAbleVar.resource,
-                approval:ChangeAbleVar.approval
-            }
-        );*/
 
         var CardRegionInfoList = new JSData.InfomationList( { //这里对应的是CardRegion显示
             from:'',
@@ -55,8 +45,6 @@ module.exports =
             day: 1
         })
 
-
-
         var PreviewData = new JSData.InfomationList({
             calculatedA : 0,  //1表示已经计算过了，0表示需要计算
             calculatedB : 0,
@@ -66,31 +54,6 @@ module.exports =
         })
 
 
-
-        /*var AssistPara = new JSData.InfomationList({
-            dayCount:0, //当前天数
-            hoursCount:0, //小时数
-
-            infectedCount:100, //当前感染人数 
-            infectionRate:0.3, //感染率
-            dailyInfection:0,  //日感染人数
-            
-            recoveryRate:0.07,  //治愈率
-            resourceProductivity:1, //？
-            resourceConsumption:1, //？
-            resourceDailyChange:0, //资源日增减
-
-            dailyRecovery:0,   //日治愈人数
-
-            quarantineCapacity:500,    //隔离区容量
-            quarantineRate:0,  //隔离率
-            quarantineCount:0, //隔离人数
-            
-            budgetDailyChange:0,   //财政日增减
-            approvalDailyChange:0,//支持率日增减
-            shutdown:0,    //封城 是1否0
-        })*/
-        //setAssistParameter()
 
 
         //这里不知道卡牌的细节，只是提供分解机制，
@@ -190,33 +153,13 @@ module.exports =
         //确认选择
         this.confirmSelect=function(select)
         {
-            let calculatedGameChangeAbleVarInfo = {}
-            if( select == 'A')
-            {
-                if(  PreviewData.GetInfoList().calculatedA == 0 ) //需要计算
-                {
-                    this.calculateBySelect( 'A' )
-                }
-                calculatedGameChangeAbleVarInfo = ValChangedInfoList.GetInfoList().A;
-                
-            }
-            else if( select=='B' )
-            {
-                if( PreviewData.GetInfoList().calculatedB == 0 ) //需要计算
-                {
-                    this.calculateBySelect( 'B' )
-                }
-
-                calculatedGameChangeAbleVarInfo = ValChangedInfoList.GetInfoList().B;
-            }
-            else {
-                console.log("error:"+select);
-            }
-
+            
+            let lastCalculatedVarInfo = this.getcalculatedVarInfo(ValChangedInfoList,select);
+            
             //最后才全部更新
-            for( let d in calculatedGameChangeAbleVarInfo )
+            for( let d in lastCalculatedVarInfo )
             {
-                ChangeAbleVar[d] = calculatedGameChangeAbleVarInfo[d];
+                ChangeAbleVar[d] = lastCalculatedVarInfo[d];
             }
 
             setMainData({
@@ -226,9 +169,6 @@ module.exports =
                 approval:ChangeAbleVar.approval
             })
 
-            /*AssistPara.SetInfoList({
-                ChangeAbleVar
-            })*/
             setAssistParameter(ChangeAbleVar);
 
             UserInfoList.SetInfoList({
@@ -354,10 +294,31 @@ module.exports =
                 return tempGameInfo;
         }
 
+        this.getcalculatedVarInfo = function (ValChangedInfoList,select) {
+
+            if( select == 'A')
+            {
+                if(  PreviewData.GetInfoList().calculatedA == 0 ) //需要计算
+                {
+                    this.calculateBySelect( 'A' )
+                }
+            }
+            else if( select=='B' )
+            {
+                if( PreviewData.GetInfoList().calculatedB == 0 ) //需要计算
+                {
+                    this.calculateBySelect( 'B' )
+                }
+            }
+            else {
+                console.log("error:"+select);
+            }
+
+            return  ValChangedInfoList.GetInfoList()[select.toString()];
+        }
+
 
         this.printTempGameInfomation = function( tempGameInfo,select ){
-
-            
 
             console.log("-----------------Temp::" + select + "::-----------------")
                 for( let prop in tempGameInfo )
@@ -365,24 +326,6 @@ module.exports =
                     console.log( prop + " : " +  tempGameInfo[prop] );
                 }
                 console.log("---------------------------------")
-
-            /*console.log("-----------------calculate::" + select + "::-----------------")
-            for( var prop in tempGameInfo )
-            {
-                console.log( prop + " : " +  tempGameInfo[prop] );
-            }
-            console.log("--------ConstVar------")
-            for( var prop in ConstVar )
-            {
-                console.log( prop + " : " +  ConstVar[prop] );
-            }
-            console.log("---------------------------------")
-
-            console.log("ConstVar.logMaxInfected"+ConstVar.logMaxInfected);
-            console.log("ConstVar.logInitialInfected"+ConstVar.logInitialInfected);
-            console.log("tempGameInfo.infectedCount:"+tempGameInfo.infectedCount);
-            console.log("health=100-(Math.log( tempGameInfo.infectedCount)-ConstVar.logInitialInfected)/ConstVar.logMaxInfected:"+tempGameInfo.health)
-            */
         }
 
 
@@ -397,26 +340,6 @@ module.exports =
                     t++;
                     
                 } 
-
-               
-                /*
-                let calculateFiledString = "calculated" + select.toString();
-                PreviewData[calculateFiledString.toString()] = 1;
-                PreviewData[select.toString()] = {
-                    health: pre[0],
-                    resource: pre[1],
-                    budget: pre[2],
-                    approval: pre[3],
-                }
-
-                ValChangedInfoList[select.toString()] = tempGameInfo;
-
-                cc.log(calculateFiledString);
-                cc.log(select);
-                ValChangedInfoList.ShowInfoList();
-                **/
-               
-                
 
                 if(select == 'A')
                 {

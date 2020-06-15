@@ -7,8 +7,8 @@
       "windowType": "dockable",
       "x": -8,
       "y": -8,
-      "width": 1456,
-      "height": 936,
+      "width": 1552,
+      "height": 880,
       "layout": {
         "children": [
           {
@@ -18,23 +18,23 @@
                 "children": [
                   "hierarchy"
                 ],
-                "height": 445.71875,
+                "height": 380.3125,
                 "type": "panel",
-                "width": 271.1875
+                "width": 273.5
               },
               {
                 "active": 0,
                 "children": [
                   "assets"
                 ],
-                "height": 367.7708435058594,
+                "height": 379.2875061035156,
                 "type": "panel",
-                "width": 271.1875
+                "width": 273.5
               }
             ],
-            "height": 816.5,
+            "height": 762.6000366210938,
             "type": "dock-v",
-            "width": 271.1875
+            "width": 273.5
           },
           {
             "active": 0,
@@ -42,9 +42,9 @@
               "inspector",
               "cocos-services"
             ],
-            "height": 816.5,
+            "height": 762.6000366210938,
             "type": "panel",
-            "width": 372.26043701171875
+            "width": 473.32501220703125
           },
           {
             "children": [
@@ -53,9 +53,9 @@
                 "children": [
                   "scene"
                 ],
-                "height": 348.78125,
+                "height": 488.38751220703125,
                 "type": "panel",
-                "width": 790.5416870117188
+                "width": 783.1625366210938
               },
               {
                 "active": 0,
@@ -64,14 +64,14 @@
                   "timeline",
                   "game-window"
                 ],
-                "height": 464.71875,
+                "height": 271.2124938964844,
                 "type": "panel",
-                "width": 790.5416870117188
+                "width": 783.1625366210938
               }
             ],
-            "height": 816.5,
+            "height": 762.6000366210938,
             "type": "dock-v",
-            "width": 790.5416870117188
+            "width": 783.1625366210938
           }
         ],
         "type": "dock-h"
@@ -86,9 +86,7 @@
         "timeline",
         "game-window"
       ]
-    },
-    "window-1588331259949": {},
-    "worker": {}
+    }
   },
   "panels": {
     "preferences": {

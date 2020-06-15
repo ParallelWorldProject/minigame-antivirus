@@ -62,21 +62,13 @@ module.exports =
         //若卡牌中不存在需要信息，需要报错，(其实这就需要知道卡牌里面的细节了。。。。)
         this.SolveCapturedCardInfo=function( Cardinfo ){
 
-           
-
             //将选项AB中Val分开用于做计算，
             ValChangedInfoList.SetInfoList({
-                Game : ChangeAbleVar,
                 A : correspondTable.getCorrespond(Cardinfo.option.A.valChanged),
                 B : correspondTable.getCorrespond(Cardinfo.option.B.valChanged),
                 durtion : Cardinfo.durtion,
             })
-            /*
-            console.log("---------ValChangedInfoList--------- ");
-            ValChangedInfoList.ShowInfoList();
-            console.log("----------------------------------");
-            */
-
+            
             //先设置一部发userInfo 。。因为其他部分需要选择卡牌后设置当前还不知道
             UserInfoList.SetInfoList({
                 handcardid  :  Cardinfo.id,
@@ -109,7 +101,6 @@ module.exports =
         this.calculateBySelect = function( select )
         {
          
-           
             let cardChangedVal = ValChangedInfoList.GetInfoList()[select.toString()];  //提出表格修改
             
             
@@ -146,14 +137,6 @@ module.exports =
         this.confirmSelect=function(select)
         {
             
-            /*let lastCalculatedVarInfo = this.getCalculatedVarInfo(ValChangedInfoList,select);
-            
-            //最后才全部更新
-            for( let d in lastCalculatedVarInfo )
-            {
-                ChangeAbleVar[d] = lastCalculatedVarInfo[d];
-            }*/
-
             //计算
             this.calculateBySelect( select )
 
@@ -177,57 +160,13 @@ module.exports =
             })
 
             cc.sys.localStorage.setItem('lastday', ChangeAbleVar.dayCount)
-
-
-           
         }
 
-        this.getCalculatedVarInfo = function (ValChangedInfoList,select) {
-
-
-            //this.getDataPreView(select);
-
-            this.calculateBySelect( select )
-               
-
-            return  ValChangedInfoList.GetInfoList()[select.toString()];
-        }
+       
 
 
          //获得预览
-         this.getDataPreView=function( select )  
-         {
-           
-            console.log( "getDataPreView " + select);
-             if( select == 'A'  )
-             {
-                if( PreviewData.GetInfoList().calculatedA == 0 )
-                this.calculateBySelect( 'A' );
-
-                for( let i in  PreviewData.GetInfoList().A ) 
-                {
-                    console.log(i + " : " +  PreviewData.GetInfoList().A[i] );
-                }
-
-                return PreviewData.GetInfoList().A;
-             }
-             else if( select == 'B' )
-             {
-                if( PreviewData.GetInfoList().calculatedB == 0 )
-                this.calculateBySelect( 'B' );
-
-                for( let i in  PreviewData.GetInfoList().B ) 
-                {
-                    console.log(i + " : " +  PreviewData.GetInfoList().B[i] );
-                }
-
-                return PreviewData.GetInfoList().B;
-             }
-             else if (select==0)
-             {
-                 return PreviewData.GetInfoList().clear;
-             }
-         }
+         
 
         //返回卡牌区域信息
         this.getCardRegionInfo=function(){

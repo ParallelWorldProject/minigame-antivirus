@@ -147,13 +147,14 @@ cc.Class({
 
         //这里更新卡牌信息
         this.gameInformation.SolveCapturedCardInfo(cardInfo);
+        this.dataRegion.updateData(this.gameInformation.getDataRegionInfo());
+        this.cardRegion.getNextCard(this.gameInformation.getCardRegionInfo());
 
         this.scheduleOnce(()=>{
             this.cardRegion.moveCard(cloneCard)
         },1.7)
 
-        this.dataRegion.updateData(this.gameInformation.getDataRegionInfo());
-        this.cardRegion.getNextCard(this.gameInformation.getCardRegionInfo());
+        
         
     },
     

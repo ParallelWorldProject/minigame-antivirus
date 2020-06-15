@@ -28,12 +28,6 @@ module.exports =
             descB:'',
         }) 
 
-        var ValChangedInfoList = new JSData.InfomationList( {  //这里储存卡牌用于计算的信息
-             A:ChangeAbleVar,
-             B:ChangeAbleVar,
-             durtion : 0, //....
-        })
-
         var UserInfoList = new JSData.InfomationList({  //这里用于储存每次向服务器提交的信息
             storyid : 0,
             handcardid: 0,      // 当前卡id
@@ -53,6 +47,15 @@ module.exports =
 
 
 
+        var ValChangedInfoList = new JSData.InfomationList( {  //这里储存卡牌用于计算的信息
+             A:ChangeAbleVar,
+             B:ChangeAbleVar,
+             durtion : 0, //....
+        })
+
+        
+
+
 
         //这里不知道卡牌的细节，只是提供分解机制，
         //也就是说，请求新卡牌时带来的信息将立马被分解
@@ -68,14 +71,14 @@ module.exports =
                 B : correspondTable.getCorrespond(Cardinfo.option.B.valChanged),
                 durtion : Cardinfo.durtion,
             })
+            /*
             console.log("---------ValChangedInfoList--------- ");
             ValChangedInfoList.ShowInfoList();
             console.log("----------------------------------");
-            
+            */
 
             //先设置一部发userInfo 。。因为其他部分需要选择卡牌后设置当前还不知道
             UserInfoList.SetInfoList({
-                
                 handcardid  :  Cardinfo.id,
             })
 
@@ -100,46 +103,47 @@ module.exports =
             })
         },
 
+
+
         //点击选项后计算并显示数据 
         this.calculateBySelect = function( select )
         {
-            let val = ValChangedInfoList.GetInfoList()
-            let valinfo = {}
-
-            valinfo = val[select.toString()];  //提出表格修改
+         
+           
+            let cardChangedVal = ValChangedInfoList.GetInfoList()[select.toString()];  //提出表格修改
             
             
+            //let tempGameInfo = Object.assign( {},ChangeAbleVar);
+        
 
-            //let durtion = val.durtion; 
-            let tempGameInfo = {};
-            for( let d in ChangeAbleVar )
-            {
-                tempGameInfo[d] = ChangeAbleVar[d];
-            }
+            let tempGameInfo = this.captureCardChangedVal(cardChangedVal);
 
+            this.calculateVal( tempGameInfo );
 
-            console.log("------------Chang New Val-------------");
-            for( let v in valinfo ) //先根据选项的改变设置新值
-            {
-                if( valinfo[v][0] != 0 ){
-                    tempGameInfo[v] += valinfo[v][0];
-                }
-                else{
-                    tempGameInfo[v] = valinfo[v][1];
-                }
+            //this.printTempGameInfomation(tempGameInfo,select);
 
-                console.log("Valinfo:"+v+"["+valinfo[v][0]+","+valinfo[v][1]+"]" + "tempGameInfo[v]:" + tempGameInfo[v]);
-            }
-            console.log("------------Chang New Val-------------");
-
-
-            tempGameInfo =  this.calculateVal( Object.assign({},tempGameInfo),val.durtion );
-            this.printTempGameInfomation(tempGameInfo,select);
-
-                
             this.solveMainDataPreview(tempGameInfo,select );
         }
         
+        this.captureCardChangedVal = function( cardChangedVal )
+        {
+            let result = Object.assign( {},ChangeAbleVar);
+            console.log("------------Chang New Val-------------");
+            for( let v in cardChangedVal ) //先根据选项的改变设置新值
+            {
+                if( cardChangedVal[v][0] != 0 ){
+                    result[v] += cardChangedVal[v][0];
+                }
+                else{
+                    result[v] = cardChangedVal[v][1];
+                }
+
+                console.log("Valinfo:"+v+"["+cardChangedVal[v][0]+","+cardChangedVal[v][1]+"]" 
+                + "tempGameInfo[v]:" + result[v]);
+            }
+            console.log("------------Chang New Val-------------");
+            return result;
+        }
        
 
         //确认选择
@@ -179,6 +183,22 @@ module.exports =
            
         }
 
+        this.getCalculatedVarInfo = function (ValChangedInfoList,select) {
+
+
+            this.getDataPreView(select);
+
+                   
+                
+            
+           
+            //this.calculateBySelect( 'B' )
+               
+
+            return  ValChangedInfoList.GetInfoList()[select.toString()];
+        }
+
+
          //获得预览
          this.getDataPreView=function( select )  
          {
@@ -212,10 +232,6 @@ module.exports =
              {
                  return PreviewData.GetInfoList().clear;
              }
-
-            
-
-
          }
 
         //返回卡牌区域信息
@@ -238,29 +254,39 @@ module.exports =
         },
 
         
-        this.calculateVal = function( tempGameInfo,durtion ){
+        this.calculateVal = function( tempGameInfo ){
 
             if( tempGameInfo.hoursCount==null ) tempGameInfo.hoursCount=0;
 
-                tempGameInfo.hoursCount =  tempGameInfo.hoursCount +   durtion ;
+                tempGameInfo.hoursCount =  tempGameInfo.hoursCount +   ValChangedInfoList.GetInfoList().durtion ;
                 tempGameInfo.dayCount = Math.floor( tempGameInfo.hoursCount / 24) ;
 
 
-                tempGameInfo.dailyRecovery=Math.ceil( tempGameInfo.infectedCount *  Math.pow( 1+tempGameInfo.recoveryRate,  durtion));
+                tempGameInfo.dailyRecovery=
+                Math.ceil
+                ( tempGameInfo.infectedCount *  
+                Math.pow( 1+tempGameInfo.recoveryRate,  ValChangedInfoList.GetInfoList().durtion));
 
-                tempGameInfo.dailyInfection=( tempGameInfo.infectedCount - 
-                    tempGameInfo.quarantineCount) * Math.pow( 1+tempGameInfo.infectionRate,  durtion);
+                tempGameInfo.dailyInfection=
+                    ( tempGameInfo.infectedCount - 
+                    tempGameInfo.quarantineCount) * 
+                    Math.pow( 1+tempGameInfo.infectionRate,  ValChangedInfoList.GetInfoList().durtion);
 
-                tempGameInfo.infectedCount= Math.max( tempGameInfo.infectedCount -  
-                    tempGameInfo.dailyRecovery +  tempGameInfo.dailyInfection, 0.1 );
+                tempGameInfo.infectedCount= 
+                Math.max( tempGameInfo.infectedCount -  
+                    tempGameInfo.dailyRecovery + 
+                     tempGameInfo.dailyInfection, 0.1 );
 
-                tempGameInfo.quarantineRate=Math.min(ConstVar.maxQuarantineRate,ConstVar.minQuarantineRate + 
+                tempGameInfo.quarantineRate=
+                    Math.min(ConstVar.maxQuarantineRate,ConstVar.minQuarantineRate + 
                     (100 -  tempGameInfo.health) * ConstVar.quarantineRateParameter);
 
                 tempGameInfo.quarantineCount=Math.min( tempGameInfo.quarantineCapacity,
                     tempGameInfo.infectedCount *  tempGameInfo.quarantineRate);
 
-                tempGameInfo.resourceDailyChange= tempGameInfo.resourceProductivity- tempGameInfo.resourceConsumption;
+                tempGameInfo.resourceDailyChange= 
+                    tempGameInfo.resourceProductivity- 
+                    tempGameInfo.resourceConsumption;
                 if ( tempGameInfo.dayCount < 12){
                     tempGameInfo.approvalDailyChange=-0.1-0.05*(100- tempGameInfo.health);
                 }else{
@@ -277,28 +303,7 @@ module.exports =
                 return tempGameInfo;
         }
 
-        this.getCalculatedVarInfo = function (ValChangedInfoList,select) {
-
-            if( select == 'A')
-            {
-                if(  PreviewData.GetInfoList().calculatedA == 0 ) //需要计算
-                {
-                    this.calculateBySelect( 'A' )
-                }
-            }
-            else if( select=='B' )
-            {
-                if( PreviewData.GetInfoList().calculatedB == 0 ) //需要计算
-                {
-                    this.calculateBySelect( 'B' )
-                }
-            }
-            else {
-                console.log("error:"+select);
-            }
-
-            return  ValChangedInfoList.GetInfoList()[select.toString()];
-        }
+        
 
 
         this.printTempGameInfomation = function( tempGameInfo,select ){

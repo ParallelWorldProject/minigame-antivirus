@@ -1,10 +1,17 @@
 const JSData = require("./js_SubInfoList")
 const ConstVar = require("./js_constant");
 const ChangeAbleVar = require("./Variable").variable
-const setMainDataList = require("./Variable").setMainDataList
+
 const correspondTable = require("./correspondTable");
+//const calculateFunction = require("./Caculate");
 
 
+const MainData = require("./MainData");
+
+
+
+//const setMainData = require("./MainData").setMainData
+//const getMainData = require("./MainData").getMainData
 
 
 module.exports =
@@ -13,7 +20,7 @@ module.exports =
     
         //设置主要信息表，便于读取和设置,以及和写出接口和前端交互
         
-        var MainDataList = setMainDataList(
+        MainData.setData (
             {
                 health:ChangeAbleVar.health,
                 budget:ChangeAbleVar.budget,
@@ -57,6 +64,8 @@ module.exports =
             clear : { health:0,budget:0,resource:0,approval:0 }
         })
 
+
+        
         var AssistPara = new JSData.InfomationList({
             dayCount:0, //当前天数
             hoursCount:0, //小时数
@@ -208,7 +217,7 @@ module.exports =
                 ChangeAbleVar[d] = calculatedGameChangeAbleVarInfo[d];
             }
 
-            MainDataList.SetInfoList({
+            MainData.setData({
                 health:ChangeAbleVar.health,
                 budget:ChangeAbleVar.budget,
                 resource:ChangeAbleVar.resource,
@@ -223,7 +232,7 @@ module.exports =
                 storyid  :  cc.sys.localStorage.getItem('storyid'),
                 //handid再前面获取了
                 curcardoption: select=='A'?1:2,   // 1或2
-                mainpara: JSON.stringify(MainDataList.GetInfoList()),        // 明变量json串
+                mainpara: JSON.stringify(MainData.getData() ),        // 明变量json串
                 assistpara: JSON.stringify(AssistPara.GetInfoList()),     // 暗变量json串
                 day: ChangeAbleVar.dayCount +1 ,
                 
@@ -290,7 +299,7 @@ module.exports =
             /*console.log("---------getDataRegionInfo---------");
             MainDataList.ShowInfoList();
             console.log("----------------------------------");*/
-            return MainDataList.GetInfoList() ;
+            return MainData.getData() ;
             
         }
 
@@ -378,7 +387,7 @@ module.exports =
         {
             let pre = [0,0,0,0]; 
                 let t=0;
-                for( var p in MainDataList.GetInfoList() )
+                for( var p in MainData.getData()  )
                 {
                     if( tempGameInfo[p] > ChangeAbleVar[p] ) pre[t]=1;
                     else if( tempGameInfo[p] < ChangeAbleVar[p] )pre[t]=-1;

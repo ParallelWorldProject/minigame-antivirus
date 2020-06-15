@@ -1,7 +1,7 @@
 const JSData = require("./js_SubInfoList")
 
 /*
-class HiddenVar{
+class AssistVar{
     constructor(data)
     {
         //this.dayCount = data.dayCount;  //当前天数 
@@ -29,48 +29,44 @@ class HiddenVar{
         this.approval=100
     }
 
-    calculateVal( tempGameInfo,durtion ){
+    calculateVal( durtion ){
 
-        if( tempGameInfo.hoursCount==null ) tempGameInfo.hoursCount=0;
+        if( this.hoursCount==null ) this.hoursCount=0;
 
-            tempGameInfo.hoursCount =  tempGameInfo.hoursCount +   durtion ;
-            tempGameInfo.dayCount = Math.floor( tempGameInfo.hoursCount / 24) ;
+            this.hoursCount =  this.hoursCount +   durtion ;
+            this.dayCount = Math.floor( this.hoursCount / 24) ;
 
 
-            tempGameInfo.dailyRecovery=Math.ceil( tempGameInfo.infectedCount *  Math.pow( 1+tempGameInfo.recoveryRate,  durtion));
+            this.dailyRecovery=Math.ceil( this.infectedCount *  Math.pow( 1+this.recoveryRate,  durtion));
 
-            tempGameInfo.dailyInfection=( tempGameInfo.infectedCount - 
-                tempGameInfo.quarantineCount) * Math.pow( 1+tempGameInfo.infectionRate,  durtion);
+            this.dailyInfection=( this.infectedCount - 
+                this.quarantineCount) * Math.pow( 1+this.infectionRate,  durtion);
 
-            tempGameInfo.infectedCount= Math.max( tempGameInfo.infectedCount -  
-                tempGameInfo.dailyRecovery +  tempGameInfo.dailyInfection, 0.1 );
+            this.infectedCount= Math.max( this.infectedCount -  
+                this.dailyRecovery +  this.dailyInfection, 0.1 );
 
-            tempGameInfo.quarantineRate=Math.min(ConstVar.maxQuarantineRate,ConstVar.minQuarantineRate + 
-                (100 -  tempGameInfo.health) * ConstVar.quarantineRateParameter);
+            this.quarantineRate=Math.min(ConstVar.maxQuarantineRate,ConstVar.minQuarantineRate + 
+                (100 -  this.health) * ConstVar.quarantineRateParameter);
 
-            tempGameInfo.quarantineCount=Math.min( tempGameInfo.quarantineCapacity,
-                tempGameInfo.infectedCount *  tempGameInfo.quarantineRate);
+            this.quarantineCount=Math.min( this.quarantineCapacity,
+                this.infectedCount *  this.quarantineRate);
 
-            tempGameInfo.resourceDailyChange= tempGameInfo.resourceProductivity- tempGameInfo.resourceConsumption;
-            if ( tempGameInfo.dayCount < 12){
-                tempGameInfo.approvalDailyChange=-0.1-0.05*(100- tempGameInfo.health);
+            this.resourceDailyChange= this.resourceProductivity- this.resourceConsumption;
+            if ( this.dayCount < 12){
+                this.approvalDailyChange=-0.1-0.05*(100- this.health);
             }else{
-                tempGameInfo.approvalDailyChange=1-0.02*(100- tempGameInfo.health);
+                this.approvalDailyChange=1-0.02*(100- this.health);
             }
             
-            tempGameInfo.health=
-                Math.floor( 100-(Math.log( tempGameInfo.infectedCount )-ConstVar.logInitialInfected)/ ConstVar.logMaxInfected );
-            tempGameInfo.resource= Math.floor( tempGameInfo.resource +  tempGameInfo.resourceDailyChange ) ;
-            tempGameInfo.budget= Math.floor( tempGameInfo.budget +  tempGameInfo.budgetDailyChange );
-            tempGameInfo.approval= Math.floor(tempGameInfo.approval +  tempGameInfo.approvalDailyChange);
+            this.health=
+                Math.floor( 100-(Math.log( this.infectedCount )-ConstVar.logInitialInfected)/ ConstVar.logMaxInfected );
+            this.resource= Math.floor( this.resource +  this.resourceDailyChange ) ;
+            this.budget= Math.floor( this.budget +  this.budgetDailyChange );
+            this.approval= Math.floor(this.approval +  this.approvalDailyChange);
             
             cc.log("calculate over");
-            return tempGameInfo;
+            return this;
     }
-
-
-
-
 }
 */
 
@@ -106,6 +102,8 @@ var variable = {
 
 
 
+
+
 module.exports.variable =  {
     dayCount:0, //当前天数
     hoursCount:0, //小时数
@@ -133,17 +131,12 @@ module.exports.variable =  {
     budget:50,
     resource:50,
     approval:100
+
+   
 };
 
-module.exports.setMainDataList = function( arg )
-{
-    return new JSData.InfomationList({
-        health:arg.health,
-        budget:arg.budget,
-        resource:arg.resource,
-        approval:arg.approval
-    });
-} 
+
+
 
 /*
 module.exports.setMainDataList = function()

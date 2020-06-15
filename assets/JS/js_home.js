@@ -8,6 +8,8 @@ const DataRegion = require('js_dataRegion');
 const LocalCard = require('../localCard/Cards');
 //const { card01 } = require("../localCard/Cards");
 
+
+
 cc.Class({
     extends: cc.Component,
     properties: {

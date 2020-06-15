@@ -6,8 +6,9 @@ const correspondTable = require("./correspondTable");
 //const calculateFunction = require("./Caculate");
 
 
-const MainData = require("./MainData");
+import {setMainData,getMainData} from './MainData';
 
+import {setAssistParameter,getAssistParameter} from './AssistParameter';
 
 
 //const setMainData = require("./MainData").setMainData
@@ -20,14 +21,14 @@ module.exports =
     
         //设置主要信息表，便于读取和设置,以及和写出接口和前端交互
         
-        MainData.setData (
+        /*setMainData (
             {
                 health:ChangeAbleVar.health,
                 budget:ChangeAbleVar.budget,
                 resource:ChangeAbleVar.resource,
                 approval:ChangeAbleVar.approval
             }
-        );
+        );*/
 
         var CardRegionInfoList = new JSData.InfomationList( { //这里对应的是CardRegion显示
             from:'',
@@ -65,8 +66,8 @@ module.exports =
         })
 
 
-        
-        var AssistPara = new JSData.InfomationList({
+
+        /*var AssistPara = new JSData.InfomationList({
             dayCount:0, //当前天数
             hoursCount:0, //小时数
 
@@ -88,7 +89,8 @@ module.exports =
             budgetDailyChange:0,   //财政日增减
             approvalDailyChange:0,//支持率日增减
             shutdown:0,    //封城 是1否0
-        })
+        })*/
+        //setAssistParameter()
 
 
         //这里不知道卡牌的细节，只是提供分解机制，
@@ -217,23 +219,24 @@ module.exports =
                 ChangeAbleVar[d] = calculatedGameChangeAbleVarInfo[d];
             }
 
-            MainData.setData({
+            setMainData({
                 health:ChangeAbleVar.health,
                 budget:ChangeAbleVar.budget,
                 resource:ChangeAbleVar.resource,
                 approval:ChangeAbleVar.approval
             })
 
-            AssistPara.SetInfoList({
+            /*AssistPara.SetInfoList({
                 ChangeAbleVar
-            })
+            })*/
+            setAssistParameter(ChangeAbleVar);
 
             UserInfoList.SetInfoList({
                 storyid  :  cc.sys.localStorage.getItem('storyid'),
                 //handid再前面获取了
                 curcardoption: select=='A'?1:2,   // 1或2
-                mainpara: JSON.stringify(MainData.getData() ),        // 明变量json串
-                assistpara: JSON.stringify(AssistPara.GetInfoList()),     // 暗变量json串
+                mainpara: JSON.stringify(getMainData() ),        // 明变量json串
+                assistpara: JSON.stringify(getAssistParameter()),     // 暗变量json串
                 day: ChangeAbleVar.dayCount +1 ,
                 
             })
@@ -299,7 +302,7 @@ module.exports =
             /*console.log("---------getDataRegionInfo---------");
             MainDataList.ShowInfoList();
             console.log("----------------------------------");*/
-            return MainData.getData() ;
+            return getMainData() ;
             
         }
 
@@ -387,7 +390,7 @@ module.exports =
         {
             let pre = [0,0,0,0]; 
                 let t=0;
-                for( var p in MainData.getData()  )
+                for( var p in getMainData()  )
                 {
                     if( tempGameInfo[p] > ChangeAbleVar[p] ) pre[t]=1;
                     else if( tempGameInfo[p] < ChangeAbleVar[p] )pre[t]=-1;

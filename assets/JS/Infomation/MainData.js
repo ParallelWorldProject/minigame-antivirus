@@ -7,7 +7,7 @@ let mainData = {
 }
 
 
-module.exports.setData = function( arg )
+export function setMainData( arg )
 {
     mainData = {
         health:arg.health,
@@ -17,6 +17,6 @@ module.exports.setData = function( arg )
     }
 } 
 
-module.exports.getData = function () {
+export function getMainData () {
     return mainData;
 }

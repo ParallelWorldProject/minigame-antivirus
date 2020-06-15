@@ -114,35 +114,31 @@ module.exports =
             
             
             //let tempGameInfo = Object.assign( {},ChangeAbleVar);
-        
-
-            let tempGameInfo = this.captureCardChangedVal(cardChangedVal);
-
-            this.calculateVal( tempGameInfo );
+            this.captureCardChangedVal(ChangeAbleVar,cardChangedVal);
+            this.calculateVal( ChangeAbleVar );
+            //this.solveMainDataPreview( ChangeAbleVar,select );
 
             //this.printTempGameInfomation(tempGameInfo,select);
-
-            this.solveMainDataPreview(tempGameInfo,select );
         }
         
-        this.captureCardChangedVal = function( cardChangedVal )
+        this.captureCardChangedVal = function( ChangeAbleVar,cardChangedVal )
         {
-            let result = Object.assign( {},ChangeAbleVar);
+            //let result = Object.assign( {},ChangeAbleVar);
             console.log("------------Chang New Val-------------");
             for( let v in cardChangedVal ) //先根据选项的改变设置新值
             {
                 if( cardChangedVal[v][0] != 0 ){
-                    result[v] += cardChangedVal[v][0];
+                    ChangeAbleVar[v] += cardChangedVal[v][0];
                 }
                 else{
-                    result[v] = cardChangedVal[v][1];
+                    ChangeAbleVar[v] = cardChangedVal[v][1];
                 }
 
                 console.log("Valinfo:"+v+"["+cardChangedVal[v][0]+","+cardChangedVal[v][1]+"]" 
-                + "tempGameInfo[v]:" + result[v]);
+                + "tempGameInfo[v]:" + ChangeAbleVar[v]);
             }
             console.log("------------Chang New Val-------------");
-            return result;
+            //return result;
         }
        
 
@@ -150,21 +146,24 @@ module.exports =
         this.confirmSelect=function(select)
         {
             
-            let lastCalculatedVarInfo = this.getCalculatedVarInfo(ValChangedInfoList,select);
+            /*let lastCalculatedVarInfo = this.getCalculatedVarInfo(ValChangedInfoList,select);
             
             //最后才全部更新
             for( let d in lastCalculatedVarInfo )
             {
                 ChangeAbleVar[d] = lastCalculatedVarInfo[d];
-            }
+            }*/
 
+            //计算
+            this.calculateBySelect( select )
+
+            //更新
             setMainData({
                 health:ChangeAbleVar.health,
                 budget:ChangeAbleVar.budget,
                 resource:ChangeAbleVar.resource,
                 approval:ChangeAbleVar.approval
             })
-
             setAssistParameter(ChangeAbleVar);
 
             UserInfoList.SetInfoList({
@@ -186,13 +185,9 @@ module.exports =
         this.getCalculatedVarInfo = function (ValChangedInfoList,select) {
 
 
-            this.getDataPreView(select);
+            //this.getDataPreView(select);
 
-                   
-                
-            
-           
-            //this.calculateBySelect( 'B' )
+            this.calculateBySelect( select )
                
 
             return  ValChangedInfoList.GetInfoList()[select.toString()];

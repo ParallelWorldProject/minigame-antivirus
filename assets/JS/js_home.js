@@ -6,6 +6,7 @@ const CardRegion = require('js_cardRegion');
 const DataRegion = require('js_dataRegion');
 
 const LocalCard = require('../localCard/Cards');
+//const { card01 } = require("../localCard/Cards");
 
 cc.Class({
     extends: cc.Component,
@@ -35,11 +36,8 @@ cc.Class({
             handcardid: 1,  //当前卡id
             storyid: cc.sys.localStorage.getItem('storyid'),
             day: 1,
-        }*/
-
-        this.gameInformation = new GMIF.gameInformationList();
-        
-        /*HttpHelper.httpPost('/getnextcard',params, (data) =>  {
+        }
+        HttpHelper.httpPost('/getnextcard',params, (data) =>  {
             if(data.errorcode === 0) {
 
                 let cardInfo =  new CardInfo(data.content)
@@ -51,15 +49,10 @@ cc.Class({
                 this.cardRegion.init(this.gameInformation.getCardRegionInfo());
             }
         })*/
-        
+        this.gameInformation = new GMIF.gameInformationList();
             
-        //加载本地card
-        var randomCardcnt = Math.floor((Math.random()*3)+1);
-        var randomCardName =  "card0" + randomCardcnt.toString() ;
-        let cardInfo =  new CardInfo(LocalCard[randomCardName.toString()])
-        cc.log("randomCardName.toString()",randomCardName.toString());
-        cc.log('cardInfo',cardInfo)
-
+        //let this.randomLoadLocalCard();
+        let cardInfo = this.randomLoadLocalCard();
 
 
         this.gameInformation.SolveCapturedCardInfo(cardInfo);
@@ -73,7 +66,18 @@ cc.Class({
         this.setClickEvevt();
     },
 
-   
+    randomLoadLocalCard:function(){
+        //get random card name 
+        var randomCardcnt = Math.floor((Math.random()*3)+1);
+        var randomCardName =  "card0" + randomCardcnt.toString() ;
+
+        let cardInfo =  new CardInfo(LocalCard[randomCardName.toString()])
+        cc.log("randomCardName.toString()",randomCardName.toString());
+        cc.log('cardInfo',cardInfo);
+        return cardInfo ;
+    },
+    
+
 
     updateHome : function(select)
     {
@@ -135,10 +139,9 @@ cc.Class({
                 }
             }
         })*/
-        var randomCardcnt = Math.floor((Math.random()*3)+1);
-        var randomCardName =  "card0" + randomCardcnt.toString() ;
-        let cardInfo =  new CardInfo(LocalCard[randomCardName.toString()])
-        cc.log('cardInfo',cardInfo)
+      
+        let cardInfo =  this.randomLoadLocalCard()
+     
 
         //这里更新卡牌信息
         this.gameInformation.SolveCapturedCardInfo(cardInfo);
@@ -240,6 +243,8 @@ cc.Class({
             },
     
 });
+
+
 
 class CardInfo {
     constructor(data) {

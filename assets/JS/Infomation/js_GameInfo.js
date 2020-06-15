@@ -1,19 +1,31 @@
 const JSData = require("./js_SubInfoList")
 const ConstVar = require("./js_constant");
-const ChangeAbleVar = require("./Variable")
+const ChangeAbleVar = require("./Variable").variable
+const setMainDataList = require("./Variable").setMainDataList
 const correspondTable = require("./correspondTable");
+
+
+
 
 module.exports =
 { 
     gameInformationList : function (){
     
         //设置主要信息表，便于读取和设置,以及和写出接口和前端交互
-        var MainDataList = new JSData.InfomationList( {  //这里对应的是DataRegio显示
+        /*var MainDataList = new JSData.InfomationList( {  //这里对应的是DataRegio显示
             health:ChangeAbleVar.health,
             budget:ChangeAbleVar.budget,
             resource:ChangeAbleVar.resource,
             approval:ChangeAbleVar.approval
-        })
+        })*/
+        var MainDataList = setMainDataList(
+            {
+                health:ChangeAbleVar.health,
+                budget:ChangeAbleVar.budget,
+                resource:ChangeAbleVar.resource,
+                approval:ChangeAbleVar.approval
+            }
+        );
 
         var CardRegionInfoList = new JSData.InfomationList( { //这里对应的是CardRegion显示
             from:'',

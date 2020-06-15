@@ -1,5 +1,0 @@
-class MainData{
-    constructor( arg ){
-        ;
-    }
-}

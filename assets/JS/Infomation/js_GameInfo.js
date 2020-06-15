@@ -3,15 +3,13 @@ const ConstVar = require("./js_constant");
 const ChangeAbleVar = require("./Variable").variable
 
 const correspondTable = require("./correspondTable");
-//const calculateFunction = require("./Caculate");
+
 
 
 import {setMainData,getMainData} from './MainData';
 import {setAssistParameter,getAssistParameter} from './AssistParameter';
 
 
-//const setMainData = require("./MainData").setMainData
-//const getMainData = require("./MainData").getMainData
 
 
 module.exports =
@@ -61,13 +59,7 @@ module.exports =
         //若卡牌中不存在需要信息，需要报错，(其实这就需要知道卡牌里面的细节了。。。。)
         this.SolveCapturedCardInfo=function( Cardinfo ){
 
-            /* console.log("-----------------LAST CHANGEABLE VAR::-----------------")
-             for( let prop in ChangeAbleVar )
-             {
-                 console.log( prop + " : " +  ChangeAbleVar[prop] );
-             }
-             console.log("-----------------LAST CHANGEABLE VAR::-----------------")*/
-
+           
 
             //将选项AB中Val分开用于做计算，
             ValChangedInfoList.SetInfoList({
@@ -154,7 +146,7 @@ module.exports =
         this.confirmSelect=function(select)
         {
             
-            let lastCalculatedVarInfo = this.getcalculatedVarInfo(ValChangedInfoList,select);
+            let lastCalculatedVarInfo = this.getCalculatedVarInfo(ValChangedInfoList,select);
             
             //最后才全部更新
             for( let d in lastCalculatedVarInfo )
@@ -190,10 +182,7 @@ module.exports =
          //获得预览
          this.getDataPreView=function( select )  
          {
-            // console.log("select"+select);
-            //console.log("PreviewData.GetInfoList().calculatedA"+PreviewData.GetInfoList().calculatedA);
-            //console.log("PreviewData.GetInfoList().calculatedB"+PreviewData.GetInfoList().calculatedB);
-
+           
             console.log( "getDataPreView " + select);
              if( select == 'A'  )
              {
@@ -231,26 +220,20 @@ module.exports =
 
         //返回卡牌区域信息
         this.getCardRegionInfo=function(){
-            /*console.log("---------getCardRegionInfo--------- ");
-            CardRegionInfoList.ShowInfoList();
-            console.log("----------------------------------");*/
+           
             return CardRegionInfoList.GetInfoList() ;
         }
         
         //返回数据区域信息
         this.getDataRegionInfo=function(){
-            /*console.log("---------getDataRegionInfo---------");
-            MainDataList.ShowInfoList();
-            console.log("----------------------------------");*/
+           
             return getMainData() ;
             
         }
 
         //返回用户信息
         this.getUserInfo=function(){
-            /*console.log("---------getUserInfo--------- ");
-            UserInfoList.ShowInfoList();
-            console.log("----------------------------------");*/
+            
             return UserInfoList.GetInfoList() ;
         },
 
@@ -294,7 +277,7 @@ module.exports =
                 return tempGameInfo;
         }
 
-        this.getcalculatedVarInfo = function (ValChangedInfoList,select) {
+        this.getCalculatedVarInfo = function (ValChangedInfoList,select) {
 
             if( select == 'A')
             {

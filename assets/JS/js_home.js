@@ -217,7 +217,7 @@ cc.Class({
                     this.updateHome(select)
                 },this);
         
-                
+                /*
                 this.node.on('HoldStart', function (event) {
                     cc.log( 'HoldStart');
                     let select ;
@@ -243,7 +243,9 @@ cc.Class({
                     cc.log('TOUCH_CANCEL');
                     this.dataRegion.turnDownPreview();
                 }, this);
+                */
             },
+            
     
 });
 

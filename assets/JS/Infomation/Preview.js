@@ -60,3 +60,51 @@ getCalculatedVarInfo = function (ValChangedInfoList,select) {
 
     return  ValChangedInfoList.GetInfoList()[select.toString()];
 }
+
+
+solveMainDataPreview = function( tempGameInfo,select  )
+        {
+            let pre = [0,0,0,0]; 
+                let t=0;
+                for( var p in getMainData()  )
+                {
+                    if( tempGameInfo[p] > ChangeAbleVar[p] ) pre[t]=1;
+                    else if( tempGameInfo[p] < ChangeAbleVar[p] )pre[t]=-1;
+                    t++;
+                    
+                } 
+
+                if(select == 'A')
+                {
+                    PreviewData.SetInfoList({
+                        calculatedA : 1,
+                        A  : {
+                            health: pre[0],
+                            resource: pre[1],
+                            budget: pre[2],
+                            approval: pre[3],
+                        }
+                    })
+
+                    ValChangedInfoList.SetInfoList({
+                        A : tempGameInfo,
+                    })
+                }   
+                else  if(select == 'B')
+                {
+                    PreviewData.SetInfoList({
+                        calculatedB:1,
+                        B  : {
+                            health: pre[0],
+                            resource: pre[1],
+                            budget: pre[2],
+                            approval: pre[3],
+                        }
+                    })
+
+                    ValChangedInfoList.SetInfoList({
+                        B : tempGameInfo,
+                    })
+                }
+                
+        }

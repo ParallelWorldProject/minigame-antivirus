@@ -10,8 +10,6 @@ import {setMainData,getMainData} from './MainData';
 import {setAssistParameter,getAssistParameter} from './AssistParameter';
 
 
-
-
 module.exports =
 { 
     gameInformationList : function (){
@@ -37,25 +35,11 @@ module.exports =
             day: 1
         })
 
-        var PreviewData = new JSData.InfomationList({
-            calculatedA : 0,  //1表示已经计算过了，0表示需要计算
-            calculatedB : 0,
-            A : { health:0,budget:0,resource:0,approval:0 },
-            B : { health:0,budget:0,resource:0,approval:0 },
-            clear : { health:0,budget:0,resource:0,approval:0 }
-        })
-
-
-
         var ValChangedInfoList = new JSData.InfomationList( {  //这里储存卡牌用于计算的信息
              A:ChangeAbleVar,
              B:ChangeAbleVar,
              durtion : 0, //....
         })
-
-        
-
-
 
         //这里不知道卡牌的细节，只是提供分解机制，
         //也就是说，请求新卡牌时带来的信息将立马被分解
@@ -89,10 +73,7 @@ module.exports =
             )
 
             //这里是预处理信息
-            PreviewData.SetInfoList({
-                calculatedA:0,
-                calculatedB:0
-            })
+           
         },
 
 
@@ -103,8 +84,6 @@ module.exports =
          
             let cardChangedVal = ValChangedInfoList.GetInfoList()[select.toString()];  //提出表格修改
             
-            
-            //let tempGameInfo = Object.assign( {},ChangeAbleVar);
             this.captureCardChangedVal(ChangeAbleVar,cardChangedVal);
             this.calculateVal( ChangeAbleVar );
             //this.solveMainDataPreview( ChangeAbleVar,select );
@@ -115,7 +94,7 @@ module.exports =
         this.captureCardChangedVal = function( ChangeAbleVar,cardChangedVal )
         {
             //let result = Object.assign( {},ChangeAbleVar);
-            console.log("------------Chang New Val-------------");
+            //console.log("------------Chang New Val-------------");
             for( let v in cardChangedVal ) //先根据选项的改变设置新值
             {
                 if( cardChangedVal[v][0] != 0 ){
@@ -125,10 +104,10 @@ module.exports =
                     ChangeAbleVar[v] = cardChangedVal[v][1];
                 }
 
-                console.log("Valinfo:"+v+"["+cardChangedVal[v][0]+","+cardChangedVal[v][1]+"]" 
-                + "tempGameInfo[v]:" + ChangeAbleVar[v]);
+                /*console.log("Valinfo:"+v+"["+cardChangedVal[v][0]+","+cardChangedVal[v][1]+"]" 
+                + "tempGameInfo[v]:" + ChangeAbleVar[v]);*/
             }
-            console.log("------------Chang New Val-------------");
+           // console.log("------------Chang New Val-------------");
             //return result;
         }
        
@@ -141,6 +120,12 @@ module.exports =
             this.calculateBySelect( select )
 
             //更新
+            this.updataImportantInfo(select);
+        }
+
+
+        this.updataImportantInfo = function(select)
+        {
             setMainData({
                 health:ChangeAbleVar.health,
                 budget:ChangeAbleVar.budget,
@@ -158,15 +143,9 @@ module.exports =
                 day: ChangeAbleVar.dayCount +1 ,
                 
             })
-
             cc.sys.localStorage.setItem('lastday', ChangeAbleVar.dayCount)
         }
 
-       
-
-
-         //获得预览
-         
 
         //返回卡牌区域信息
         this.getCardRegionInfo=function(){
@@ -251,52 +230,7 @@ module.exports =
         }
 
 
-        this.solveMainDataPreview = function( tempGameInfo,select  )
-        {
-            let pre = [0,0,0,0]; 
-                let t=0;
-                for( var p in getMainData()  )
-                {
-                    if( tempGameInfo[p] > ChangeAbleVar[p] ) pre[t]=1;
-                    else if( tempGameInfo[p] < ChangeAbleVar[p] )pre[t]=-1;
-                    t++;
-                    
-                } 
-
-                if(select == 'A')
-                {
-                    PreviewData.SetInfoList({
-                        calculatedA : 1,
-                        A  : {
-                            health: pre[0],
-                            resource: pre[1],
-                            budget: pre[2],
-                            approval: pre[3],
-                        }
-                    })
-
-                    ValChangedInfoList.SetInfoList({
-                        A : tempGameInfo,
-                    })
-                }   
-                else  if(select == 'B')
-                {
-                    PreviewData.SetInfoList({
-                        calculatedB:1,
-                        B  : {
-                            health: pre[0],
-                            resource: pre[1],
-                            budget: pre[2],
-                            approval: pre[3],
-                        }
-                    })
-
-                    ValChangedInfoList.SetInfoList({
-                        B : tempGameInfo,
-                    })
-                }
-                
-        }
+        
         
     }
 

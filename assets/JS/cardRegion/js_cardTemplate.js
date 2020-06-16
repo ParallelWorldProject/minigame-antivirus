@@ -1,4 +1,4 @@
-//const GameManager = require("../utils/gameManager")
+const GameManager = require("../utils/gameManager")
 
 cc.Class({
     extends: cc.Component,
@@ -42,11 +42,11 @@ cc.Class({
          cc.loader.loadRes(picUrl, cc.SpriteFrame, function (err, spriteFrame) {
              self.getComponent(cc.Sprite).spriteFrame = spriteFrame;
          });
-         //this.image.getComponent(cc.Sprite)
+         //this.image.getComponent(cc.Sprite)*/
 
         //远程加载  
-        //this.loadImg( this.image.getComponent(cc.Sprite) ,info.picUrl )
-        */
+        this.loadImg( this.image.getComponent(cc.Sprite) ,info.picUrl )
+        
 
         this.ac_btn = this.select.getChildByName("ac_btn").getComponent(cc.Label);
         this.de_btn = this.select.getChildByName("de_btn").getComponent(cc.Label);

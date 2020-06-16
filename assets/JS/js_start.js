@@ -1,4 +1,4 @@
-
+const GameManager = require("./utils/gameManager")
 
 
 cc.Class({
@@ -13,6 +13,7 @@ cc.Class({
 
     start () {
         cc.sys.localStorage.clear()
+        GameManager.wxlogin()
     },
 
     onClickBtn(target,data) {
@@ -20,7 +21,10 @@ cc.Class({
 
         switch (data) {
             case 'start':
+                GameManager.initgame()
                 cc.director.loadScene( 'gameScene' ); break;
+                case 'about':
+                break;
             default :
                 cc.log("Unexsit button click");
         }

@@ -1,4 +1,4 @@
-
+const GameManager = require("./utils/gameManager")
 cc.Class({
     extends: cc.Component,
 
@@ -13,10 +13,10 @@ cc.Class({
     onLoad () {},
 
     start () {
-        //GameManager.gameover(this.endBg)
+        GameManager.gameover(this.endBg)
     },
     onClickRestart() {
-        //GameManager.changeGameScence('gameStart')
+        GameManager.changeGameScence('gameStart')
     }
     // update (dt) {},
 });

@@ -4,7 +4,7 @@
 const GMIF = require("js_GameInfo"); 
 const CardRegion = require('js_cardRegion');
 const DataRegion = require('js_dataRegion');
-
+const GameManager = require("./utils/gameManager")
 const LocalCard = require('../localCard/Cards');
 //const { card01 } = require("../localCard/Cards");
 
@@ -32,9 +32,9 @@ cc.Class({
     onLoad () {},
 
     start () {
-        //this.showMask()
+        this.showMask()
 
-        /*let params = {
+        let params = {
             handcardid: 1,  //当前卡id
             storyid: cc.sys.localStorage.getItem('storyid'),
             day: 1,
@@ -50,14 +50,9 @@ cc.Class({
                 this.dataRegion.init(this.gameInformation.getDataRegionInfo());
                 this.cardRegion.init(this.gameInformation.getCardRegionInfo());
             }
-        })*/
+        })
         this.gameInformation = new GMIF.gameInformationList();
             
-        //let this.randomLoadLocalCard();
-        let cardInfo = this.randomLoadLocalCard();
-
-
-        this.gameInformation.SolveCapturedCardInfo(cardInfo);
 
         this.dataRegion.init(this.gameInformation.getDataRegionInfo());
         this.cardRegion.init(this.gameInformation.getCardRegionInfo());
@@ -97,9 +92,9 @@ cc.Class({
         //获取新params请求
         let params = this.gameInformation.getUserInfo(select);
 
-        /*
+        
         // 数据上报
-        //GameManager.time_cardChoose = new Date()
+        GameManager.time_cardChoose = new Date()
         let second = (parseFloat((GameManager.time_cardChoose - GameManager.time_cardShow) / 1000)-1.7).toFixed(3);
         let par = {
             cardid: params.handcardid,
@@ -107,12 +102,12 @@ cc.Class({
             timecost: second
         }
         GameManager.dataReport(par)
-        */
+        
         this.getNextCardFn(params,cloneCard)
         
     },
     getNextCardFn(params,cloneCard) {
-        /*HttpHelper.httpPost('/getnextcard',params, (data) =>  {
+        HttpHelper.httpPost('/getnextcard',params, (data) =>  {
             if(data.errorcode === 0) {
                 this.postIndex = 0
                 let cardInfo =  new CardInfo(data.content)
@@ -140,15 +135,8 @@ cc.Class({
                     this.node.parent.addChild(popover)
                 }
             }
-        })*/
+        })
       
-        let cardInfo =  this.randomLoadLocalCard()
-     
-
-        //这里更新卡牌信息
-        this.gameInformation.SolveCapturedCardInfo(cardInfo);
-        this.dataRegion.updateData(this.gameInformation.getDataRegionInfo());
-        this.cardRegion.getNextCard(this.gameInformation.getCardRegionInfo());
 
         this.scheduleOnce(()=>{
             this.cardRegion.moveCard(cloneCard)

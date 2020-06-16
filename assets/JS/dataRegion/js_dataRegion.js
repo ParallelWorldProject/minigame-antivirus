@@ -23,7 +23,7 @@ cc.Class({
         for( var p in info )
         {
             let item = this.node.children[it];
-            item.getComponent('js_dataTemplate').updateValue(info[p]); 
+            item.getComponent('js_dataTemplate').updateValue( info[p] ); 
             it++;
         }
     },

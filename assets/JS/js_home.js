@@ -1,10 +1,14 @@
 //1: 加载所有游戏部件 与 动画
 //2: 存储信息并进行前后端总体交互
-const GameManager = require("./utils/gameManager")
-//const GameInfo = require("js_gameInformation");
+
 const GMIF = require("js_GameInfo"); 
 const CardRegion = require('js_cardRegion');
 const DataRegion = require('js_dataRegion');
+
+const LocalCard = require('../localCard/Cards');
+//const { card01 } = require("../localCard/Cards");
+
+
 
 cc.Class({
     extends: cc.Component,
@@ -28,16 +32,13 @@ cc.Class({
     onLoad () {},
 
     start () {
-        this.showMask()
+        //this.showMask()
 
-        let params = {
+        /*let params = {
             handcardid: 1,  //当前卡id
             storyid: cc.sys.localStorage.getItem('storyid'),
             day: 1,
         }
-
-        this.gameInformation = new GMIF.gameInformationList();
-        
         HttpHelper.httpPost('/getnextcard',params, (data) =>  {
             if(data.errorcode === 0) {
 
@@ -49,49 +50,36 @@ cc.Class({
                 this.dataRegion.init(this.gameInformation.getDataRegionInfo());
                 this.cardRegion.init(this.gameInformation.getCardRegionInfo());
             }
-        })
+        })*/
+        this.gameInformation = new GMIF.gameInformationList();
+            
+        //let this.randomLoadLocalCard();
+        let cardInfo = this.randomLoadLocalCard();
 
 
-        // 监听双击、按住松开事件
-        this.node.on('DoubleClick', function (event) {
-            let select ;
-            if (event.SelectBtn === 'AC_DoubleClick') {
-                select = 'A';
-            } else if (event.SelectBtn === 'DE_DoubleClick') {
-                select = 'B';
-            }
-            // cc.log('click ' + select)
-            this.updateHome(select)
-        },this);
+        this.gameInformation.SolveCapturedCardInfo(cardInfo);
 
-        
-        this.node.on('HoldStart', function (event) {
-            cc.log( 'HoldStart');
-            let select ;
-            // 触摸 计算变量 提示数值可能的变化
-            if (event.SelectBtn === 'AC_HoldStart') {
-                select = 'A';
-            } else if (event.SelectBtn === 'DE_HoldStart') {
-                select = 'B';
-            }
+        this.dataRegion.init(this.gameInformation.getDataRegionInfo());
+        this.cardRegion.init(this.gameInformation.getCardRegionInfo());
+    
 
-            this.dataRegion.previewTheValue( this.gameInformation.getDataPreView(select) );
 
-        },this);
 
-        this.node.on('HoldEnd', function (event) {
-            cc.log( 'HoldEnd');
-            // 松手 关掉提示
-            this.dataRegion.turnDownPreview(  );
-
-        },this);
-
-        this.node.on('HoldCancel', function (event) {
-            cc.log('TOUCH_CANCEL');
-            this.dataRegion.turnDownPreview();
-        }, this);
-        
+        this.setClickEvevt();
     },
+
+    randomLoadLocalCard:function(){
+        //get random card name 
+        var randomCardcnt = Math.floor((Math.random()*3)+1);
+        var randomCardName =  "card0" + randomCardcnt.toString() ;
+
+        let cardInfo =  new CardInfo(LocalCard[randomCardName.toString()])
+        cc.log("randomCardName.toString()",randomCardName.toString());
+        cc.log('cardInfo',cardInfo);
+        return cardInfo ;
+    },
+    
+
 
     updateHome : function(select)
     {
@@ -109,8 +97,9 @@ cc.Class({
         //获取新params请求
         let params = this.gameInformation.getUserInfo(select);
 
+        /*
         // 数据上报
-        GameManager.time_cardChoose = new Date()
+        //GameManager.time_cardChoose = new Date()
         let second = (parseFloat((GameManager.time_cardChoose - GameManager.time_cardShow) / 1000)-1.7).toFixed(3);
         let par = {
             cardid: params.handcardid,
@@ -118,12 +107,12 @@ cc.Class({
             timecost: second
         }
         GameManager.dataReport(par)
-        
+        */
         this.getNextCardFn(params,cloneCard)
         
     },
     getNextCardFn(params,cloneCard) {
-        HttpHelper.httpPost('/getnextcard',params, (data) =>  {
+        /*HttpHelper.httpPost('/getnextcard',params, (data) =>  {
             if(data.errorcode === 0) {
                 this.postIndex = 0
                 let cardInfo =  new CardInfo(data.content)
@@ -151,7 +140,22 @@ cc.Class({
                     this.node.parent.addChild(popover)
                 }
             }
-        })
+        })*/
+      
+        let cardInfo =  this.randomLoadLocalCard()
+     
+
+        //这里更新卡牌信息
+        this.gameInformation.SolveCapturedCardInfo(cardInfo);
+        this.dataRegion.updateData(this.gameInformation.getDataRegionInfo());
+        this.cardRegion.getNextCard(this.gameInformation.getCardRegionInfo());
+
+        this.scheduleOnce(()=>{
+            this.cardRegion.moveCard(cloneCard)
+        },1.7)
+
+        
+        
     },
     
     //必需在showmask后面才能行动
@@ -199,19 +203,64 @@ cc.Class({
         }
         
     },
+
+        setClickEvevt(){
+        // 监听双击、按住松开事件
+                this.node.on('DoubleClick', function (event) {
+                    let select ;
+                    if (event.SelectBtn === 'AC_DoubleClick') {
+                        select = 'A';
+                    } else if (event.SelectBtn === 'DE_DoubleClick') {
+                        select = 'B';
+                    }
+                    // cc.log('click ' + select)
+                    this.updateHome(select)
+                },this);
+        
+                /*
+                this.node.on('HoldStart', function (event) {
+                    cc.log( 'HoldStart');
+                    let select ;
+                    // 触摸 计算变量 提示数值可能的变化
+                    if (event.SelectBtn === 'AC_HoldStart') {
+                        select = 'A';
+                    } else if (event.SelectBtn === 'DE_HoldStart') {
+                        select = 'B';
+                    }
+        
+                    this.dataRegion.previewTheValue( this.gameInformation.getDataPreView(select) );
+        
+                },this);
+        
+                this.node.on('HoldEnd', function (event) {
+                    cc.log( 'HoldEnd');
+                    // 松手 关掉提示
+                    this.dataRegion.turnDownPreview(  );
+        
+                },this);
+        
+                this.node.on('HoldCancel', function (event) {
+                    cc.log('TOUCH_CANCEL');
+                    this.dataRegion.turnDownPreview();
+                }, this);
+                */
+            },
+            
     
 });
+
+
 
 class CardInfo {
     constructor(data) {
         this.message= data.message;
+        this.information= data.message;
         this.id = data.cardid;
         this.from= data.cfrom ;
         this.name= data.cname;
         this.date= data.durtion;
         this.durtion = data.durtion;
-        this.information= data.message;
-        this.picUrl=data.imgurl;
+        this.picUrl=data.imgUrl;
 
         this.option = {
             A: {

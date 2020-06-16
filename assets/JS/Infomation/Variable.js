@@ -274,6 +274,9 @@ module.exports =
 }
 
 
+/*export function setGameVarible(data){
+    gameVarible = data;
+}*/
 
 
 

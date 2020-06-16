@@ -26,8 +26,8 @@ class Card{
             'day':_gameVarible.dayCount, //?
             'picUrl':this.picUrl,
             'information':this.information,
-            'descA':this.option.A.desc,
-            'descB':this.option.B.desc,
+            //'descA':this.option['A'].desc,
+            //'descB':this.option['B'].desc,
         }
     }
  

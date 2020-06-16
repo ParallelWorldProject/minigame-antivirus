@@ -1,4 +1,5 @@
 const ConstVar = require("./js_constant");
+const correspondTable = require("./correspondTable");
 
 
 class GameVarible
@@ -34,6 +35,10 @@ class GameVarible
     }
 
     calculateGameVar( durtion ){
+
+        //cc.log( durtion )
+        //cc.log( durtion + 1 )
+
         if( hoursCount==null ) hoursCount=0;
     
         hoursCount =  hoursCount +   durtion ;
@@ -73,6 +78,10 @@ class GameVarible
     
     captureCardChangedVal( cardChangedVal )
     {
+        cardChangedVal = correspondTable.getCorrespond(cardChangedVal);
+
+        //cc.log("sdasd###########");
+
         for( let v in cardChangedVal ) 
         {
             if( cardChangedVal[v][0] != 0 ){
@@ -81,6 +90,10 @@ class GameVarible
             else{
                 this[v.toString()] = cardChangedVal[v][1];
             }
+
+            /*console.log( "V:" + v + " [0]: " + cardChangedVal[v][0]+
+                            " [1]: " + cardChangedVal[v][1] + "--" +
+                            this[v.toString()]);*/
         }
     }
 
@@ -248,15 +261,16 @@ class GameVarible
     set approval(arg){
         approval= arg;
     }; 
+
+    getGameVaribleAllNumber(){
+        return Object.assign(getAssistParameter() ,getMainData());
+    }
 }
 
-var _gameVarible = new GameVarible(); 
-export function getGameVarible(){
-    return _gameVarible;
-}
 
-export function setGameVarible(data){
-    gameVarible = data;
+module.exports = 
+{
+    GameVarible 
 }
 
 

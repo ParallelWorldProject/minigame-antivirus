@@ -1,4 +1,5 @@
 const ConstVar = require("./js_constant");
+const correspondTable = require("./correspondTable");
 
 
 class GameVarible
@@ -73,6 +74,8 @@ class GameVarible
     
     captureCardChangedVal( cardChangedVal )
     {
+        cardChangedVal = correspondTable.getCorrespond(cardChangedVal);
+
         for( let v in cardChangedVal ) 
         {
             if( cardChangedVal[v][0] != 0 ){
@@ -251,15 +254,20 @@ class GameVarible
 }
 
 var _gameVarible = new GameVarible(); 
-export function getGameVarible(){
+export function getGameVaribleObject(){
     return _gameVarible;
 }
 
-export function setGameVarible(data){
-    gameVarible = data;
+
+export function getGameVaribleAllNumber(){
+    return Object.assign(_gameVarible.getAssistParameter() ,
+    _gameVarible.getMainData());
 }
 
 
+/*export function setGameVarible(data){
+    gameVarible = data;
+}*/
 
 
 

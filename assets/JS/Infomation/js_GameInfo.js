@@ -25,10 +25,10 @@ module.exports =
         //计算
         this.calculateBySelect = function( select )
         {
-            //获取更新卡牌中的值
+            //获取先获取卡牌中的值
            _gameVarible.captureCardChangedVal(_card.optionVarChanged(select))
 
-            //计算更新其他值
+            //计算变量中其他值
             _gameVarible.calculateGameVar(_card.getDurtion());
         }
 

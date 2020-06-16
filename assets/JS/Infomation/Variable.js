@@ -268,6 +268,11 @@ export function getGameVaribleObject(){
     return _gameVarible;
 }
 
+/*module.exports.GameVaribleObject = 
+{
+    _gameVarible 
+}*/
+
 
 export function getGameVaribleAllNumber(){
     return Object.assign(_gameVarible.getAssistParameter() ,

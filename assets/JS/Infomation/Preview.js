@@ -1,6 +1,6 @@
-const JSData = require("./js_SubInfoList")
+//const JSData = require("./js_SubInfoList")
 
-var PreviewData = new JSData.InfomationList({
+/*var PreviewData = new JSData.InfomationList({
     calculatedA : 0,  //1表示已经计算过了，0表示需要计算
     calculatedB : 0,
     A : { health:0,budget:0,resource:0,approval:0 },
@@ -108,3 +108,5 @@ solveMainDataPreview = function( tempGameInfo,select  )
                 }
                 
         }
+
+        */

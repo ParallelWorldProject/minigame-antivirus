@@ -1,8 +1,12 @@
 import {getGameVaribleObject} from './Variable'
 
 class Card{
-    constructor(data) {
-        
+    constructor() {
+
+    }
+
+    setData(data)
+    {
         this.information= data.information;
         this.id = data.id;
         this.from= data.from ;
@@ -12,7 +16,6 @@ class Card{
         this.picUrl = data.picUrl;
 
         this.option = data.option
-       
     }
 
     get PageDisplayData()
@@ -29,7 +32,7 @@ class Card{
     }
  
 
-    setUserData( select )
+    setUserData( select )  //可否移出？
     {
         this.UserData = {
             'handcardid': this.id,      // 当前卡id
@@ -58,13 +61,13 @@ class Card{
 
 
 }
-
+var _card = new Card();
 
 
 
 export function setCardObject( data )
 {
-    _card = new Card(data);
+     _card.setData(data);
 }
 
 export function getCardObject()

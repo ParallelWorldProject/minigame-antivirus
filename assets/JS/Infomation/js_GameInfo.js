@@ -4,7 +4,7 @@ import {getGameVaribleObject,getGameVaribleAllNumber} from './Variable'
 import {setCardCommonData,getCardCommonData,
         setCardUserData,getCardUserData,
         setCardChangedVarData,getCardChangedVarData,
-        analyzeCard} from './Card'
+        setCardObject,getCardObject} from './Card'
 
 
 module.exports =
@@ -17,6 +17,9 @@ module.exports =
         //若卡牌中不存在需要信息，需要报错，(其实这就需要知道卡牌里面的细节了。。。。)
         this.SolveCapturedCardInfo=function( Cardinfo ){
 
+
+            setCardObject( Cardinfo );
+            /*
             //将选项AB中Val分开用于做计算，
             setCardChangedVarData( {
                 A : Cardinfo.option.A.valChanged,
@@ -36,7 +39,7 @@ module.exports =
                     descB:Cardinfo.option.B.desc, 
                     day:getGameVaribleObject().dayCount,//这个日期。。以后再修改吧
                 }
-            )
+            )*/
 
             //analyzeCard(Cardinfo);
 
@@ -56,12 +59,15 @@ module.exports =
         this.calculateBySelect = function( select )
         {
          
-            let cardChangedVal = getCardChangedVarData()[select.toString()];  //提出表格修改
+            //let cardChangedVal = ;  //提出表格修改
             
             //获取更新卡牌中的值
-            getGameVaribleObject().captureCardChangedVal(cardChangedVal)
+            getGameVaribleObject().captureCardChangedVal
+            (getCardObject().optionVarChanged(select))
             //计算更新其他值
-            getGameVaribleObject().calculateGameVar(getCardChangedVarData().durtion)
+            getGameVaribleObject().calculateGameVar
+            (getCardObject().getDurtion())
+
             //this.solveMainDataPreview( ChangeAbleVar,select );
         }
 
@@ -69,23 +75,15 @@ module.exports =
         this.updataImportantInfo = function(select)
         {
            
-            setCardUserData( {
-                storyid  :  cc.sys.localStorage.getItem('storyid'),
-                //handid再前面获取了
-                curcardoption: select=='A'?1:2,   // 1或2
-                mainpara: JSON.stringify(getGameVaribleObject().getMainData() ),        // 明变量json串
-                assistpara: JSON.stringify(getGameVaribleObject().getAssistParameter()),     // 暗变量json串
-                day: getGameVaribleObject().dayCount +1 ,
-                
-            } )
+            getCardObject().setUserData(select); //这里自动更新
             cc.sys.localStorage.setItem('lastday', getGameVaribleObject().dayCount)
 
 
             //下面是各objec信息显示，可用于网页人工测试
-            /*
-            this.printObjectInfomation( getCardCommonData(),"getCardCommonData")
-            this.printObjectInfomation( getCardChangedVarData(),"getCardChangedVarData")
-            this.printObjectInfomation( getCardUserData(),"getCardUserData")
+            
+            /*this.printObjectInfomation( getCardObject().PageDisplayData,"getCardObject().PageDisplayData")
+            this.printObjectInfomation( getCardObject().getUserData(),"getCardObject().getUserData()")
+            
             this.printObjectInfomation( getGameVaribleAllNumber(),"getGameVaribleAllNumber")
             */
            
@@ -94,7 +92,7 @@ module.exports =
 
         //返回卡牌区域信息
         this.getCardRegionInfo=function(){
-            return getCardCommonData() ;
+            return getCardObject().PageDisplayData ;
         }
         
         //返回数据区域信息
@@ -104,7 +102,7 @@ module.exports =
 
         //返回用户信息
         this.getUserInfo=function(){
-            return getCardUserData() ;
+            return getCardObject().getUserData() ;
         }
 
         this.printObjectInfomation = function( _objetct, note ){

@@ -3,26 +3,16 @@ import {getGameVaribleObject} from './Variable'
 class Card{
     constructor(data) {
         
-        this.information= data.message;
-        this.id = data.cardid;
+        this.information= data.information;
+        this.id = data.id;
         this.from= data.from ;
         this.name= data.name;
-        this.date= data.durtion;
+        //this.date= data.durtion;
         this.durtion = data.durtion;
-        this.picUrl=data.imgurl;
+        this.picUrl = data.picUrl;
 
-        this.option = {
-            A: {
-                desc: data.optionOneDesc,
-                valChanged: data.optionOneValueChange ? JSON.parse(data.optionOneValueChange) : data.optionOneValueChange ,
-                // weigthChanged: data.optionOneWeightChange ? JSON.parse(data.optionOneWeightChange) : data.optionOneWeightChange,
-            },
-            B: {
-                desc: data.optionTwoDesc,
-                valChanged: data.optionTwoValueChange ? JSON.parse(data.optionTwoValueChange): data.optionTwoValueChange,
-                // weigthChanged: data.optionTwoWeightChange ? JSON.parse(data.optionTwoWeightChange) : data.optionTwoWeightChange,
-            }
-        }
+        this.option = data.option
+       
     }
 
     get PageDisplayData()
@@ -37,36 +27,44 @@ class Card{
             'descB':this.option.B.desc,
         }
     }
+ 
 
-    get UserData()
+    setUserData( select )
     {
-        return {
+        this.UserData = {
             'handcardid': this.id,      // 当前卡id
             'storyid' : cc.sys.localStorage.getItem('storyid'),
             'curcardoption': select=='A'?1:2,   // 1或2
             'mainpara':JSON.stringify(getGameVaribleObject().getMainData() ),        // 明变量json串
             'assistpara': JSON.stringify(getGameVaribleObject().getAssistParameter()),     // 暗变量json串
-            'day': getGameVariebleObject().dayCount + 1
-        }
+            'day': getGameVaribleObject().dayCount + 1
+        };
     }
 
-    get changedVaribleData()
+    getUserData()
     {
-        return {
-        'A' : this.option.A.valChanged,
-        'B' : this.option.B.valChanged,
-        'durtion' : this.durtion,
-        }
+        return this.UserData;
     }
+
+    optionVarChanged( select )
+    {
+        return this.option[select.toString()].valChanged;
+    }
+
+    getDurtion()
+    {
+        return parseInt(this.durtion)
+    }
+
+
 }
 
 
 
 
-export function setAndAnalyzeCardObject( data )
+export function setCardObject( data )
 {
     _card = new Card(data);
-    analyzeCard( _card );
 }
 
 export function getCardObject()
@@ -118,7 +116,7 @@ export function analyzeCard( Cardinfo )
 
 
 
-
+/*
 let cardCommonData =  { //这里对应的是CardRegion显示
     from:'',
     name:'',
@@ -173,5 +171,5 @@ export function getCardChangedVarData()
    return cardChangedVarData;
 } 
 
-
+*/
 

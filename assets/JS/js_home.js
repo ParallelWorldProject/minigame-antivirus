@@ -260,7 +260,7 @@ class CardInfo {
         this.name= data.cname;
         this.date= data.durtion;
         this.durtion = data.durtion;
-        this.picUrl=data.imgurl;
+        this.picUrl=data.imgUrl;
 
         this.option = {
             A: {

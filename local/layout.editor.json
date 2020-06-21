@@ -5,10 +5,10 @@
       "main": true,
       "url": "app://editor/index.html",
       "windowType": "dockable",
-      "x": -8,
-      "y": -8,
-      "width": 1552,
-      "height": 924,
+      "x": 0,
+      "y": 0,
+      "width": 1536,
+      "height": 922,
       "layout": {
         "children": [
           {
@@ -20,7 +20,7 @@
                 ],
                 "height": 556,
                 "type": "panel",
-                "width": 264.0625
+                "width": 261.3125
               },
               {
                 "active": 0,
@@ -29,7 +29,7 @@
                 ],
                 "height": 556,
                 "type": "panel",
-                "width": 774.2000122070312
+                "width": 766.1124877929688
               },
               {
                 "active": 1,
@@ -39,12 +39,12 @@
                 ],
                 "height": 556,
                 "type": "panel",
-                "width": 494.125
+                "width": 488.9624938964844
               }
             ],
             "height": 556,
             "type": "dock-h",
-            "width": 1538.4000244140625
+            "width": 1522.4000244140625
           },
           {
             "children": [
@@ -55,10 +55,10 @@
                 ],
                 "height": 266,
                 "type": "panel",
-                "width": 361.1000061035156
+                "width": 357.8000183105469
               },
               {
-                "active": 2,
+                "active": 1,
                 "children": [
                   "game-window",
                   "console",
@@ -66,25 +66,25 @@
                 ],
                 "height": 266,
                 "type": "panel",
-                "width": 1174.300048828125
+                "width": 1161.5999755859375
               }
             ],
             "height": 266,
             "type": "dock-h",
-            "width": 1538.4000244140625
+            "width": 1522.4000244140625
           }
         ],
         "type": "dock-v"
       },
       "panels": [
+        "hierarchy",
+        "scene",
         "inspector",
         "cocos-services",
-        "scene",
-        "console",
-        "timeline",
-        "game-window",
         "assets",
-        "hierarchy"
+        "game-window",
+        "console",
+        "timeline"
       ]
     }
   },

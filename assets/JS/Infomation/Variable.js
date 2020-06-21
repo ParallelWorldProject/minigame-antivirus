@@ -78,7 +78,8 @@ class GameVarible
     
     captureCardChangedVal( cardChangedVal )
     {
-        cardChangedVal = correspondTable.getCorrespond(cardChangedVal);
+        //cardChangedVal = correspondTable.getCorrespond(cardChangedVal);
+        //a = [0,0.5];
 
         //cc.log("sdasd###########");
 

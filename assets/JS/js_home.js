@@ -63,7 +63,7 @@ cc.Class({
         this.setClickEvevt();
     },
 
-    randomLoadLocalCard:function(){
+    /*randomLoadLocalCard:function(){
         //get random card name 
         var randomCardcnt = Math.floor((Math.random()*3)+1);
         var randomCardName =  "card0" + randomCardcnt.toString() ;
@@ -72,7 +72,7 @@ cc.Class({
         cc.log("randomCardName.toString()",randomCardName.toString());
         cc.log('cardInfo',cardInfo);
         return cardInfo ;
-    },
+    },*/
     
 
 
@@ -248,7 +248,7 @@ class CardInfo {
         this.name= data.cname;
         this.date= data.durtion;
         this.durtion = data.durtion;
-        this.picUrl=data.imgUrl;
+        this.picUrl=data.imgurl;
 
         this.option = {
             A: {

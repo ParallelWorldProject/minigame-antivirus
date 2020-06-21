@@ -1,5 +1,7 @@
-const GV = require("./Variable")
+//const GV = require("./Variable")
 const Cd = require("./Card");
+const GV = require("./NewVariable")
+
 
 
 module.exports =
